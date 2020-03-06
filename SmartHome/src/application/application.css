@@ -1,0 +1,18 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.split-pane:vertical > * > .split-pane-divider {
+   -fx-border-color:  transparent;
+   -fx-background-color: transparent;
+   -fx-background-insets: 0;
+}
+
+.split-pane *.vertical-grabber {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-shape: " ";
+}
+
+.split-pane-divider {
+   -fx-background-color: transparent;
+}
