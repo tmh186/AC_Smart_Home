@@ -41,14 +41,15 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
+                  <Label fx:id="LocationTitle" layoutX="587.0" layoutY="125.0" prefHeight="17.0" prefWidth="75.0" text="Location" textAlignment="CENTER" />
                   <Label fx:id="IndoorTempTitle" layoutX="548.0" layoutY="169.0" text="Indoor" />
                   <Label fx:id="OutdoorTempTitle" layoutX="661.0" layoutY="169.0" text="Outdoor" />
-                  <Label fx:id="OutdoorTempLabel" layoutX="674.0" layoutY="143.0" text="76">
+                  <Label fx:id="OutdoorTempLabel" layoutX="674.0" layoutY="143.0" text="00">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label fx:id="IndoorTempLabel" layoutX="556.0" layoutY="143.0" text="68">
+                  <Label fx:id="IndoorTempLabel" layoutX="556.0" layoutY="143.0" text="00">
                      <font>
                         <Font size="17.0" />
                      </font>

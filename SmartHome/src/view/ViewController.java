@@ -1,5 +1,10 @@
 package view;
 
+import java.net.HttpURLConnection;
+import java.util.Scanner;
+import java.net.URL;
+import java.util.Scanner;
+
 import application.Main;
 
 import javafx.event.ActionEvent;
@@ -55,6 +60,8 @@ public class ViewController {
 	private ImageView GarageDoorAclosed;
 	@FXML
 	private Label TempTitle;
+	@FXML
+	private Label LocationTitle;
 	@FXML
 	private Label IndoorTempTitle;
 	@FXML
@@ -157,5 +164,39 @@ public class ViewController {
 		Scene debugScene = new Scene(layout);
 		debugStage.setScene(debugScene);
 		debugStage.showAndWait();
+	}
+	
+	/*
+	 * FXMLLoader invokes this initialize method automatically on Run
+	 * 
+	 */
+	public void initialize() {
+		//Get openweathermap data
+		String inline = "";
+		try {
+			URL url = new URL("https://api.openweathermap.org/data/2.5/weather?q=birmingham,alabama&appid=899a60d6f5915d3b1e249b880a77b649&units=imperial");
+			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.connect();
+		
+			int respcode = conn.getResponseCode();
+			if (respcode != 200)
+			{
+				throw new RuntimeException("HttpResponseCode: " + respcode);
+			}
+			else {
+				Scanner sc = new Scanner(url.openStream());
+				while(sc.hasNext())
+				{
+					inline+=sc.nextLine();
+				}
+				System.out.println("JSON data:\n");
+				System.out.println(inline);
+				sc.close();
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
