@@ -21,17 +21,17 @@
         <items>
           <AnchorPane fx:id="LeftPartition" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ImageView fx:id="FloorPlanImageView" fitHeight="292.0" fitWidth="423.0" layoutX="42.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="FloorPlanImageView" fitHeight="481.0" fitWidth="481.0" layoutX="2.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../house.png" />
+                        <Image url="@../Floorplan.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="GarageDoorAopen" fitHeight="25.0" fitWidth="25.0" layoutX="86.0" layoutY="295.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="GarageDoorAopen" fitHeight="25.0" fitWidth="25.0" layoutX="429.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../open.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="GarageDoorAclosed" fitHeight="27.0" fitWidth="27.0" layoutX="85.0" layoutY="294.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="GarageDoorAclosed" fitHeight="27.0" fitWidth="27.0" layoutX="428.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../closed.png" />
                      </image>
