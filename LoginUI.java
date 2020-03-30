@@ -26,7 +26,7 @@ public class LoginUI implements ActionListener
 			userframe.add(userpanel);
 			userpanel.setLayout(null);
 			userlabel = new JLabel("User: ");
-			userlabel.setBounds(100, 50, 85, 25);
+			userlabel.setBounds(10, 20, 85, 25);
 			userpanel.add(userlabel);
 			JTextField userText = new JTextField();
 			userText.setBounds(100, 20, 165, 25);
@@ -45,21 +45,11 @@ public class LoginUI implements ActionListener
 			userpanel.add(success);
 			button.addActionListener(new LoginUI());
 			userframe.setVisible(true);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
 			
-			
-			public actionPerformed (ActionEvent e)
-			{
-				String user = userText.getText();
-				String password = passwordText.getText();
-				System.out.println(user + ", " + password); 
-			}
-			if (userText.equals("admin") && passwordText.equals("admin"))
-			{
-				success.setText("Login Success");
-			}
-			else
-			{
-				success.setText("Login Failed");
-			}
 		}
 	}
