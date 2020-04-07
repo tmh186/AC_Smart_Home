@@ -3,6 +3,7 @@
  * which takes in the user name and password of "admin" and tells the user whether 
  * or not the login was successful
  **/
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -38,7 +39,7 @@ public class LoginUI implements ActionListener
 			 * their size, and make sure that they are visible to the user
 			 **/
 			
-			userframe = new JFrame();
+			userframe = new JFrame("Smart Home Login");
 			userpanel = new JPanel();
 			userframe.setSize(300, 175);
 			userframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,17 +57,17 @@ public class LoginUI implements ActionListener
 			passwordText = new JPasswordField();
 			passwordText.setBounds(100, 50, 165, 25);
 			userpanel.add(passwordText);
-			JButton button = new JButton("Login");
+			JButton button = new JButton("Validate");
 			button.setBounds(10, 80, 80, 25);
 			userpanel.add(button);
 			button.addActionListener(new LoginUI());
+			userframe.getRootPane().setDefaultButton(button);
 			userframe.setLocationRelativeTo(null);
 			userframe.setVisible(true);	
 			loginlabel = new JLabel();
 			loginlabel.setBounds(50, 70, 185, 105);
 			userpanel.add(loginlabel);
 			loginlabel.setVisible(true);
-			
 		}
 		
 		@SuppressWarnings("deprecation") // because it was annoying to see
