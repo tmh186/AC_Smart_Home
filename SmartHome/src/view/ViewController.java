@@ -1,12 +1,20 @@
 package view;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 import application.Main;
+import connections.Weather;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.Axis;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -54,15 +62,25 @@ public class ViewController {
 	@FXML
 	private ImageView GarageDoorAclosed;
 	@FXML
+	private Pane tempPane;
+	@FXML
 	private Label TempTitle;
 	@FXML
 	private Label IndoorTempTitle;
 	@FXML
 	private Label OutdoorTempTitle;
 	@FXML
-	private Label OutdoorTempLabel; //Displays outdoor temp value
+	private Label OutdoorTempLabel; //Displays current outdoor temp value
 	@FXML
-	private Label IndoorTempLabel; //Displays indoor temp value
+	private Label IndoorTempLabel; //Displays current indoor temp value
+	@FXML
+	private Pane energyPane;
+	@FXML
+	private Label EnergyUsageTitle;
+	@FXML
+	private ImageView energyicon;
+	@FXML
+	private Label EnergyLabel; //Displays current energy 
 	@FXML
 	private Button RightPartitionButton;
 	
@@ -72,7 +90,9 @@ public class ViewController {
 	@FXML
 	private DatePicker DatePicker;
 	@FXML
-	private LineChart DashboardChart;
+	final CategoryAxis xAxis = new CategoryAxis();
+    final NumberAxis yAxis = new NumberAxis();
+	final LineChart<String,Number> DashboardChart = new LineChart<String,Number>(xAxis,yAxis);
 	@FXML
 	private ButtonBar GraphSettingsButtons;
 		@FXML
@@ -148,7 +168,7 @@ public class ViewController {
 			GarageDoorAopen.setVisible(false);
 			GarageDoorAclosed.setVisible(true);
 		});
-		
+		//-- End of button actions--
 		VBox layout = new VBox(10);
 		layout.getChildren().addAll(label);
 		layout.getChildren().addAll(openGarageA);
@@ -158,4 +178,19 @@ public class ViewController {
 		debugStage.setScene(debugScene);
 		debugStage.showAndWait();
 	}
+	
+	/*
+	 * Put things here you'd like to happen before UI is shown to user
+	 */
+    @FXML
+    public void initialize() {
+    	//Left partition is default screen, move split pane out of way
+    	BaseSplitPane.setDividerPosition(0, 1.0);
+    	
+    	//Update outdoor temp label
+    	String outdoortemp = String.valueOf(Weather.getCurrentWeather());
+    	OutdoorTempLabel.setText(outdoortemp);
+    }
+	
+	
 }

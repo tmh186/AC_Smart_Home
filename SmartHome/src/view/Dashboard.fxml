@@ -13,13 +13,14 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="BaseAnchorPane" minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ViewController">
    <children>
       <SplitPane fx:id="BaseSplitPane" dividerPositions="1.0" prefHeight="600.0" prefWidth="800.0" stylesheets="@../application/application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane fx:id="LeftPartition" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane fx:id="LeftPartition" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: rgb(249, 249, 249);">
                <children>
                   <ImageView fx:id="FloorPlanImageView" fitHeight="481.0" fitWidth="481.0" layoutX="2.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -36,27 +37,50 @@
                         <Image url="@../closed.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="TempTitle" layoutX="560.0" layoutY="95.0" prefHeight="30.0" prefWidth="128.0" text="Temperature" textAlignment="CENTER">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="IndoorTempTitle" layoutX="548.0" layoutY="169.0" text="Indoor" />
-                  <Label fx:id="OutdoorTempTitle" layoutX="661.0" layoutY="169.0" text="Outdoor" />
-                  <Label fx:id="OutdoorTempLabel" layoutX="674.0" layoutY="143.0" text="76">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="IndoorTempLabel" layoutX="556.0" layoutY="143.0" text="68">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="RightPartitionButton" layoutX="320.0" layoutY="559.0" mnemonicParsing="false" onAction="#handleChangeUI" prefHeight="25.0" prefWidth="155.0" text="Show Graph" />
+                  <Pane fx:id="energyPane" layoutX="557.0" layoutY="226.0" prefHeight="245.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, grey, 9, 0, 0, 0);">
+                     <children>
+                        <Label fx:id="EnergyUsageTitle" layoutX="36.0" layoutY="14.0" text="Energy Usage">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="energyicon" fitHeight="132.0" fitWidth="131.0" layoutX="34.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../Documents/Eclipse%20Workspace/SmartHome/src/power.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="EnergyLabel" layoutX="62.0" layoutY="204.0" prefHeight="27.0" prefWidth="75.0" text="0.8 kw/hr" textAlignment="CENTER">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="tempPane" layoutX="557.0" layoutY="110.0" prefHeight="102.0" prefWidth="200.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, grey, 9, 0, 0, 0);">
+                     <children>
+                        <Label fx:id="TempTitle" layoutX="35.0" layoutY="2.0" prefHeight="30.0" prefWidth="131.0" text=" Temperature">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="IndoorTempTitle" layoutX="37.0" layoutY="73.0" text="Indoor" />
+                        <Label fx:id="OutdoorTempTitle" layoutX="122.0" layoutY="73.0" text="Outdoor" />
+                        <Label fx:id="OutdoorTempLabel" layoutX="125.0" layoutY="43.0" text="00.00">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="IndoorTempLabel" layoutX="35.0" layoutY="43.0" text="00.00">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Button fx:id="RightPartitionButton" layoutX="557.0" layoutY="481.0" mnemonicParsing="false" onAction="#handleChangeUI" prefHeight="25.0" prefWidth="200.0" text="Show Graph" />
                </children>
             </AnchorPane>
-          <AnchorPane fx:id="RightPartition" minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="116.0">
+          <AnchorPane fx:id="RightPartition" minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="116.0" style="-fx-background-color: rgb(249, 249, 249);">
                <children>
                   <LineChart fx:id="DashboardChart" layoutX="124.0" layoutY="54.0" prefHeight="441.0" prefWidth="551.0">
                     <xAxis>
@@ -78,7 +102,7 @@
                </children></AnchorPane>
         </items>
       </SplitPane>
-      <MenuBar fx:id="DashboardMenuBar" prefHeight="25.0" prefWidth="800.0">
+      <MenuBar fx:id="DashboardMenuBar" prefHeight="25.0" prefWidth="800.0" style="-fx-background-color: rgb(249, 249, 249);">
         <menus>
           <Menu fx:id="FileMenuOption" mnemonicParsing="false" text="File">
             <items>

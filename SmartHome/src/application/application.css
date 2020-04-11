@@ -16,3 +16,10 @@
 .split-pane-divider {
    -fx-background-color: transparent;
 }
+
+.pane {
+	-fx-background-color: white;
+	-fx-background-insets: 10;
+	-fx-background-radius: 10;
+	-fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
+}

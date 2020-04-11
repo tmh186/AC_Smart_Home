@@ -26,7 +26,7 @@ public class Weather {
 		
 	}
 
-	static double getCurrentWeather() {
+	public static double getCurrentWeather() {
 		String inline = "";
 		try {
 			URL url = new URL(APIURL);
