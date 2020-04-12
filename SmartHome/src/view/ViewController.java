@@ -189,7 +189,10 @@ public class ViewController {
     	
     	//Update outdoor temp label
     	String outdoortemp = String.valueOf(Weather.getCurrentWeather());
-    	OutdoorTempLabel.setText(outdoortemp);
+    	OutdoorTempLabel.setText(outdoortemp + "°F");
+    	
+    	//Update indoor temp label
+    	IndoorTempLabel.setText("0.00" + "°F");
     }
 	
 	
