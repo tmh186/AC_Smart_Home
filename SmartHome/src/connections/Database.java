@@ -11,10 +11,6 @@ public class Database {
 	private String DBURL  = "127.0.0.1";
 	private String DBPORT = "5432";
 
-	public Database() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	void getAllDevices() {
 		//return all devices in the database	
 	}
