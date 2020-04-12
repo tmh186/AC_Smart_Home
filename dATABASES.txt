@@ -1,229 +1,321 @@
-
-
-/*common datatypes used in db 
-int for integer value
+/*Common datatypes used in db 
+integer for integer value
 boolean for bolean value off or on
-linestring for single line string
-multilinestring for multiple lines of string
+varchar(n) for variable length with limits
+char(n) for fixed length
+float for currency amount
 
 
-not null shows that this field cannot be null
-
-*/
-
-
+not null shows that this field cannot be null*/
 
 CREATE TABLE Door
 (
- id    int NOT NULL ,
- state boolean NOT NULL ,
+ id integer NOT NULL ,
+ type varchar(20),
+ state varchar(20) NOT NULL ,
 
 PRIMARY KEY (id)
 );
 
-/* door table to stor id and state of table (open or close) */
+/* door table to store id and state of table (open or close) */
+
+Insert into Door (id, type, state)
+Values 
+(100, 'front_door', 'Closed'),
+(101, 'garage_door1', 'Closed'),
+(102, 'garage_door2', 'Closed');
+        
+SELECT * FROM Door; 
 
 
 CREATE TABLE Device
 (
- id          int NOT NULL ,
- type_name   linestring NOT NULL ,
- status      linestring NOT NULL ,
+ id          integer NOT NULL ,
+ type_name   varchar(20) NOT NULL ,
+ status_update  varchar(15) NOT NULL ,
  state       boolean NOT NULL ,
- description multilinestring NOT NULL ,
- rate        int NOT NULL ,
- power       int NOT NULL ,
- usage_m_f  int NOT NULL ,
- usage_s_s  int NOT NULL ,
+ description varchar(50) NOT NULL ,
+ rate        integer  ,
+ power       integer  ,
+ usage_m_f  integer ,
+ usage_s_s  integer  ,
 
 PRIMARY KEY (id)
 );
 
-/*device table store these fields state represent on or off device , rate describes the cost of using that device, power represents watt usage m-f shows monday to friday and usage ss shows saturday sunday*/
+/*Device table store these fields state represent on or off device ,
+rate describes the cost of using that device, power represents watt
+usage M-F shows monday to friday and usage ss shows Saturday Sunday*/
 
 
-CREATE TABLE electrictiy
+INSERT INTO Device( id , type_name, status_update, state , description)
+VALUES (131,'HVAC' ,'Working' , 'true' ,'Hvac Info');
+
+SELECT * FROM Device; 
+
+
+/*Simple pet table to store pet data*/
+CREATE TABLE Pet
 (
- id            int NOT NULL ,
- current_usage int NOT NULL ,
- rate          float NOT NULL ,
- last_usage    int NOT NULL ,
- bill          float NOT NULL ,
- device_id     int NULL ,
-
-PRIMARY KEY (id),
-KEY fkIdx_85 (device_id),
-CONSTRAINT FK_85 FOREIGN KEY fkIdx_85 (device_id) REFERENCES Device (id)
-
-/*forign key device in electricity table to get the access of device table and can calculate the electricity bill*/
-
-);
-
-
-/*simple pet table to store data of pet*/
-CREATE TABLE pet
-(
- pet_id   int NOT NULL ,
- animal   linestring NOT NULL ,
- name    linestring NULL ,
- location linestring NOT NULL ,
-
+ pet_id   integer NOT NULL ,
+ animal   varchar(20) NOT NULL ,
+ name     varchar(20) NOT NULL,
+ location varchar(40) NOT NULL ,
 PRIMARY KEY (pet_id)
 );
 
+INSERT INTO Pet (pet_id , animal , name , location)
+VALUES (231, 'Dog' , 'Mr. Snuffles','Birmingham, Alabama');
 
-CREATE TABLE internal_temp
-(
- id           int NOT NULL ,
- current_temp float NOT NULL ,
- fk_door_id   int NULL ,
- window_id    int NOT NULL ,
-
-PRIMARY KEY (id),
-KEY fkIdx_105 (fk_door_id),
-CONSTRAINT FK_105 FOREIGN KEY fkIdx_105 (fk_door_id) REFERENCES Door (id),
-KEY fkIdx_111 (window_id),
-CONSTRAINT FK_111 FOREIGN KEY fkIdx_111 (window_id) REFERENCES window (window_id)
-);
+SELECT * FROM Pet;
 
 CREATE TABLE external_temp
 (
- id   int NOT NULL ,
- temp linestring NOT NULL ,
+ id   integer NOT NULL ,
+ temp varchar(30) NOT NULL ,
 
 PRIMARY KEY (id)
 );
 
 
-CREATE TABLE window
+CREATE TABLE windows
 (
- window_id    int NOT NULL ,
- window_state boolean NOT NULL ,
+ windows_id    integer NOT NULL ,
+ windows_type  varchar(50) NOT NULL, 
+ windows_state varchar(50) NOT NULL ,
 
-PRIMARY KEY (window_id)
+PRIMARY KEY (windows_id)
 );
 
+
+
+INSERT INTO windows( windows_id, windows_type, windows_state)
+VALUES (331, 'living_room', 'Closed'),
+(332, 'garage_room', 'Closed'),
+(333, 'kid1_bedroom', 'Closed'),
+(334, 'kid2_bedroom', 'Closed'),
+(335, 'parents_bedroom', 'Closed');
+
+Select * FROM windows; 
+
+UPDATE windows
+SET windows_state = 'Open'
+WHERE windows_id = 334;
+
+SELECT * FROM windows; 
 
 
 CREATE TABLE water
 (
- id            int NOT NULL ,
- current_usage int NOT NULL ,
+ id            integer NOT NULL ,
+ current_usage integer NOT NULL ,
  rate          float NOT NULL ,
- last_usage    int NOT NULL ,
+ last_usage    integer NOT NULL ,
  bill          float NOT NULL ,
+ Date          timestamp NOT NULL,
+  
+/*Timestamp give the time in this pattern in which T tells time
+& z stands for zone*/
+ 
 
 PRIMARY KEY (id)
 );
 
+INSERT INTO water (id,current_usage, rate , last_usage , bill , date)
+VALUES (1000, 5625, 25.55, 5423, 5423.77,'11-Mar-2019 11:13:34');
 
+SELECT * FROM water; 
+
+SELECT current_usage FROM water;
+SELECT MIN(current_usage) AS USAGE FROM water;
+
+CREATE TABLE electricity
+(
+ id            integer NOT NULL ,
+ current_usage integer NOT NULL ,
+ rate          float NOT NULL ,
+ last_usage    integer NOT NULL ,
+ bill          float NOT NULL ,
+ Date          timestamp NOT NULL,
+ device_id     integer  ,
+
+PRIMARY KEY (id),
+ FOREIGN KEY  (device_id) REFERENCES Device (id)
+
+);
+
+/*Foreign key device in electricity table to get the access of device table &
+it can calculate the electricity bill*/
+
+INSERT INTO electricity (id,current_usage, rate , last_usage , bill , date)
+VALUES (5000, 5625, 25.55, 5423, 5423.77,'11-Mar-2019 11:13:34');
+
+SELECT * FROM electricity;
+SELECT MAX(current_usage) AS USAGE FROM electricity;
+
+
+CREATE TABLE Internal_temp
+(
+ id           integer NOT NULL ,
+ current_temp float(3) NOT NULL ,
+ fk_door_id   integer  ,
+ windows_id    integer  ,
+
+PRIMARY KEY (id),
+
+FOREIGN KEY  (fk_door_id) REFERENCES Door (id),
+FOREIGN KEY  (windows_id) REFERENCES windows (windows_id)
+);
+
+INSERT INTO Internal_temp (id , current_temp)
+VALUES (32 , 242.433);
+
+SELECT * FROM Internal_temp; 
 
 CREATE TABLE bath
 (
- bath_id   int NOT NULL ,
- bath_type linestring NOT NULL ,
- door_id   int NULL ,
- device_id int NULL ,
- window_id int NULL ,
+ bath_id   integer NOT NULL ,
+ bath_type varchar(50) NOT NULL ,
+ door_id   integer  ,
+ device_id integer  ,
+ windows_id integer  ,
 
 PRIMARY KEY (bath_id),
-KEY fkIdx_138 (door_id),
-CONSTRAINT FK_138 FOREIGN KEY fkIdx_138 (door_id) REFERENCES Door (id),
-KEY fkIdx_141 (device_id),
-CONSTRAINT FK_141 FOREIGN KEY fkIdx_141 (device_id) REFERENCES Device (id),
-KEY  fkIdx_144  ( window_id ),
-CONSTRAINT  FK_144  FOREIGN KEY  fkIdx_144  ( window_id ) REFERENCES  window  ( window_id )
+FOREIGN KEY  (door_id) REFERENCES Door (id),
+
+FOREIGN KEY  (device_id) REFERENCES Device (id),
+
+FOREIGN KEY    ( windows_id ) REFERENCES  windows  ( windows_id )
 );
 
+INSERT INTO bath(bath_id , bath_type)
+VALUES (4335 , 'shower bath');
 
-
-
-CREATE TABLE  User 
-(
-  user_id         int NOT NULL ,
-  name            linestring NOT NULL ,
-  gender          linestring NOT NULL ,
-  age             int NULL ,
-  wakeup_time     int NULL ,
-  in_house_time   int NOT NULL ,
-  out_house_time  int NOT NULL ,
-
-PRIMARY KEY ( user_id )
-);
-
-
-
-
-
+SELECT * FROM bath;
 
 CREATE TABLE  room 
 (
-  room_id       int NOT NULL ,
-  room_type     linestring NOT NULL ,
-  fk_device_id  int NULL ,
-  window_id     int NULL ,
-  fk_door_id    int NULL ,
-  bath_id       int NULL ,
+  room_id       integer NOT NULL ,
+  room_type     varchar(25) NOT NULL ,
+  fk_device_id  integer  ,
+  windows_id     integer  ,
+  fk_door_id    integer  ,
+  bath_id       integer  ,
 
 PRIMARY KEY ( room_id ),
-KEY  fkIdx_119  ( fk_device_id ),
-CONSTRAINT  FK_119  FOREIGN KEY  fkIdx_119  ( fk_device_id ) REFERENCES  Device  ( id ),
-KEY  fkIdx_122  ( window_id ),
-CONSTRAINT  FK_122  FOREIGN KEY  fkIdx_122  ( window_id ) REFERENCES  window  ( window_id ),
-KEY  fkIdx_125  ( fk_door_id ),
-CONSTRAINT  FK_125  FOREIGN KEY  fkIdx_125  ( fk_door_id ) REFERENCES  Door  ( id ),
-KEY  fkIdx_135  ( bath_id ),
-CONSTRAINT  FK_135  FOREIGN KEY  fkIdx_135  ( bath_id ) REFERENCES  bath  ( bath_id )
+
+FOREIGN KEY   ( fk_device_id ) REFERENCES  Device  ( id ),
+FOREIGN KEY  ( windows_id ) REFERENCES  windows ( windows_id ),
+FOREIGN KEY   ( fk_door_id ) REFERENCES  Door  ( id ),
+FOREIGN KEY    ( bath_id ) REFERENCES  bath  ( bath_id )
 );
 
+INSERT INTO room( room_id , room_type)
+VALUES (43, 'master_bedroom');
+
+INSERT INTO room( room_id , room_type)
+VALUES (44, 'kid1_bedroom');
+
+INSERT INTO room( room_id , room_type)
+VALUES (45, 'kid2_bedroom');
+
+INSERT INTO room( room_id , room_type)
+VALUES (46, 'living_room ');
+
+INSERT INTO room( room_id , room_type)
+VALUES (47, 'dining_room');
+
+INSERT INTO room( room_id , room_type)
+VALUES (48, 'kitchen_room ');
+
+INSERT INTO room( room_id , room_type)
+VALUES (49, 'master_bathrooom');
+
+INSERT INTO room( room_id , room_type)
+VALUES (50, 'kids_bathroom ');
 
 
+SELECT * FROM room; 
 
+CREATE TABLE  users
+(
+  users_id         integer NOT NULL ,
+  name            varchar(30) NOT NULL ,
+  gender          char(1) NOT NULL ,
+  age             integer  ,
+  wakeup_time     varchar(30) NOT NULL  ,
+  in_house_time   varchar(30) NOT NULL ,
+  out_house_time  varchar(30) NOT NULL ,
+  bed_time        varchar(30) NOT NULL, 
 
+PRIMARY KEY ( users_id )
+);
 
+INSERT INTO users( users_id , name ,gender , age , wakeup_time , in_house_time , out_house_time, bed_time)
+VALUES (12 , ' Mr. Bob Builder' , 'M' , 32, '5:00 AM' , '5:30 PM' , '7:30 AM', '10:30 PM' );
 
+INSERT INTO users( users_id , name ,gender , age , wakeup_time , in_house_time , out_house_time, bed_time)
+VALUES (13 , 'Ms. Dora Builder' , 'F' , 28, '5:00 AM' , '5:30 PM', '7:30 AM', '10:30 PM' ); 
+
+INSERT INTO users( users_id , name ,gender , age , wakeup_time , in_house_time , out_house_time, bed_time)
+VALUES (14 , 'Larry Builder' , 'M' , 10, '6:00 AM' , '4:00 PM' , '7:30 AM', '8:30 PM' );
+
+INSERT INTO users( users_id , name ,gender , age , wakeup_time , in_house_time , out_house_time, bed_time)
+VALUES (15 , 'Katie Builder','F' , 7, '5:00 AM' , '5:30 PM', '7:30 AM', '8:30 PM' );
+
+SELECT * FROM users; 
 
 CREATE TABLE  house 
 (
-  id                   int NOT NULL ,
-  name                 linestring NULL ,
-  description          multilinestring NOT NULL ,
-  house_state          boolean NULL ,
-  fk_device_id         int NULL ,
-  fk_door_id           int NULL ,
-  fk_internal_temp_id  int NULL ,
-  fk_water_id          int NULL ,
-  fk_electricity_id    int NULL ,
-  fk_pet_id            int NULL ,
-  fk_window_id         int NULL ,
-  fk_external_temp_id  int NULL ,
-  user_id              int NULL ,
+  id                   integer NOT NULL ,
+  name                 varchar(20) NULL ,
+  description          varchar(50) NOT NULL ,
+  house_state          boolean  ,
+  fk_device_id         integer  ,
+  fk_door_id           integer  ,
+  fk_internal_temp_id  integer  ,
+  fk_water_id          integer  ,
+  fk_electricity_id    integer  ,
+  fk_pet_id            integer  ,
+  fk_windows_id         integer  ,
+  fk_external_temp_id  integer  ,
+  users_id              integer  ,
 
 PRIMARY KEY ( id ),
-KEY  fkIdx_101  ( user_id ),
-CONSTRAINT  FK_101  FOREIGN KEY  fkIdx_101  ( user_id ) REFERENCES  User  ( user_id ),
-KEY  fkIdx_60  ( fk_device_id ),
-CONSTRAINT  FK_60  FOREIGN KEY  fkIdx_60  ( fk_device_id ) REFERENCES  Device  ( id ),
-KEY  fkIdx_64  ( fk_door_id ),
-CONSTRAINT  FK_64  FOREIGN KEY  fkIdx_64  ( fk_door_id ) REFERENCES  Door  ( id ),
-KEY  fkIdx_68  ( fk_internal_temp_id ),
-CONSTRAINT  FK_68  FOREIGN KEY  fkIdx_68  ( fk_internal_temp_id ) REFERENCES  internal_temp  ( id ),
-KEY  fkIdx_71  ( fk_water_id ),
-CONSTRAINT  FK_71  FOREIGN KEY  fkIdx_71  ( fk_water_id ) REFERENCES  water  ( id ),
-KEY  fkIdx_74  ( fk_electricity_id ),
-CONSTRAINT  FK_74  FOREIGN KEY  fkIdx_74  ( fk_electricity_id ) REFERENCES  electrictiy  ( id ),
-KEY  fkIdx_77  ( fk_pet_id ),
-CONSTRAINT  FK_77  FOREIGN KEY  fkIdx_77  ( fk_pet_id ) REFERENCES  pet  ( pet_id ),
-KEY  fkIdx_82  ( fk_window_id ),
-CONSTRAINT  FK_82  FOREIGN KEY  fkIdx_82  ( fk_window_id ) REFERENCES  window  ( window_id ),
-KEY  fkIdx_92  ( fk_external_temp_id ),
-CONSTRAINT  FK_92  FOREIGN KEY  fkIdx_92  ( fk_external_temp_id ) REFERENCES  external_temp  ( id )
+
+ 
+
+  FOREIGN KEY   ( fk_device_id ) REFERENCES  Device  ( id ),
+
+ FOREIGN KEY    ( fk_door_id ) REFERENCES  Door  ( id ),
+
+ FOREIGN KEY   ( fk_internal_temp_id ) REFERENCES  Internal_temp  ( id ),
+
+ FOREIGN KEY    ( fk_water_id ) REFERENCES  water  ( id ),
+
+ FOREIGN KEY   ( fk_electricity_id ) REFERENCES  electricity  ( id ),
+
+ FOREIGN KEY   ( fk_pet_id ) REFERENCES  Pet  ( pet_id ),
+
+  FOREIGN KEY   ( fk_windows_id ) REFERENCES  windows  ( windows_id ),
+
+  FOREIGN KEY    ( fk_external_temp_id ) REFERENCES  external_temp  ( id ),
+
+ FOREIGN KEY    ( users_id ) REFERENCES  users  ( users_id )
 );
-/*all the tables are linked with house table because it is the main source of collecting all the data , foreign keys of each table are included to link the table*/
 
 
 
+/*All the tables are linked with house table because it is 
+the main source of collecting all the data, 
+foreign keys of each table are included to link the table*/
 
+
+
+INSERT INTO house (id , name , description )
+VALUES(5000, 'G11 Flat' , 'Single Story Slab Home');
+
+SELECT * FROM house; 
 
 
 
