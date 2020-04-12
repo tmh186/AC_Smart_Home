@@ -56,5 +56,6 @@ public class Database {
 
 	void updateDeviceStatus(String DeviceName, String newStatus) {
 		// update a device status
+		//may add a table specification
 	}
 }
