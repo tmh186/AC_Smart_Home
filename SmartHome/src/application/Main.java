@@ -24,7 +24,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root);
 	        stage.setTitle("Smart Home Dashboard");
 	        stage.setScene(scene);
-	        stage.setResizable(false);
+	        //stage.setResizable(false);
 	        stage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

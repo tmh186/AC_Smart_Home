@@ -23,9 +23,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -82,6 +84,10 @@ public class ViewController {
 	@FXML
 	private Label EnergyLabel; //Displays current energy 
 	@FXML
+	private Pane theromstatPane;
+	@FXML
+	private Slider thermostatSlider;
+	@FXML
 	private Button RightPartitionButton;
 	
 	/* Right view -- graph */
@@ -130,16 +136,18 @@ public class ViewController {
 		System.exit(0);
 	}
 	
+	/*
+	 * Handle switching back and forth between screens 
+	 */
 	@FXML
-	private void handleChangeUI(ActionEvent e) throws InterruptedException {
-		
-		RightPartitionButton.setOnAction(x -> {
+	private void handleGoToGraphButton(ActionEvent e) throws InterruptedException {
 			BaseSplitPane.setDividerPosition(0, 0.0);
-		});
-		BackButton.setOnAction(x -> {
+	}
+	@FXML
+	private void handleGoBackButton(ActionEvent e) throws InterruptedException {
 			BaseSplitPane.setDividerPosition(0, 1.0);
-		});
-	}	
+	}
+	
 	/* 
 	 * Debug window to make manual changes
 	 */
@@ -180,6 +188,18 @@ public class ViewController {
 	}
 	
 	/*
+	 * Thermostat slider event handler
+	 */
+	@FXML
+	private void handleThermostatChange(MouseEvent e) throws InterruptedException {
+		Double thermostatTemp = thermostatSlider.getValue();
+		
+		//Updating the indoor temp label for testing purposes
+		String thermostatTempUI = String.valueOf(thermostatTemp);
+		IndoorTempLabel.setText(thermostatTempUI + "°F");
+	}
+	
+	/*
 	 * Put things here you'd like to happen before UI is shown to user
 	 */
     @FXML
@@ -192,7 +212,12 @@ public class ViewController {
     	OutdoorTempLabel.setText(outdoortemp + "°F");
     	
     	//Update indoor temp label
-    	IndoorTempLabel.setText("0.00" + "°F");
+    	IndoorTempLabel.setText("00.00" + "°F");
+    	
+    	//Thermostat and indoor temp are initially the same?
+    	//thermostatTemp = getIndoorTemp
+    	
+    	//TODO Start database connection here
     }
 	
 	

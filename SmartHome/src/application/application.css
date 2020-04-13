@@ -14,7 +14,7 @@
 }
 
 .split-pane-divider {
-   -fx-background-color: transparent;
+   -fx-background-color:  rgb(249, 249, 249);
 }
 
 .pane {
