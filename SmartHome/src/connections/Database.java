@@ -45,7 +45,7 @@ public class Database {
 		// return all devices in the database
 		//will need to be updated when the device table is added
 		Statement stmt = c.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM KITCHEN;");
+		ResultSet rs = stmt.executeQuery("SELECT * FROM all_devices;");
 		while (rs.next()) {
 			String id = rs.getString("devices");
 			int name = rs.getInt("value");
@@ -60,17 +60,21 @@ public class Database {
 		//Will not work until the database is updated
 	}
 	
+	static int getSetTemp(Connection c) throws SQLException {
+		return getTemp(c, "set_temp");
+	}
+	
 	static int getInternalTemp(Connection c) throws SQLException {
-		return getTemp(c, "'internal_temp'");
+		return getTemp(c, "internal_temp");
 	}
 	
 	static int getExternalTemp(Connection c) throws SQLException {
-		return getTemp(c, "'external_temp'");
+		return getTemp(c, "external_temp");
 	}
 	
 	static int getTemp(Connection c, String name) throws SQLException {
 		Statement stmt = c.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT value FROM TEMPERATURE WHERE name="+name+";");
+		ResultSet rs = stmt.executeQuery("SELECT value FROM temp WHERE name='"+name+"';");
 		rs.next();
 		int value = rs.getInt("value");
 		stmt.close();
@@ -78,17 +82,21 @@ public class Database {
 		return value;
 	}
 	
+	static void updateSetTemp(Connection c, int Temp) throws SQLException {
+		updateTemp(c, Temp, "set_temp");
+	}
+	
 	static void updateExternalTemp(Connection c, int Temp) throws SQLException {
-		updateTemp(c, Temp, "'external_temp'");
+		updateTemp(c, Temp, "external_temp");
 	}
 	
 	static void updateInternalTemp(Connection c, int Temp) throws SQLException {
-		updateTemp(c, Temp, "'internal_temp'");
+		updateTemp(c, Temp, "internal_temp");
 	}
 	
 	static void updateTemp(Connection c, int Temp, String name) throws SQLException {
 		Statement stmt = c.createStatement();
-		stmt.executeUpdate("UPDATE temperature SET value = "+Temp+ "WHERE name="+name+";");
+		stmt.executeUpdate("UPDATE temp SET value = "+Temp+ "WHERE name='"+name+"';");
 		c.commit();
 		stmt.close();
 	}
