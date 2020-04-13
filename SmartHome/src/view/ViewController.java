@@ -24,7 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ViewController {
+public class ViewController extends Main {
 	@FXML
 	private AnchorPane BaseAnchorPane;
 	@FXML
@@ -95,9 +95,9 @@ public class ViewController {
 	@FXML
 	private void handleAboutOptionClick(ActionEvent e) throws InterruptedException {
 		Alert aboutalert = new Alert(AlertType.INFORMATION);
-		aboutalert.setTitle("About Smart Home Dashboard");
-		aboutalert.setHeaderText("Created by CS499 Team 4");
-		aboutalert.setContentText("A dashboard for your smart home.");
+		aboutalert.setTitle(getWord("About_Dashboard"));
+		aboutalert.setHeaderText(getWord("Header"));
+		aboutalert.setContentText(getWord("Project_Explanation"));
 		aboutalert.show();
 		
 	}
@@ -127,15 +127,15 @@ public class ViewController {
 	private void handleDebugOptionClick(ActionEvent ex) throws InterruptedException {		
 		Stage debugStage = new Stage();
 		debugStage.initModality(Modality.APPLICATION_MODAL);
-		debugStage.setTitle("Debug Menu");
+		debugStage.setTitle(getWord("Admin_Button"));
 		debugStage.setMinWidth(300);
 		debugStage.setMinHeight(400);
 		Label label = new Label();
-		label.setText("Garage");
+		label.setText(Main.getWord("Garage"));
 		Button openGarageA = new Button();
-		openGarageA.setText("Open garage a");
+		openGarageA.setText(getWord("OpenGarageA"));
 		Button closeGarageA = new Button();
-		closeGarageA.setText("close garage a");
+		closeGarageA.setText(getWord("CloseGarageA"));
 		
 		//eventually should be a toggle
 		// GarageDoor.setVisible(DetermineStateOfDoor())
