@@ -14,5 +14,35 @@
 }
 
 .split-pane-divider {
-   -fx-background-color: transparent;
+   -fx-background-color:  rgb(249, 249, 249);
+}
+
+.pane {
+	-fx-background-color: white;
+	-fx-background-insets: 10;
+	-fx-background-radius: 10;
+	-fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);
+}
+
+.pane:hover {
+	-fx-effect: dropshadow(gaussian, grey, 15, 0, 0, 0);
+	
+}
+
+.button {
+	-fx-background-color:  #6664F2;
+	-fx-text-fill: white;
+	-fx-effect: dropshadow(gaussian, grey, 9, 0, 0, 0);
+}
+
+
+.button:hover {
+	-fx-effect: dropshadow(gaussian, grey, 15, 0, 0, 0);
+	
+}
+
+.button:pressed {
+	-fx-effect: dropshadow(gaussian, grey, 18, 0, 0, 0);
+	-fx-background-color:  #4b4bb7;
+	
 }
