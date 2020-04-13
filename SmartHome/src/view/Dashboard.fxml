@@ -95,6 +95,12 @@
               <MenuItem fx:id="AboutOption" mnemonicParsing="false" onAction="#handleAboutOptionClick" text="About" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Launguage">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="English" />
+                  <MenuItem mnemonicParsing="false" text="Japanese" />
+               </items>
+            </Menu>
         </menus>
       </MenuBar>
    </children>
