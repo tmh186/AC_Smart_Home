@@ -14,13 +14,13 @@ public class Main extends Application {
 	
 	public static Stage stage;
 	
-	static Locale Loc_EN = new Locale("en", "US");
-	static Locale Loc_JP = new Locale("ja", "JP");
+	private static Locale Loc_EN = new Locale("en", "US");
+	private static Locale Loc_JP = new Locale("ja", "JP");
 	
-	static Locale LocCurrent = Loc_JP;
+	static Locale LocCurrent = getLoc_EN();
 	
-	static ResourceBundle resEN = ResourceBundle.getBundle("application.Bundle_en_US", Loc_EN);
-	static ResourceBundle resJP = ResourceBundle.getBundle("application.Bundle_ja_JP", Loc_JP);
+	static ResourceBundle resEN = ResourceBundle.getBundle("application.Bundle_en_US", getLoc_EN());
+	static ResourceBundle resJP = ResourceBundle.getBundle("application.Bundle_ja_JP", getLoc_JP());
 	
 	@Override
 	public void start(Stage stage) {
@@ -43,19 +43,35 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-	public void swapLocale() {
-		if (LocCurrent == Loc_EN) {
-			LocCurrent = Loc_JP;
-		} else {
-			LocCurrent = Loc_EN;
-		}
+	public static void setLocale(Locale l) {
+		LocCurrent = l;
 	}
+	
 	public static String getWord(String s) {
-		if (LocCurrent == Loc_EN) {
+		if (LocCurrent == getLoc_EN()) {
 			return resEN.getString(s);
 		} else {
 			return resJP.getString(s);
 		}
 	}
+
+	public static Locale getLoc_JP() {
+		return Loc_JP;
+	}
+
+	public static void setLoc_JP(Locale loc_JP) {
+		Loc_JP = loc_JP;
+	}
+
+	public static Locale getLoc_EN() {
+		return Loc_EN;
+	}
+
+	public static void setLoc_EN(Locale loc_EN) {
+		Loc_EN = loc_EN;
+	}
 	
+	public void setStageTitle(String s) {
+		stage.setTitle(s);
+	}
 }

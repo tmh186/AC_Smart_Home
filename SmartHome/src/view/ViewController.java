@@ -8,7 +8,9 @@ import connections.Weather;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.CategoryAxis;
@@ -35,95 +37,175 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ViewController extends Main {
+	
 	@FXML
-	private AnchorPane BaseAnchorPane;
+	public AnchorPane BaseAnchorPane;
 	@FXML
-	private MenuBar DashboardMenuBar;
+	public MenuBar DashboardMenuBar;
 	@FXML
-	private Menu FileMenuOption;
-		@FXML
-		private MenuItem ExitOption;
+	public Menu FileMenuOption;
 	@FXML
-	private Menu EditMenuOption;
-		@FXML
-		private MenuItem DebugOption;
+	public MenuItem ExitOption;
 	@FXML
-	private Menu HelpMenuOption;
-		@FXML
-		private MenuItem AboutOption;
+	public Menu EditMenuOption;
 	@FXML
-	private SplitPane BaseSplitPane;
+	public MenuItem DebugOption;
+	@FXML
+	public Menu HelpMenuOption;
+	@FXML
+	public MenuItem AboutOption;
+	@FXML
+	public Menu LanguageMenuOption;
+	@FXML
+	public MenuItem EnglishOption;
+	@FXML
+	public MenuItem JapaneseOption;
+	@FXML
+	public SplitPane BaseSplitPane;
 	
 	/* Left View -- Default Home layout*/
 	@FXML
-	private AnchorPane LeftPartition;
+	public AnchorPane LeftPartition;
 	@FXML
-	private ImageView FloorPlanImageView;
+	public ImageView FloorPlanImageView;
 	@FXML
-	private ImageView GarageDoorAopen;
+	public ImageView GarageDoorAopen;
 	@FXML
-	private ImageView GarageDoorAclosed;
+	public ImageView GarageDoorAclosed;
 	@FXML
-	private Pane tempPane;
+	public Pane tempPane;
 	@FXML
-	private Label TempTitle;
+	public Label TempTitle;
 	@FXML
-	private Label IndoorTempTitle;
+	public Label IndoorTempTitle;
 	@FXML
-	private Label OutdoorTempTitle;
+	public Label OutdoorTempTitle;
 	@FXML
-	private Label OutdoorTempLabel; //Displays current outdoor temp value
+	public Label OutdoorTempLabel; //Displays current outdoor temp value
 	@FXML
-	private Label IndoorTempLabel; //Displays current indoor temp value
+	public Label IndoorTempLabel; //Displays current indoor temp value
 	@FXML
-	private Pane energyPane;
+	public Pane energyPane;
 	@FXML
-	private Label EnergyUsageTitle;
+	public Label EnergyUsageTitle;
 	@FXML
-	private ImageView energyicon;
+	public ImageView energyicon;
 	@FXML
-	private Label EnergyLabel; //Displays current energy 
+	public Label EnergyLabel; //Displays current energy 
 	@FXML
-	private Pane theromstatPane;
+	public Pane theromstatPane;
 	@FXML
-	private Slider thermostatSlider;
+	public Slider thermostatSlider;
 	@FXML
-	private Button RightPartitionButton;
+	public Button RightPartitionButton;
+	@FXML
+	public Label LightKeyLabel;
+	@FXML
+	public Label LightOnLabel;
+	@FXML
+	public Label LightOffLabel;
 	
 	/* Right view -- graph */
 	@FXML
-	private AnchorPane RightPartition;
+	public AnchorPane RightPartition;
 	@FXML
-	private DatePicker DatePicker;
+	public DatePicker DatePicker;
 	@FXML
 	final CategoryAxis xAxis = new CategoryAxis();
     final NumberAxis yAxis = new NumberAxis();
 	final LineChart<String,Number> DashboardChart = new LineChart<String,Number>(xAxis,yAxis);
 	@FXML
-	private ButtonBar GraphSettingsButtons;
+	public ButtonBar GraphSettingsButtons;
 		@FXML
-		private Button DayButton;
+		public Button DayButton;
 		@FXML
-		private Button WeekButton;
+		public Button WeekButton;
 		@FXML
-		private Button MonthButton;
+		public Button MonthButton;
 		@FXML
-		private Button LifetimeButton;
+		public Button LifetimeButton;
 	@FXML
-	private Button BackButton;
+	public Button BackButton;
 
+	public Stage ControllerStage;
 	
 	/* Event handling */
 		
 	/*
+	 * Language
+	 */
+	
+	public void handleJapaneseOptionClick(ActionEvent e) throws InterruptedException {
+		//changes all writen text on UI to Japanese
+		setLocale(getLoc_JP());
+		//setStageTitle(getWord("Title")); //null pointer
+		
+		FileMenuOption.setText(getWord("FileMenuOption"));
+		ExitOption.setText(getWord("ExitOption"));
+		EditMenuOption.setText(getWord("EditMenuOption"));
+		DebugOption.setText(getWord("DebugOption"));
+		HelpMenuOption.setText(getWord("HelpMenuOption"));
+		AboutOption.setText(getWord("AboutOption"));
+		LanguageMenuOption.setText(getWord("LanguageMenuOption"));
+		EnglishOption.setText(getWord("EnglishOption"));
+		JapaneseOption.setText(getWord("JapaneseOption"));
+		
+		EnergyUsageTitle.setText(getWord("EnergyUsageTitle"));
+		TempTitle.setText(getWord("TempTitle"));
+		IndoorTempTitle.setText(getWord("IndoorTempTitle"));
+		OutdoorTempTitle.setText(getWord("OutdoorTempTitle"));
+		LightKeyLabel.setText(getWord("LightKeyLabel"));
+		LightOnLabel.setText(getWord("LightOnLabel"));
+		LightOffLabel.setText(getWord("LightOffLabel"));
+		RightPartitionButton.setText(getWord("RightPartitionButton"));
+		BackButton.setText(getWord("BackButton"));
+		
+		DayButton.setText(getWord("DayButton"));
+		WeekButton.setText(getWord("WeekButton"));
+		MonthButton.setText(getWord("MonthButton"));
+		LifetimeButton.setText(getWord("LifetimeButton"));
+	}
+	
+	public void handleEnglishOptionClick(ActionEvent e) throws InterruptedException {
+		//changes all writen text on UI to English
+		setLocale(getLoc_EN());
+		//setStageTitle(getWord("Title")); //null pointer
+		
+		FileMenuOption.setText(getWord("FileMenuOption"));
+		ExitOption.setText(getWord("ExitOption"));
+		EditMenuOption.setText(getWord("EditMenuOption"));
+		DebugOption.setText(getWord("DebugOption"));
+		HelpMenuOption.setText(getWord("HelpMenuOption"));
+		AboutOption.setText(getWord("AboutOption"));
+		LanguageMenuOption.setText(getWord("LanguageMenuOption"));
+		EnglishOption.setText(getWord("EnglishOption"));
+		JapaneseOption.setText(getWord("JapaneseOption"));
+		
+		EnergyUsageTitle.setText(getWord("EnergyUsageTitle"));
+		TempTitle.setText(getWord("TempTitle"));
+		IndoorTempTitle.setText(getWord("IndoorTempTitle"));
+		OutdoorTempTitle.setText(getWord("OutdoorTempTitle"));
+		LightKeyLabel.setText(getWord("LightKeyLabel"));
+		LightOnLabel.setText(getWord("LightOnLabel"));
+		LightOffLabel.setText(getWord("LightOffLabel"));
+		RightPartitionButton.setText(getWord("RightPartitionButton"));
+		BackButton.setText(getWord("BackButton"));
+		
+		DayButton.setText(getWord("DayButton"));
+		WeekButton.setText(getWord("WeekButton"));
+		MonthButton.setText(getWord("MonthButton"));
+		LifetimeButton.setText(getWord("LifetimeButton"));
+	}
+	
+	/*
 	 * Help > About
 	 */
 	@FXML
-	private void handleAboutOptionClick(ActionEvent e) throws InterruptedException {
+	public void handleAboutOptionClick(ActionEvent e) throws InterruptedException {
 		Alert aboutalert = new Alert(AlertType.INFORMATION);
-		aboutalert.setTitle(getWord("About_Dashboard"));
-		aboutalert.setHeaderText(getWord("Header"));
-		aboutalert.setContentText(getWord("Project_Explanation"));
+		aboutalert.setTitle(getWord("AboutDashboard"));
+		aboutalert.setHeaderText(getWord("AboutHeader"));
+		aboutalert.setContentText(getWord("ProjectExplanation"));
 		aboutalert.show();
 		
 	}
@@ -132,7 +214,7 @@ public class ViewController extends Main {
 	 * File > Exit
 	 */
 	@FXML
-	private void handleExit(ActionEvent e) throws InterruptedException {
+	public void handleExit(ActionEvent e) throws InterruptedException {
 		System.exit(0);
 	}
 	
@@ -140,11 +222,11 @@ public class ViewController extends Main {
 	 * Handle switching back and forth between screens 
 	 */
 	@FXML
-	private void handleGoToGraphButton(ActionEvent e) throws InterruptedException {
+	public void handleGoToGraphButton(ActionEvent e) throws InterruptedException {
 			BaseSplitPane.setDividerPosition(0, 0.0);
 	}
 	@FXML
-	private void handleGoBackButton(ActionEvent e) throws InterruptedException {
+	public void handleGoBackButton(ActionEvent e) throws InterruptedException {
 			BaseSplitPane.setDividerPosition(0, 1.0);
 	}
 	
@@ -152,14 +234,14 @@ public class ViewController extends Main {
 	 * Debug window to make manual changes
 	 */
 	@FXML
-	private void handleDebugOptionClick(ActionEvent ex) throws InterruptedException {		
+	public void handleDebugOptionClick(ActionEvent ex) throws InterruptedException {		
 		Stage debugStage = new Stage();
 		debugStage.initModality(Modality.APPLICATION_MODAL);
-		debugStage.setTitle(getWord("Admin_Button"));
+		debugStage.setTitle(getWord("DebugOption"));
 		debugStage.setMinWidth(300);
 		debugStage.setMinHeight(400);
 		Label label = new Label();
-		label.setText(Main.getWord("Garage"));
+		label.setText(getWord("Garage"));
 		Button openGarageA = new Button();
 		openGarageA.setText(getWord("OpenGarageA"));
 		Button closeGarageA = new Button();
@@ -191,7 +273,7 @@ public class ViewController extends Main {
 	 * Thermostat slider event handler
 	 */
 	@FXML
-	private void handleThermostatChange(MouseEvent e) throws InterruptedException {
+	public void handleThermostatChange(MouseEvent e) throws InterruptedException {
 		Double thermostatTemp = thermostatSlider.getValue();
 		
 		//Updating the indoor temp label for testing purposes
@@ -216,8 +298,6 @@ public class ViewController extends Main {
     	
     	//Thermostat and indoor temp are initially the same?
     	//thermostatTemp = getIndoorTemp
-    	
-    	//TODO Start database connection here
     }
 	
 	
