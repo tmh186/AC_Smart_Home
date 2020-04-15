@@ -1,7 +1,6 @@
 package view;
 
 import java.math.RoundingMode;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import com.sun.media.jfxmedia.events.NewFrameEvent;
 
 import application.Date;
 import application.Main;
-import connections.Database;
+
 import connections.Weather;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,7 +31,9 @@ import javafx.scene.chart.Axis;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -90,89 +91,10 @@ public class ViewController extends Main {
 	public AnchorPane LeftPartition;
 	@FXML
 	public ImageView FloorPlanImageView;
-	/*
-	 * Doors
-	 * door open: set imageurl = ..\opendoor.png
-	 * door closed: set imagelocation = ..\closeddoor.png
-	 */
 	@FXML
-	public ImageView garage1door;
+	public ImageView GarageDoorAopen;
 	@FXML
-	public ImageView garage2door;
-	@FXML
-	public ImageView garage3door;
-	@FXML
-	public ImageView frontdoor;
-	@FXML
-	public ImageView masterbedroomdoor;
-	@FXML
-	public ImageView halfbathdoor;
-	@FXML
-	public ImageView br1door;
-	@FXML
-	public ImageView br2door;
-	@FXML
-	public ImageView laundrydoor;
-	@FXML
-	public ImageView backdoor;
-	/*
-	 * Lights
-	 * on: setVisibility(true)
-	 * off: setVisibility(false)
-	 */
-	@FXML
-	public ImageView br1lampA;
-	@FXML
-	public ImageView br1lampB;
-	@FXML
-	public ImageView br1overheadlamp;
-	@FXML
-	public ImageView br2lampA;
-	@FXML
-	public ImageView br2lampB;
-	@FXML
-	public ImageView br2overheadlamp;
-	@FXML
-	public static ImageView kitchenoverheadlamp;
-	@FXML
-	public ImageView livingroomlampA;
-	@FXML
-	public ImageView livingroomoverheadlamp;
-	@FXML
-	public ImageView livingroomlampB;
-	@FXML
-	public ImageView masterbedroomlampA;
-	@FXML
-	public ImageView masterbedroomlampB;
-	@FXML
-	public ImageView masterbedroomoverheadlamp;
-	@FXML
-	public ImageView halfbathoverheadlamp;
-	/*
-	 * Appliances
-	 * on: set imageurl = ..\running.png
-	 * off: set imageurl = ..\stopped.png
-	 */
-	@FXML
-	public ImageView dishwasher;
-	@FXML
-	public ImageView microwave;
-	@FXML
-	public ImageView stove;
-	@FXML
-	public ImageView fridge;
-	@FXML
-	public ImageView livingroomtv;
-	@FXML
-	public ImageView masterbrtv;
-	@FXML
-	public ImageView halfbathfan;
-	@FXML
-	public ImageView washer;
-	@FXML
-	public ImageView dryer;
-	
-	
+	public ImageView GarageDoorAclosed;
 	@FXML
 	public Pane tempPane;
 	@FXML
@@ -205,6 +127,18 @@ public class ViewController extends Main {
 	public Label LightOnLabel;
 	@FXML
 	public Label LightOffLabel;
+	@FXML
+	public Label ThermoSliderLabel;
+	@FXML
+	public Label generateDataLabel;
+	@FXML
+	public Label TotalLabel;
+	@FXML
+	public Label ElectricityLabel;
+	@FXML
+	public Label WaterLabel;
+	@FXML
+	public Label LegendLabel;
 	
 	/* Right view -- graph */
 	@FXML
@@ -212,22 +146,33 @@ public class ViewController extends Main {
 	@FXML
 	public DatePicker DatePicker;
 	@FXML
-	final CategoryAxis xAxis = new CategoryAxis();
-    final NumberAxis yAxis = new NumberAxis();
-	final LineChart<String,Number> DashboardChart = new LineChart<String,Number>(xAxis,yAxis);
+	public CategoryAxis xAxis = new CategoryAxis();
+    public NumberAxis yAxis = new NumberAxis();
+	public final LineChart<String,Number> DashboardChart = new LineChart<String,Number>(xAxis,yAxis);
+	//Bills
+	XYChart.Series Water = new XYChart.Series();
+	XYChart.Series Electricity = new XYChart.Series();
+	XYChart.Series Total = new XYChart.Series();
 	@FXML
 	public ButtonBar GraphSettingsButtons;
-		@FXML
-		public Button DayButton;
-		@FXML
-		public Button WeekButton;
-		@FXML
-		public Button MonthButton;
-		@FXML
-		public Button LifetimeButton;
+	@FXML
+	public Button DayButton;
+	@FXML
+	public Button WeekButton;
+	@FXML
+	public Button MonthButton;
+	@FXML
+	public Button LifetimeButton;
 	@FXML
 	public Button BackButton;
 
+	//Data Variables
+	public Queue<Date> DayStorage = new LinkedList<>(); //stores dates for utilities graph
+	public boolean DayStorageFull = false;
+	public String currentDate;
+	public int tempDay;
+	public int tempMonth;
+	public int tempYear;
 	@FXML
 	public Stage ControllerStage;
 	
@@ -261,11 +206,18 @@ public class ViewController extends Main {
 		LightOffLabel.setText(getWord("LightOffLabel"));
 		RightPartitionButton.setText(getWord("RightPartitionButton"));
 		BackButton.setText(getWord("BackButton"));
+		ThermoSliderLabel.setText(getWord("ThermoSliderLabel"));
 		
 		DayButton.setText(getWord("DayButton"));
 		WeekButton.setText(getWord("WeekButton"));
 		MonthButton.setText(getWord("MonthButton"));
 		LifetimeButton.setText(getWord("LifetimeButton"));
+		
+		generateDataLabel.setText(getWord("generateDataLabel"));
+		TotalLabel.setText(getWord("TotalLabel"));
+		ElectricityLabel.setText(getWord("ElectricityLabel"));
+		WaterLabel.setText(getWord("WaterLabel"));
+		LegendLabel.setText(getWord("LegendLabel"));
 	}
 	
 	public void handleEnglishOptionClick(ActionEvent e) throws InterruptedException {
@@ -292,11 +244,18 @@ public class ViewController extends Main {
 		LightOffLabel.setText(getWord("LightOffLabel"));
 		RightPartitionButton.setText(getWord("RightPartitionButton"));
 		BackButton.setText(getWord("BackButton"));
+		ThermoSliderLabel.setText(getWord("ThermoSliderLabel"));
 		
 		DayButton.setText(getWord("DayButton"));
 		WeekButton.setText(getWord("WeekButton"));
 		MonthButton.setText(getWord("MonthButton"));
 		LifetimeButton.setText(getWord("LifetimeButton"));
+		
+		generateDataLabel.setText(getWord("generateDataLabel"));
+		TotalLabel.setText(getWord("TotalLabel"));
+		ElectricityLabel.setText(getWord("ElectricityLabel"));
+		WaterLabel.setText(getWord("WaterLabel"));
+		LegendLabel.setText(getWord("LegendLabel"));
 	}
 	
 	/*
@@ -316,8 +275,7 @@ public class ViewController extends Main {
 	 * File > Exit
 	 */
 	@FXML
-	public void handleExit(ActionEvent e) throws InterruptedException, SQLException {
-		mainConnection.close();
+	public void handleExit(ActionEvent e) throws InterruptedException {
 		System.exit(0);
 	}
 	
@@ -363,12 +321,50 @@ public class ViewController extends Main {
 	}
 	
 	/*
+	 * Generate 1 days worth of data for the graph
+	 */
+	@FXML
+	public void handleDayButton(ActionEvent e) throws InterruptedException {
+		
+		//DayStorage only holds 6 months (180 days of data). Pops excess after limit.
+		if (checkDayStorage()==true) {
+			DayStorage.poll();
+		}
+		
+		//CURRENTLY USING TEST FUNCTION TO GENERATE DATE DATA!!!
+		Date testDate = generateDayTEST(tempDay, tempMonth, tempYear);
+		DayStorage.add(testDate);
+		//DayStorage.add(generateDay(tempDay, tempMonth, tempYear));
+		
+		//iterate day to avoid data conflict
+		iterateDay();
+		
+		//add 1 day's worth of data for each bill series
+		Water.getData().add(new XYChart.Data(testDate.dateToString(),testDate.getWater()));
+		Electricity.getData().add(new XYChart.Data(testDate.dateToString(),testDate.getElectricity()));
+		Total.getData().add(new XYChart.Data(testDate.dateToString(),testDate.getTotal()));
+		
+		//add all bill series to graph
+		//DashboardChart.getData().addAll(Water, Electricity, Total);
+		
+		//Water.getData().add(new XYChart.Data("Day1",100.0));
+		//Water.getData().add(new XYChart.Data("Day2",50.0));
+		//Electricity.getData().add(new XYChart.Data("Day1",90.0));
+		//Total.getData().add(new XYChart.Data("Day1",80.0));
+		//DashboardChart.getData().add(Water);
+		//DashboardChart.getData().add(Electricity);
+		//DashboardChart.getData().add(Total);
+		//Water.setData(Water.getData()+Water.getData().);
+		//DashboardChart.getData().add(Water<"Day1",100.0>);
+	}
+	
+	/*
 	 * Put things here you'd like to happen before UI is shown to user
 	 */
     @FXML
     public void initialize() {
     	//Left partition is default screen, move split pane out of way
-    	BaseSplitPane.setDividerPosition(0, 1.0);
+    	BaseSplitPane.setDividerPosition(0, 1.0); //0, 1.0
     	
     	//Update outdoor temp label
     	String outdoortemp = String.valueOf(Weather.getCurrentWeather());
@@ -380,7 +376,166 @@ public class ViewController extends Main {
     	//Thermostat and indoor temp are initially the same?
     	//thermostatTemp = getIndoorTemp
     	
+    	//Graph
+    	xAxis.setLabel("Date");
+    	yAxis.setLabel("Cost (USD)");
+    	DashboardChart.setTitle("Utilitiy Bill Totals");
+    	
+    	//Bills
+    	Water.setName("Water");
+    	Electricity.setName("Electricity");
+    	Total.setName("Total");
+    	
+    	//Water.getData().add(new XYChart.Data("Day1",100.0));
+		//Water.getData().add(new XYChart.Data<String,Double>("Day2",50.0));
+		//DashboardChart.getData().addAll(Water);
+    	
+    	//add all bill series to graph
+    	DashboardChart.getData().addAll(Total, Water, Electricity);
     }
-	
-	
-}
+    
+    //Back-End Data Manipulation
+    public String retrieveCurrentDate() {
+		//retrieves current local date for graph
+		String dateString = java.time.LocalDate.now().toString();
+		ArrayList<Integer> workingDate = new ArrayList<>();
+		Scanner scanner = new Scanner(dateString);
+		scanner.useDelimiter("-");
+		while(scanner.hasNext()) {
+			workingDate.add(scanner.nextInt());
+		}
+		scanner.close();
+		//puts date as [yyyy,mm,dd]
+		//set global variables:
+		tempDay = workingDate.get(2);
+		tempMonth = workingDate.get(1);
+		tempYear = workingDate.get(0);
+		return dateString;
+	}
+    
+    public Date generateDay(int day, int month, int year) {
+    	//called by handleDayButton to add 1 day's worth of info to graph
+    	Date dayDate = new Date(day, month, year);
+    	
+    	//to do:  Put daily bill data here:
+    	
+    	/*
+    	dayDate.setWater();
+    	dayDate.setElectricity();
+    	//total already calculated, but here's the setter:
+    	dayDate.setTotal();
+    	*/
+    	
+		return dayDate;
+    }
+    
+    //TESTING FUNCTION FOR GRAPH
+    public Date generateDayTEST(int day, int month, int year) {
+    	//called by handleDayButton to add 1 day's worth of info to graph
+    	Date dayDate = new Date(day, month, year);
+    	
+    	//to do:  Put daily bill data here:
+    	
+    	Random r = new Random();
+    	Integer temp = r.nextInt(500);
+    	Integer temp2 = r.nextInt(500);
+    	dayDate.setWater(Double.valueOf(temp));
+    	dayDate.setElectricity(Double.valueOf(temp2));
+    	
+		return dayDate;
+    }
+    
+    public boolean checkDayStorage() {
+    	//DayStorage only holds 6 months (180 days of data). Pops excess after limit.
+    	if(DayStorage.size()==180) {
+    		DayStorageFull= true;
+    	}
+    	return DayStorageFull;
+    }
+    
+    public void resetDayStorage() {
+    	//Empties dayStorage
+    	DayStorage.clear();
+    	DayStorageFull= false;
+    }
+    
+    public void iterateDay() {
+    	//iterates date variables for Graph
+        switch(tempMonth) {
+           case 1:
+        	   if(tempDay==31) {
+        		   tempDay=1;
+        		   tempMonth=2;
+        	   }
+        	   tempDay++;
+           case 2:
+        	   //no leap years
+        	   if(tempDay==28) { 
+        		   tempDay=1;
+        		   tempMonth=3;
+        	   }
+        	   tempDay++;
+           case 3:
+        	   if(tempDay==31) {
+        		   tempDay=1;
+        		   tempMonth=4;
+        	   }
+        	   tempDay++;
+           case 4:
+        	   if(tempDay==30) {
+        		   tempDay=1;
+        		   tempMonth=5;
+        	   }
+        	   tempDay++;
+           case 5:
+        	   if(tempDay==31) {
+        		   tempDay=1;
+        		   tempMonth=6;
+        	   }
+        	   tempDay++;
+           case 6:
+        	   if(tempDay==30) {
+        		   tempDay=1;
+        		   tempMonth=7;
+        	   }
+        	   tempDay++;
+           case 7:
+        	   if(tempDay==31) {
+        		   tempDay=1;
+        		   tempMonth=8;
+        	   }
+        	   tempDay++;
+           case 8:
+        	   if(tempDay==31) {
+        		   tempDay=1;
+        		   tempMonth=9;
+        	   }
+        	   tempDay++;
+           case 9:
+        	   if(tempDay==30) {
+        		   tempDay=1;
+        		   tempMonth=10;
+        	   }
+        	   tempDay++;
+           case 10:
+        	   if(tempDay==31) {
+        		   tempDay=1;
+        		   tempMonth=11;
+        	   }
+        	   tempDay++;
+           case 11:
+        	   if(tempDay==30) {
+        		   tempDay=1;
+        		   tempMonth=12;
+        	   }
+        	   tempDay++;
+           case 12:
+        	   if(tempDay==31) {
+        		   tempDay=1;
+        		   tempMonth=1;
+        		   tempYear++;
+        	   }
+        	   tempDay++;
+         }
+      }
+    }
