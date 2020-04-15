@@ -1,9 +1,14 @@
 package application;
 	
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import connections.Database;
+import connections.Device;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,6 +26,9 @@ public class Main extends Application {
 	
 	static ResourceBundle resEN = ResourceBundle.getBundle("application.Bundle_en_US", getLoc_EN());
 	static ResourceBundle resJP = ResourceBundle.getBundle("application.Bundle_ja_JP", getLoc_JP());
+	
+	public static Connection mainConnection;
+	public static ArrayList<Device> allDevices;
 	
 	@Override
 	public void start(Stage stage) {
@@ -40,6 +48,13 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
+		mainConnection = Database.initConnect();
+		try {
+			allDevices = Database.getAllDevices(mainConnection);
+		} catch (ClassNotFoundException| SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		launch(args);
 	}
 	

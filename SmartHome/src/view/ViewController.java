@@ -1,6 +1,7 @@
 package view;
 
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -275,7 +276,8 @@ public class ViewController extends Main {
 	 * File > Exit
 	 */
 	@FXML
-	public void handleExit(ActionEvent e) throws InterruptedException {
+	public void handleExit(ActionEvent e) throws InterruptedException, SQLException {
+		mainConnection.close();
 		System.exit(0);
 	}
 	
