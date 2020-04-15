@@ -2,6 +2,8 @@ package simulation;
 import java.util.ArrayList;
 import java.util.Random;
 
+import connections.Device;
+
 public class Simulations {
 		
 		ArrayList<Device> devices = new ArrayList<Device>();
@@ -101,7 +103,7 @@ public class Simulations {
 					if (num < (15*multiplier)) { //15/100 times the number of people in the house determine the event
 						index = rand.nextInt(17);
 						this.devices.get(index).changeState();
-						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).getStatus()));
+						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).isState()));
 						
 					}
 					else {
@@ -122,7 +124,7 @@ public class Simulations {
 					if (num < (15*multiplier)) { //15/100 times the number of people in the house determine the event
 						index = rand.nextInt(17);
 						this.devices.get(index).changeState();
-						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).getStatus()));
+						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).isState()));
 					}
 					else {continue;}
 				}
@@ -132,7 +134,7 @@ public class Simulations {
 					if (num < (15*multiplier)) { //15/100 times the number of people in the house determine the event
 						index = rand.nextInt(17);
 						this.devices.get(index).changeState();
-						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).getStatus()));
+						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).isState()));
 					}
 				}else {continue;}
 			
@@ -149,7 +151,7 @@ public class Simulations {
 					if (num < (15*multiplier)) { //15/100 times the number of people in the house determine the event
 						index = rand.nextInt(17);
 						this.devices.get(index).changeState();
-						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).getStatus()));
+						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).isState()));
 					}
 					else {continue;}
 				}
@@ -159,7 +161,7 @@ public class Simulations {
 					if (num < (15*multiplier)) { //15/100 times the number of people in the house determine the event
 						index = rand.nextInt(17);
 						this.devices.get(index).changeState();
-						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).getStatus()));
+						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).isState()));
 					}else {continue;}
 				}
 				if (hour > 20.50 && hour < 22.50) {
@@ -168,7 +170,7 @@ public class Simulations {
 					if (num < (15*multiplier)) { //15/100 times the number of people in the house determine the event
 						index = rand.nextInt(17);
 						this.devices.get(index).changeState();
-						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).getStatus()));
+						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).isState()));
 					}else {continue;}
 				}
 				
