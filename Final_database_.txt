@@ -1,0 +1,40 @@
+CREATE TABLE day_events(
+   day_event_id  SERIAL PRIMARY KEY,
+   event_time DATE NOT NULL,
+   device_name CHAR(45) NOT NULL,
+   state_change BOOL NOT NULL
+);
+
+CREATE TABLE  bill_archive
+(
+  bill_archive_id SERIAL PRIMARY KEY,
+  bill_archive_date DATE NOT NULL,              
+  water_usage  FLOAT,      
+  electricity_usage   FLOAT  
+);
+
+CREATE TABLE  device
+(
+  devices_id SERIAL PRIMARY KEY,  
+  device_name  CHAR(45) NOT NULL,
+  device_room INT,
+  cost_per_min_electricity FLOAT,
+  cost_per_min_water FLOAT
+);
+
+CREATE TABLE  temp
+(
+  temp_id SERIAL PRIMARY KEY,  
+  set_temp  INT, 
+  internal_temp INT,
+  external_temp INT
+ 
+);
+
+
+CREATE TABLE  rooms
+(
+  room_id SERIAL PRIMARY KEY,  
+  name varchar(50)
+ 
+);
