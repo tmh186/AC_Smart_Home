@@ -46,3 +46,17 @@
 	-fx-background-color:  #4b4bb7;
 	
 }
+
+.slider .track {
+   -fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #3b7299, #99483b);	
+}
+
+.slider .thumb {
+	-fx-background-color: white;
+	-fx-effect: dropshadow(gaussian, grey, 9, 0, 0, 0);
+}
+
+.slider .thumb:pressed {
+	-fx-background-color: #dbdbdb;
+	-fx-effect: dropshadow(gaussian, grey, 18, 0, 0, 0);
+}
