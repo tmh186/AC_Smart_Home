@@ -93,7 +93,7 @@
                               <Cursor fx:constant="W_RESIZE" />
                            </cursor>
                         </Slider>
-                        <Label layoutX="74.0" layoutY="1.0" text="Set Thermostat" />
+                        <Label fx:id="ThermoSliderLabel" layoutX="74.0" layoutY="1.0" text="Set Thermostat" />
                      </children>
                   </Pane>
                   <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="91.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true">
@@ -171,7 +171,7 @@
                         <Image url="@../light.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="53.0" layoutY="536.0" text="Key:" fx:id="LightKeyLabel" >
+                  <Label fx:id="LightKeyLabel" layoutX="53.0" layoutY="536.0" text="Key:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -182,12 +182,12 @@
                         <Image url="@../light.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="81.0" layoutY="563.0" text="Light Off:" fx:id="LightOffLabel" />
+                  <Label fx:id="LightOffLabel" layoutX="81.0" layoutY="563.0" text="Light Off:" />
                </children>
             </AnchorPane>
           <AnchorPane fx:id="RightPartition" minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="116.0" style="-fx-background-color: rgb(249, 249, 249);">
                <children>
-                  <LineChart fx:id="DashboardChart" layoutX="124.0" layoutY="54.0" prefHeight="441.0" prefWidth="551.0">
+                  <LineChart fx:id="DashboardChart" layoutX="124.0" layoutY="54.0" prefHeight="441.0" prefWidth="551.0" title="Utilitiy Bill Totals">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" />
                     </xAxis>
@@ -195,15 +195,24 @@
                       <NumberAxis side="LEFT" />
                     </yAxis>
                   </LineChart>
-                  <ButtonBar fx:id="GraphSettingsButtons" layoutX="224.0" layoutY="490.0" prefHeight="40.0" prefWidth="317.0">
+                  <ButtonBar fx:id="GraphSettingsButtons" layoutX="148.0" layoutY="491.0" prefHeight="40.0" prefWidth="516.0">
                     <buttons>
-                      <Button fx:id="DayButton" mnemonicParsing="false" text="Day" />
-                        <Button fx:id="WeekButton" layoutX="135.0" layoutY="18.0" mnemonicParsing="false" text="Week" />
-                        <Button fx:id="MonthButton" layoutX="50.0" layoutY="18.0" mnemonicParsing="false" text="Month" />
-                        <Button fx:id="LifetimeButton" layoutX="115.0" layoutY="18.0" mnemonicParsing="false" text="6-months" />
+                      <Button fx:id="DayButton" mnemonicParsing="false" onAction="#handleDayButton" text="1 Day" />
+                        <Button fx:id="WeekButton" layoutX="135.0" layoutY="18.0" mnemonicParsing="false" text="1 Week" />
+                        <Button fx:id="MonthButton" layoutX="50.0" layoutY="18.0" mnemonicParsing="false" text="1 Month (30 Days)" />
+                        <Button fx:id="LifetimeButton" layoutX="115.0" layoutY="18.0" mnemonicParsing="false" text="6 months" />
                     </buttons>
                   </ButtonBar>
                   <Button fx:id="BackButton" layoutX="305.0" layoutY="554.0" mnemonicParsing="false" onAction="#handleGoBackButton" prefHeight="25.0" prefWidth="202.0" text="Back" />
+                  <Pane layoutX="38.0" layoutY="379.0" prefHeight="103.0" prefWidth="92.0">
+                     <children>
+                        <Label fx:id="TotalLabel" layoutX="12.0" layoutY="42.0" text="Total:" />
+                        <Label fx:id="ElectricityLabel" layoutX="14.0" layoutY="59.0" text="Electricity:" />
+                        <Label fx:id="WaterLabel" layoutX="14.0" layoutY="76.0" text="Water:" />
+                        <Label fx:id="LegendLabel" layoutX="12.0" layoutY="14.0" text="Legend" />
+                     </children>
+                  </Pane>
+                  <Label fx:id="generateDataLabel" layoutX="85.0" layoutY="502.0" text="Generate Data:" />
                </children></AnchorPane>
         </items>
       </SplitPane>
@@ -224,10 +233,10 @@
               <MenuItem fx:id="AboutOption" mnemonicParsing="false" onAction="#handleAboutOptionClick" text="About" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Launguage" fx:id="LanguageMenuOption" >
+            <Menu fx:id="LanguageMenuOption" mnemonicParsing="false" text="Launguage">
                <items>
-                  <MenuItem mnemonicParsing="false" text="English" fx:id="EnglishOption" onAction="#handleEnglishOptionClick" />
-                  <MenuItem mnemonicParsing="false" text="Japanese" fx:id="JapaneseOption" onAction="#handleJapaneseOptionClick"/>
+                  <MenuItem fx:id="EnglishOption" mnemonicParsing="false" onAction="#handleEnglishOptionClick" text="English" />
+                  <MenuItem fx:id="JapaneseOption" mnemonicParsing="false" onAction="#handleJapaneseOptionClick" text="Japanese" />
                </items>
             </Menu>
         </menus>
