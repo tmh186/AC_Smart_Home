@@ -1,6 +1,7 @@
 package connections;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Database {
 
@@ -40,24 +41,42 @@ public class Database {
 		}
 		return c;
 	}
-
-	static void getAllDevices(Connection c) throws SQLException, ClassNotFoundException {
-		// return all devices in the database
-		//will need to be updated when the device table is added
+	
+	static String getRoom(Connection c,int num) throws SQLException {
 		Statement stmt = c.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM all_devices;");
+		String name = "";
+		ResultSet rs = stmt.executeQuery("SELECT name FROM rooms WHERE id='"+num +";");
 		while (rs.next()) {
-			String id = rs.getString("devices");
-			int name = rs.getInt("value");
-			System.out.println("NAME = " + id + ", VALUE = " + name);
+			name = rs.getString("name");
+		}
+		return name;
+	}
+
+	static ArrayList<Device> getAllDevices(Connection c) throws SQLException, ClassNotFoundException {
+		// return all devices in the database
+		ArrayList<Device> deviceList = new ArrayList<Device>();
+		Statement stmt = c.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM device;");
+		while (rs.next()) {
+			int id = rs.getInt("devices_id");
+			String name = rs.getString("device_name");
+			String room = getRoom(c, rs.getInt("device_room"));
+			float elecCost = rs.getFloat("cost_per_min_electricity");
+			float waterCost = rs.getFloat("cost_per_min_water");
+			boolean state = rs.getBoolean("state");
+			deviceList.add(new Device(id,name,room,elecCost,waterCost, state));
 		}
 		rs.close();
 		stmt.close();
+		return deviceList;
 	}
 
-	void updateDeviceStatus(String DeviceName, boolean newStatus) {
+	void updateDeviceStatus(Connection c, String DeviceName, boolean newStatus) throws SQLException {
 		//update a device status
-		//Will not work until the database is updated
+		Statement stmt = c.createStatement();
+		stmt.executeUpdate("UPDATE devices SET state = "+newStatus+ "WHERE device_name='"+DeviceName+"';");
+		c.commit();
+		stmt.close();
 	}
 	
 	static int getSetTemp(Connection c) throws SQLException {
