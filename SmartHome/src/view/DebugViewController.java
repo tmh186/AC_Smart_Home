@@ -80,6 +80,7 @@ public class DebugViewController {
 		br2pane.setVisible(false);
 		laundrypane.setVisible(false);
 		garagepane.setVisible(false);
+
 	}
 	@FXML
 	private void livingroomSelectedFromMenu(ActionEvent ex) throws InterruptedException {
@@ -181,5 +182,6 @@ public class DebugViewController {
 	/*
 	 * Events for buttons
 	 */
+	//associate chosen date + real time with each action
 	
 }
