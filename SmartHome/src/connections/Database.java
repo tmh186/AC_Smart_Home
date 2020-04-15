@@ -28,7 +28,7 @@ public class Database {
 	
 	//Create the connection for the application
 	//close this connection when the program ends
-	static Connection initConnect(){
+	public static Connection initConnect(){
 		Connection c = null;
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -52,7 +52,7 @@ public class Database {
 		return name;
 	}
 
-	static ArrayList<Device> getAllDevices(Connection c) throws SQLException, ClassNotFoundException {
+	public static ArrayList<Device> getAllDevices(Connection c) throws SQLException, ClassNotFoundException {
 		// return all devices in the database
 		ArrayList<Device> deviceList = new ArrayList<Device>();
 		Statement stmt = c.createStatement();
@@ -71,7 +71,7 @@ public class Database {
 		return deviceList;
 	}
 
-	void updateDeviceStatus(Connection c, int id, boolean newStatus) throws SQLException {
+	public void updateDeviceStatus(Connection c, int id, boolean newStatus) throws SQLException {
 		//update a device status
 		Statement stmt = c.createStatement();
 		stmt.executeUpdate("UPDATE devices SET state = "+newStatus+ " WHERE devices_id="+id+";");
@@ -79,19 +79,19 @@ public class Database {
 		stmt.close();
 	}
 	
-	static int getSetTemp(Connection c) throws SQLException {
+	public static int getSetTemp(Connection c) throws SQLException {
 		return getTemp(c, "set_temp");
 	}
 	
-	static int getInternalTemp(Connection c) throws SQLException {
+	public static int getInternalTemp(Connection c) throws SQLException {
 		return getTemp(c, "internal_temp");
 	}
 	
-	static int getExternalTemp(Connection c) throws SQLException {
+	public static int getExternalTemp(Connection c) throws SQLException {
 		return getTemp(c, "external_temp");
 	}
 	
-	static int getTemp(Connection c, String name) throws SQLException {
+	public static int getTemp(Connection c, String name) throws SQLException {
 		Statement stmt = c.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT value FROM temp WHERE name='"+name+"';");
 		rs.next();
@@ -101,19 +101,19 @@ public class Database {
 		return value;
 	}
 	
-	static void updateSetTemp(Connection c, int Temp) throws SQLException {
+	public static void updateSetTemp(Connection c, int Temp) throws SQLException {
 		updateTemp(c, Temp, "set_temp");
 	}
 	
-	static void updateExternalTemp(Connection c, int Temp) throws SQLException {
+	public static void updateExternalTemp(Connection c, int Temp) throws SQLException {
 		updateTemp(c, Temp, "external_temp");
 	}
 	
-	static void updateInternalTemp(Connection c, int Temp) throws SQLException {
+	public static void updateInternalTemp(Connection c, int Temp) throws SQLException {
 		updateTemp(c, Temp, "internal_temp");
 	}
 	
-	static void updateTemp(Connection c, int Temp, String name) throws SQLException {
+	public static void updateTemp(Connection c, int Temp, String name) throws SQLException {
 		Statement stmt = c.createStatement();
 		stmt.executeUpdate("UPDATE temp SET value = "+Temp+ "WHERE name='"+name+"';");
 		c.commit();
