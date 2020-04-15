@@ -2,6 +2,7 @@ package connections;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class DatabaseTest {
 
@@ -10,7 +11,8 @@ public class DatabaseTest {
 		
 		//must be connected through the VPN for this to work or will error
 		Connection c = Database.initConnect();
-		Database.getAllDevices(c);
+		ArrayList<Device> a = Database.getAllDevices(c);
+		System.out.println(a);
 		System.out.println("Internal Temp: "+Database.getInternalTemp(c));
 		Database.updateInternalTemp(c, 90);
 		System.out.println("Internal Temp: "+Database.getInternalTemp(c));

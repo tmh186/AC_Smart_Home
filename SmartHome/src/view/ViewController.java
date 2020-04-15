@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Scanner;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import javax.swing.text.DateFormatter;
 
@@ -17,7 +19,8 @@ import application.Date;
 import application.Main;
 
 import connections.Weather;
-
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +37,7 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -41,10 +45,15 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -164,6 +173,8 @@ public class ViewController extends Main {
 	public int tempDay;
 	public int tempMonth;
 	public int tempYear;
+	@FXML
+	public Stage ControllerStage;
 	
 	/* Event handling */
 		
@@ -284,39 +295,17 @@ public class ViewController extends Main {
 	 * Debug window to make manual changes
 	 */
 	@FXML
-	public void handleDebugOptionClick(ActionEvent ex) throws InterruptedException {		
-		Stage debugStage = new Stage();
-		debugStage.initModality(Modality.APPLICATION_MODAL);
-		debugStage.setTitle(getWord("DebugOption"));
-		debugStage.setMinWidth(300);
-		debugStage.setMinHeight(400);
-		Label label = new Label();
-		label.setText(getWord("Garage"));
-		Button openGarageA = new Button();
-		openGarageA.setText(getWord("OpenGarageA"));
-		Button closeGarageA = new Button();
-		closeGarageA.setText(getWord("CloseGarageA"));
+	public void handleDebugOptionClick(ActionEvent ex) throws InterruptedException {	             
+		    try {
+		        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/DebugWindow.fxml"));
+		        Parent root1 = (Parent) fxmlLoader.load();
+		        Stage stage = new Stage();
+		        stage.setScene(new Scene(root1));  
+		        stage.show();
+		    } catch(Exception e) {
+		        e.printStackTrace();
+		    }
 		
-		//eventually should be a toggle
-		// GarageDoor.setVisible(DetermineStateOfDoor())
-		openGarageA.setOnAction(e -> { 
-			GarageDoorAopen.setVisible(true);
-			GarageDoorAclosed.setVisible(false);
-		});
-		
-		closeGarageA.setOnAction(e -> { 
-			GarageDoorAopen.setVisible(false);
-			GarageDoorAclosed.setVisible(true);
-		});
-		//-- End of button actions--
-		VBox layout = new VBox(10);
-		layout.getChildren().addAll(label);
-		layout.getChildren().addAll(openGarageA);
-		layout.getChildren().addAll(closeGarageA);
-		layout.setAlignment(Pos.CENTER);
-		Scene debugScene = new Scene(layout);
-		debugStage.setScene(debugScene);
-		debugStage.showAndWait();
 	}
 	
 	/*

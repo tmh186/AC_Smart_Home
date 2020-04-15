@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="500.0" minWidth="400.0" stylesheets="@../application/application.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.DebugViewController">
+   <children>
+      <AnchorPane fx:id="kitchenpane" layoutY="138.0" prefHeight="364.0" prefWidth="400.0" visible="false">
+         <children>
+            <Label layoutX="164.0" layoutY="26.0" text="Kitchen">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Dish Washer" />
+            <Button layoutX="65.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Stove" />
+            <Button layoutX="235.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Microwave" />
+            <Button layoutX="65.0" layoutY="169.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Refrigerator" />
+            <Button layoutX="235.0" layoutY="169.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Oven" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="headpane" prefHeight="138.0" prefWidth="400.0" style="-fx-background-color: white;">
+         <children>
+            <DatePicker fx:id="datePicker" layoutX="113.0" layoutY="43.0" onAction="#handleUserSelectedDate" promptText="Pick Date..." />
+            <MenuButton fx:id="roomMenuButton" layoutX="112.0" layoutY="88.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="174.0" text="Select Room...">
+              <items>
+                <MenuItem fx:id="kitchenItem" mnemonicParsing="false" onAction="#kitchenSelectedFromMenu" onMenuValidation="#kitchenSelectedFromMenu" text="Kitchen" />
+                <MenuItem fx:id="lrItem" mnemonicParsing="false" onAction="#livingroomSelectedFromMenu" onMenuValidation="#livingroomSelectedFromMenu" text="Living Room" />
+                  <MenuItem fx:id="masterbrItem" mnemonicParsing="false" onAction="#masterBedRoomSelectedFromMenu" onMenuValidation="#masterBedRoomSelectedFromMenu" text="Master Bedroom" />
+                  <MenuItem fx:id="masterbathItem" mnemonicParsing="false" onAction="#masterBathSelectedFromMenu" onMenuValidation="#masterBathSelectedFromMenu" text="Master Bathroom" />
+                  <MenuItem fx:id="halfbathItem" mnemonicParsing="false" onAction="#halfBathSelectedFromMenu" onMenuValidation="#halfBathSelectedFromMenu" text="Half Bathroom" />
+                  <MenuItem fx:id="br1Item" mnemonicParsing="false" onAction="#br1SelectedFromMenu" onMenuValidation="#br1SelectedFromMenu" text="Bedroom 1" />
+                  <MenuItem fx:id="br2Item" mnemonicParsing="false" onAction="#br2SelectedFromMenu" onMenuValidation="#br2SelectedFromMenu" text="Bedroom 2" />
+                  <MenuItem fx:id="laundryItem" mnemonicParsing="false" onAction="#laundryRoomSelectedFromMenu" onMenuValidation="#laundryRoomSelectedFromMenu" text="Laundry Room" />
+                  <MenuItem fx:id="garageItem" mnemonicParsing="false" onAction="#garageSelectedFromMenu" onMenuValidation="#garageSelectedFromMenu" text="Garage" />
+              </items>
+            </MenuButton>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="livingroompane" layoutY="138.0" prefHeight="364.0" prefWidth="400.0" visible="false">
+         <children>
+            <Label layoutX="141.0" layoutY="24.0" text="Living Room">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button layoutX="67.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button layoutX="236.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 1" />
+            <Button layoutX="66.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 2" />
+            <Button layoutX="236.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="TV" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="masterbrpane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
+         <children>
+            <Label layoutX="121.0" layoutY="27.0" text="Master Bedroom">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 1" />
+            <Button layoutX="65.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 2" />
+            <Button layoutX="235.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="TV" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="masterbathpane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
+         <children>
+            <Label layoutX="117.0" layoutY="27.0" text="Master Bathroom">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Exhaust Fan" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="halfbathpane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
+         <children>
+            <Label layoutX="130.0" layoutY="27.0" text="Half Bathroom">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Exhaust Fan" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="br1pane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
+         <children>
+            <Label layoutX="148.0" layoutY="27.0" text="Bedroom 1">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 1" />
+            <Button layoutX="150.0" layoutY="117.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 2" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="br2pane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
+         <children>
+            <Label layoutX="148.0" layoutY="31.0" text="Bedroom 2">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 1" />
+            <Button layoutX="150.0" layoutY="117.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 2" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="laundrypane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
+         <children>
+            <Label layoutX="131.0" layoutY="30.0" text="Laundry Room">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Washer" />
+            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Dryer" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="garagepane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
+         <children>
+            <Label layoutX="167.0" layoutY="31.0" text="Garage">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Door B" />
+            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Door A" />
+         </children>
+      </AnchorPane>
+      <Pane layoutY="498.0" prefHeight="14.0" prefWidth="400.0" style="-fx-background-color: #6664F2;" />
+   </children>
+</AnchorPane>

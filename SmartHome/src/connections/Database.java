@@ -1,6 +1,7 @@
 package connections;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Database {
 
@@ -40,37 +41,59 @@ public class Database {
 		}
 		return c;
 	}
-
-	static void getAllDevices(Connection c) throws SQLException, ClassNotFoundException {
-		// return all devices in the database
-		//will need to be updated when the device table is added
+	
+	static String getRoom(Connection c,int num) throws SQLException {
 		Statement stmt = c.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT * FROM KITCHEN;");
+		String name = "";
+		ResultSet rs = stmt.executeQuery("SELECT name FROM rooms WHERE id="+num +";");
 		while (rs.next()) {
-			String id = rs.getString("devices");
-			int name = rs.getInt("value");
-			System.out.println("NAME = " + id + ", VALUE = " + name);
+			name = rs.getString("name");
+		}
+		return name;
+	}
+
+	static ArrayList<Device> getAllDevices(Connection c) throws SQLException, ClassNotFoundException {
+		// return all devices in the database
+		ArrayList<Device> deviceList = new ArrayList<Device>();
+		Statement stmt = c.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM device;");
+		while (rs.next()) {
+			int id = rs.getInt("devices_id");
+			String name = rs.getString("device_name").trim();
+			String room = getRoom(c, rs.getInt("device_room"));
+			float elecCost = rs.getFloat("cost_per_min_electricity");
+			float waterCost = rs.getFloat("cost_per_min_water");
+			boolean state = rs.getBoolean("state");
+			deviceList.add(new Device(id,name,room,elecCost,waterCost, state));
 		}
 		rs.close();
 		stmt.close();
+		return deviceList;
 	}
 
-	void updateDeviceStatus(String DeviceName, boolean newStatus) {
+	void updateDeviceStatus(Connection c, int id, boolean newStatus) throws SQLException {
 		//update a device status
-		//Will not work until the database is updated
+		Statement stmt = c.createStatement();
+		stmt.executeUpdate("UPDATE devices SET state = "+newStatus+ " WHERE devices_id="+id+";");
+		c.commit();
+		stmt.close();
+	}
+	
+	static int getSetTemp(Connection c) throws SQLException {
+		return getTemp(c, "set_temp");
 	}
 	
 	static int getInternalTemp(Connection c) throws SQLException {
-		return getTemp(c, "'internal_temp'");
+		return getTemp(c, "internal_temp");
 	}
 	
 	static int getExternalTemp(Connection c) throws SQLException {
-		return getTemp(c, "'external_temp'");
+		return getTemp(c, "external_temp");
 	}
 	
 	static int getTemp(Connection c, String name) throws SQLException {
 		Statement stmt = c.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT value FROM TEMPERATURE WHERE name="+name+";");
+		ResultSet rs = stmt.executeQuery("SELECT value FROM temp WHERE name='"+name+"';");
 		rs.next();
 		int value = rs.getInt("value");
 		stmt.close();
@@ -78,17 +101,21 @@ public class Database {
 		return value;
 	}
 	
+	static void updateSetTemp(Connection c, int Temp) throws SQLException {
+		updateTemp(c, Temp, "set_temp");
+	}
+	
 	static void updateExternalTemp(Connection c, int Temp) throws SQLException {
-		updateTemp(c, Temp, "'external_temp'");
+		updateTemp(c, Temp, "external_temp");
 	}
 	
 	static void updateInternalTemp(Connection c, int Temp) throws SQLException {
-		updateTemp(c, Temp, "'internal_temp'");
+		updateTemp(c, Temp, "internal_temp");
 	}
 	
 	static void updateTemp(Connection c, int Temp, String name) throws SQLException {
 		Statement stmt = c.createStatement();
-		stmt.executeUpdate("UPDATE temperature SET value = "+Temp+ "WHERE name="+name+";");
+		stmt.executeUpdate("UPDATE temp SET value = "+Temp+ "WHERE name='"+name+"';");
 		c.commit();
 		stmt.close();
 	}
