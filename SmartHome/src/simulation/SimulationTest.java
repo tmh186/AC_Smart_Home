@@ -1,10 +1,11 @@
 package simulation;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 public class SimulationTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		
 		Simulations s = new Simulations();

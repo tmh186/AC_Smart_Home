@@ -1,5 +1,7 @@
 package simulation;
 
+import connections.Device;
+
 public class Event {
 	
 	Device device;

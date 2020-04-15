@@ -18,12 +18,12 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
-            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Dish Washer" />
-            <Button layoutX="65.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Stove" />
-            <Button layoutX="235.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Microwave" />
-            <Button layoutX="65.0" layoutY="169.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Refrigerator" />
-            <Button layoutX="235.0" layoutY="169.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Oven" />
+            <Button fx:id="kitchenoverheadlightButton" layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button fx:id="dishwasherButton" layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Dish Washer" />
+            <Button fx:id="stoveButton" layoutX="65.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Stove" />
+            <Button fx:id="microwaveButton" layoutX="235.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Microwave" />
+            <Button fx:id="refrigeratorButton" layoutX="65.0" layoutY="169.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Refrigerator" />
+            <Button fx:id="ovenButton" layoutX="235.0" layoutY="169.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Oven" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="headpane" prefHeight="138.0" prefWidth="400.0" style="-fx-background-color: white;">
@@ -51,10 +51,10 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button layoutX="67.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
-            <Button layoutX="236.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 1" />
-            <Button layoutX="66.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 2" />
-            <Button layoutX="236.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="TV" />
+            <Button fx:id="lroverheadlightButton" layoutX="67.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button fx:id="lrlampAButton" layoutX="236.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 1" />
+            <Button fx:id="lrLampBButton" layoutX="66.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 2" />
+            <Button fx:id="lrtvButton" layoutX="236.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="TV" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="masterbrpane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
@@ -64,10 +64,10 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
-            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 1" />
-            <Button layoutX="65.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 2" />
-            <Button layoutX="235.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="TV" />
+            <Button fx:id="masterbroverheadlightButton" layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button fx:id="masterbrlampAButton" layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 1" />
+            <Button fx:id="masterbrlampBButton" layoutX="65.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 2" />
+            <Button fx:id="masterbrtvButton" layoutX="235.0" layoutY="121.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="TV" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="masterbathpane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
@@ -77,8 +77,8 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
-            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Exhaust Fan" />
+            <Button fx:id="masterbathroomoverheadlightButton" layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button fx:id="masterbathroomfanButton" layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Exhaust Fan" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="halfbathpane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
@@ -88,8 +88,8 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
-            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Exhaust Fan" />
+            <Button fx:id="halfbathoverheadlightButton" layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button fx:id="halfbathfanButton" layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Exhaust Fan" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="br1pane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
@@ -99,9 +99,9 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
-            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 1" />
-            <Button layoutX="150.0" layoutY="117.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 2" />
+            <Button fx:id="br1overheadlightButton" layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button fx:id="br1lampAButton" layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 1" />
+            <Button fx:id="br1lampBButton" layoutX="150.0" layoutY="117.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 2" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="br2pane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
@@ -111,9 +111,9 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
-            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 1" />
-            <Button layoutX="150.0" layoutY="117.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 2" />
+            <Button fx:id="br2overheadlightButton" layoutX="66.0" layoutY="74.0" mnemonicParsing="false" text="Overhead Light" />
+            <Button fx:id="br2lampAButton" layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 1" />
+            <Button fx:id="br2lampBButton" layoutX="150.0" layoutY="117.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Lamp 2" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="laundrypane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
@@ -123,8 +123,8 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Washer" />
-            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Dryer" />
+            <Button fx:id="washerButton" layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Washer" />
+            <Button fx:id="dryerButton" layoutX="66.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Dryer" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="garagepane" layoutY="139.0" prefHeight="373.0" prefWidth="400.0" visible="false">
@@ -134,8 +134,8 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Button layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Door B" />
-            <Button layoutX="66.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Door A" />
+            <Button fx:id="garagedoorBButton" layoutX="235.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Door B" />
+            <Button fx:id="garagedoorAButton" layoutX="66.0" layoutY="74.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Door A" />
          </children>
       </AnchorPane>
       <Pane layoutY="498.0" prefHeight="14.0" prefWidth="400.0" style="-fx-background-color: #6664F2;" />
