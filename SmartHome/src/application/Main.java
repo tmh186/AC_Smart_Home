@@ -48,6 +48,7 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
+		//remove all through launch to remove database component
 		mainConnection = Database.initConnect();
 		try {
 			allDevices = Database.getAllDevices(mainConnection);
