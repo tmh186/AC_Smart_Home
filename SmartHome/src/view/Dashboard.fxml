@@ -243,7 +243,7 @@
           </Menu>
           <Menu fx:id="EditMenuOption" mnemonicParsing="false" text="Admin">
             <items>
-              <MenuItem fx:id="DebugOption" mnemonicParsing="false" onAction="#handleDebugOptionClick" text="Open Debug Window" />
+              <MenuItem fx:id="DebugOption" mnemonicParsing="false" onAction="#handleDebugOptionClick" text="Open Admin Window" />
             </items>
           </Menu>
           <Menu fx:id="HelpMenuOption" mnemonicParsing="false" text="Help">
