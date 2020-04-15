@@ -26,8 +26,7 @@ public class Device {
 	}
 	@Override
 	public String toString() {
-		return "Device [num=" + num + ", name=" + name + ", room=" + room + ", elecCost=" + elecCost + ", waterCost="
-				+ waterCost + ", state=" + state + "]";
+		return room + " "+ name;
 	}
 
 	public void setState(boolean state) {
