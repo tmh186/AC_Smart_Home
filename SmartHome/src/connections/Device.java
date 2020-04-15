@@ -19,16 +19,19 @@ public class Device {
 		this.waterCost = waterCost;
 		this.state = state;
 	}
+	//basic get and set methods as well as the toString methods
+	
 	public boolean isState() {
 		return state;
 	}
-	public void setState(boolean state) {
-		this.state = state;
-	}
-	//basic get and set methods as well as the toString methods
 	@Override
 	public String toString() {
-		return name;
+		return "Device [num=" + num + ", name=" + name + ", room=" + room + ", elecCost=" + elecCost + ", waterCost="
+				+ waterCost + ", state=" + state + "]";
+	}
+
+	public void setState(boolean state) {
+		this.state = state;
 	}
 
 	public int getNum() {

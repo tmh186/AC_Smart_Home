@@ -45,7 +45,7 @@ public class Database {
 	static String getRoom(Connection c,int num) throws SQLException {
 		Statement stmt = c.createStatement();
 		String name = "";
-		ResultSet rs = stmt.executeQuery("SELECT name FROM rooms WHERE id='"+num +";");
+		ResultSet rs = stmt.executeQuery("SELECT name FROM rooms WHERE id="+num +";");
 		while (rs.next()) {
 			name = rs.getString("name");
 		}
@@ -59,7 +59,7 @@ public class Database {
 		ResultSet rs = stmt.executeQuery("SELECT * FROM device;");
 		while (rs.next()) {
 			int id = rs.getInt("devices_id");
-			String name = rs.getString("device_name");
+			String name = rs.getString("device_name").trim();
 			String room = getRoom(c, rs.getInt("device_room"));
 			float elecCost = rs.getFloat("cost_per_min_electricity");
 			float waterCost = rs.getFloat("cost_per_min_water");
@@ -71,10 +71,10 @@ public class Database {
 		return deviceList;
 	}
 
-	void updateDeviceStatus(Connection c, String DeviceName, boolean newStatus) throws SQLException {
+	void updateDeviceStatus(Connection c, int id, boolean newStatus) throws SQLException {
 		//update a device status
 		Statement stmt = c.createStatement();
-		stmt.executeUpdate("UPDATE devices SET state = "+newStatus+ "WHERE device_name='"+DeviceName+"';");
+		stmt.executeUpdate("UPDATE devices SET state = "+newStatus+ " WHERE devices_id="+id+";");
 		c.commit();
 		stmt.close();
 	}
