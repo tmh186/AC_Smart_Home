@@ -1,7 +1,12 @@
 package connections;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class Database {
 
@@ -24,6 +29,13 @@ public class Database {
 		}
 		System.out.println("Opened database successfully");
 		c.close();
+	}
+	
+	
+	public static String getCurrentDate() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
+		LocalDateTime now = LocalDateTime.now();  
+		return dtf.format(now);
 	}
 	
 	//Create the connection for the application
@@ -110,6 +122,7 @@ public class Database {
 			boolean state = rs.getBoolean("state");
 			deviceList.add(new Device(id,name,room,elecCost,waterCost, state));
 		}
+		Collections.sort(deviceList);
 		rs.close();
 		stmt.close();
 		return deviceList;
