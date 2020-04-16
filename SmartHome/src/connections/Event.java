@@ -1,5 +1,8 @@
 package connections;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 
 public class Event {
@@ -11,6 +14,19 @@ public class Event {
 		// TODO Auto-generated constructor stub
 		this.device = a;
 		this.tp = tp;
+	}
+	
+	public void updateDB(Statement stmt) throws SQLException {
+		ResultSet rs = stmt.executeQuery("SELECT * FROM day_events WHERE device_id="+ this.getDevice().getNum());
+		if (rs.next()) {
+			stmt.executeUpdate("UPDATE day_events SET event_time="+ this.getTp().toString()
+					+ " WHERE device_id="+ this.getDevice().getNum());
+		}
+		else {
+			stmt.executeUpdate("INSERT INTO day_events (device_id, event_time, state_change) "
+					      + "VALUES("+this.getDevice().getNum()+", '"+this.getTp().toString()+"', true)");
+		}
+		rs.close();
 	}
 
 	public Timestamp getTp() {

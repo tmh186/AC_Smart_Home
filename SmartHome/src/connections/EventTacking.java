@@ -1,6 +1,8 @@
 package connections;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -15,6 +17,15 @@ public class EventTacking {
 		EventTracking = new ArrayList<Event>();
 	}
 	
+	public void exportToDatabase(Connection c) throws SQLException {
+		Statement stmt = c.createStatement();
+		for (Event e : EventTracking) {
+			e.updateDB(stmt);
+		}
+		c.commit();
+		stmt.close();
+	}
+	
 	public Event getEvent(Device curDevice) {
 		for(int i = 0; i < EventTracking.size(); i++) {
 			if (EventTracking.get(i).getDevice().getName().equals(curDevice.getName())) {
@@ -24,6 +35,9 @@ public class EventTacking {
 		return null;
 	}
 	
+	public Event getEvent(int i) {
+		return EventTracking.get(i);
+	}
 	
 	public void turnDeviceOn(Device curDevice) {
 		if (curDevice.isState()) {

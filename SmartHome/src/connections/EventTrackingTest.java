@@ -17,7 +17,7 @@ public class EventTrackingTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		c.close();
+		//c.close();
 		if (a == null) {
 			System.out.println("null device list");
 			System.exit(0);
@@ -27,11 +27,14 @@ public class EventTrackingTest {
 		System.out.println(a.get(1));
 		System.out.println(a.get(24));
 		current.turnDeviceOn(a.get(1));
+		System.out.println(current.getEvent(0).getTp().toString());
 		current.turnDeviceOn(a.get(24));
-		Thread.sleep(60000); //wait one minute
-		current.turnDeviceOff(a.get(1), curBill);
-		current.turnDeviceOff(a.get(24), curBill);
-		System.out.println(curBill);
-		System.out.println(current);//Should be empty by the end
+		current.exportToDatabase(c);
+		c.close();
+//		Thread.sleep(60000); //wait one minute
+//		current.turnDeviceOff(a.get(1), curBill);
+//		current.turnDeviceOff(a.get(24), curBill);
+//		System.out.println(curBill);
+//		System.out.println(current);//Should be empty by the end
 	}
 }
