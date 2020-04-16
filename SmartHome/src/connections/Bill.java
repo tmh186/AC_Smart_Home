@@ -16,8 +16,8 @@ public class Bill {
 	public Bill(Date date, double water, double elec) {
 		// TODO Auto-generated constructor stub
 		this.date = date;
-		this.totalElec = water;
-		this.totalWater = elec;
+		this.totalElec = elec;
+		this.totalWater = water;
 	}
 	
 	/**
@@ -27,7 +27,7 @@ public class Bill {
 	 * @return the appropriate bill for the day
 	 * @throws SQLException
 	 */
-	public Bill getCurrentBill(ArrayList<Bill> bills) throws SQLException {
+	public static Bill getCurrentBill(ArrayList<Bill> bills) throws SQLException {
 		String cDate = Database.getCurrentDate();
 		for (int i = 0; i < bills.size(); i++) {
 			if (bills.get(i).getDate().equals(Date.valueOf(cDate))) {
