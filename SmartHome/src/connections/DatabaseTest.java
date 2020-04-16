@@ -20,9 +20,10 @@ public class DatabaseTest {
 		Database.updateInternalTemp(c, 0);
 		System.out.println("External Temp: "+Database.getExternalTemp(c));
 		System.out.println(Database.getAllBills(c));
-		Bill b = new Bill(Date.valueOf("2019-4-19"), 12.9, 12);
-		Database.updateBillArchive(c, b);
-		System.out.println(Database.getAllBills(c));
+		System.out.println(Database.getAllRooms(c));
+		//Bill b = new Bill(Date.valueOf("2019-4-19"), 12.9, 12);
+		//Database.updateBillArchive(c, b);
+		//System.out.println(Database.getAllBills(c));
 		c.close();
 	}
 

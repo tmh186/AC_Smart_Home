@@ -42,6 +42,16 @@ public class Database {
 		return c;
 	}
 	
+	static ArrayList<String> getAllRooms(Connection c) throws SQLException {
+		ArrayList<String> rooms = new ArrayList<String>();
+		Statement stmt = c.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT name FROM rooms;");
+		while (rs.next()) {
+			rooms.add(rs.getString("name"));
+		}
+		return rooms;
+	}
+	
 	static String getRoom(Connection c,int num) throws SQLException {
 		Statement stmt = c.createStatement();
 		String name = "";
