@@ -363,7 +363,7 @@ public class ViewController extends Main {
 	 * Put things here you'd like to happen before UI is shown to user
 	 */
     @FXML
-    public void initialize() {
+    public void initialize(){
     	//Left partition is default screen, move split pane out of way
     	BaseSplitPane.setDividerPosition(0, 1.0); //0, 1.0
     	
@@ -372,7 +372,12 @@ public class ViewController extends Main {
     	OutdoorTempLabel.setText(outdoortemp + "°F");
     	
     	//Update indoor temp label
-    	IndoorTempLabel.setText("00.00" + "°F");
+    	try {
+			IndoorTempLabel.setText(Database.getInternalTemp(mainConnection) + "°F");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     	
     	//Thermostat and indoor temp are initially the same?
     	//thermostatTemp = getIndoorTemp
