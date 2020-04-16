@@ -92,10 +92,94 @@ public class ViewController extends Main {
 	public AnchorPane LeftPartition;
 	@FXML
 	public ImageView FloorPlanImageView;
+	/*
+	 * Doors
+	 * door open: set imageurl = ..\opendoor.png
+	 * door closed: set imagelocation = ..\closeddoor.png
+	 */
 	@FXML
-	public ImageView GarageDoorAopen;
+	public ImageView garage1door;
 	@FXML
-	public ImageView GarageDoorAclosed;
+	public ImageView garage2door;
+	@FXML
+	public ImageView garage3door;
+	@FXML
+	public ImageView frontdoor;
+	@FXML
+	public ImageView masterbedroomdoor;
+	@FXML
+	public ImageView halfbathdoor;
+	@FXML
+	public ImageView br1door;
+	@FXML
+	public ImageView br2door;
+	@FXML
+	public ImageView laundrydoor;
+	@FXML
+	public ImageView backdoor;
+	/*
+	 * Lights
+	 * on: setVisibility(true)
+	 * off: setVisibility(false)
+	 */
+	@FXML
+	public ImageView br1lampA;
+	@FXML
+	public ImageView br1lampB;
+	@FXML
+	public ImageView br1overheadlamp;
+	@FXML
+	public ImageView br2lampA;
+	@FXML
+	public ImageView br2lampB;
+	@FXML
+	public ImageView br2overheadlamp;
+	@FXML
+	public ImageView kitchenoverheadlamp;
+	@FXML
+	public ImageView livingroomlampA;
+	@FXML
+	public ImageView livingroomoverheadlamp;
+	@FXML
+	public ImageView livingroomlampB;
+	@FXML
+	public ImageView masterbedroomlampA;
+	@FXML
+	public ImageView masterbedroomlampB;
+	@FXML
+	public ImageView masterbedroomoverheadlamp;
+	@FXML
+	public ImageView masterbathoverheadlamp;
+	@FXML
+	public ImageView halfbathoverheadlamp;
+	/*
+	 * Appliances
+	 * on: set imageurl = ..\running.png
+	 * off: set imageurl = ..\stopped.png
+	 */
+	@FXML
+	public ImageView dishwasher;
+	@FXML
+	public ImageView microwave;
+	@FXML
+	public ImageView stove;
+	@FXML
+	public ImageView fridge;
+	@FXML
+	public ImageView livingroomtv;
+	@FXML
+	public ImageView masterbrtv;
+	@FXML
+	public ImageView halfbathfan;
+	@FXML
+	public ImageView washer;
+	@FXML
+	public ImageView dryer;
+	@FXML
+	public ImageView masterbathfan;
+/*
+ * End of floorplan
+ */
 	@FXML
 	public Pane tempPane;
 	@FXML
