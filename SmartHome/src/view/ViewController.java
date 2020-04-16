@@ -135,7 +135,7 @@ public class ViewController extends Main {
 	@FXML
 	public ImageView br2overheadlamp;
 	@FXML
-	public ImageView kitchenoverheadlamp;
+	public static ImageView kitchenoverheadlamp;
 	@FXML
 	public ImageView livingroomlampA;
 	@FXML
@@ -192,14 +192,18 @@ public class ViewController extends Main {
 	public Label OutdoorTempLabel; //Displays current outdoor temp value
 	@FXML
 	public Label IndoorTempLabel; //Displays current indoor temp value
+	
 	@FXML
-	public Pane energyPane;
+	public Pane hvacPane;
 	@FXML
-	public Label EnergyUsageTitle;
+	public ImageView hvacIcon;
 	@FXML
-	public ImageView energyicon;
+	public Label hvacstatusLabel; //Displays current hvac status 
 	@FXML
-	public Label EnergyLabel; //Displays current energy 
+	public ImageView waterheaterIcon;
+	@FXML
+	public Label waterheaterstatusLabel; //Displays current water heater status 
+	
 	@FXML
 	public Pane theromstatPane;
 	@FXML
@@ -281,8 +285,8 @@ public class ViewController extends Main {
 		LanguageMenuOption.setText(getWord("LanguageMenuOption"));
 		EnglishOption.setText(getWord("EnglishOption"));
 		JapaneseOption.setText(getWord("JapaneseOption"));
-		
-		EnergyUsageTitle.setText(getWord("EnergyUsageTitle"));
+		//TODO energyPane has become hvacPane
+		//EnergyUsageTitle.setText(getWord("EnergyUsageTitle"));
 		TempTitle.setText(getWord("TempTitle"));
 		IndoorTempTitle.setText(getWord("IndoorTempTitle"));
 		OutdoorTempTitle.setText(getWord("OutdoorTempTitle"));
@@ -319,8 +323,8 @@ public class ViewController extends Main {
 		LanguageMenuOption.setText(getWord("LanguageMenuOption"));
 		EnglishOption.setText(getWord("EnglishOption"));
 		JapaneseOption.setText(getWord("JapaneseOption"));
-		
-		EnergyUsageTitle.setText(getWord("EnergyUsageTitle"));
+		//TODO energyPane has become hvacPane
+		//EnergyUsageTitle.setText(getWord("EnergyUsageTitle"));
 		TempTitle.setText(getWord("TempTitle"));
 		IndoorTempTitle.setText(getWord("IndoorTempTitle"));
 		OutdoorTempTitle.setText(getWord("OutdoorTempTitle"));
@@ -471,6 +475,15 @@ public class ViewController extends Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	
+    	//HVAC and water heater
+    	/*try {
+    		hvacstatusLabel.setText(Database.get);
+    	} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
     	
     	//Graph
     	xAxis.setLabel("Date");
