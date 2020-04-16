@@ -15,6 +15,14 @@ public class Bill {
 		this.totalWater = elec;
 	}
 	
+	public void addWater(double value) {
+		this.totalWater += value;
+	}
+	
+	public void addElec(double value) {
+		this.totalElec += value;
+	}
+	
 	public double getTotal() {
 		return totalElec + totalWater;
 	}
