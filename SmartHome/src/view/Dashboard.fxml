@@ -80,19 +80,35 @@
                         <Image url="@../opendoor.png" />
                      </image>
                   </ImageView>
-                  <Pane fx:id="energyPane" layoutX="528.0" layoutY="299.0" prefHeight="163.0" prefWidth="229.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, grey, 9, 0, 0, 0);">
+                  <Pane fx:id="hvacPane" layoutX="528.0" layoutY="299.0" prefHeight="163.0" prefWidth="229.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, grey, 9, 0, 0, 0);">
                      <children>
-                        <Label fx:id="EnergyUsageTitle" layoutX="51.0" layoutY="14.0" text="Energy Usage">
+                        <Label layoutX="39.0" layoutY="14.0" prefHeight="26.0" prefWidth="49.0" text="HVAC">
                            <font>
-                              <Font name="System Bold" size="20.0" />
+                              <Font name="System Bold" size="17.0" />
                            </font>
                         </Label>
-                        <ImageView fx:id="energyicon" fitHeight="62.0" fitWidth="64.0" layoutX="19.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="hvacIcon" fitHeight="62.0" fitWidth="64.0" layoutX="30.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../hvac_fan.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="EnergyLabel" layoutX="76.0" layoutY="120.0" prefHeight="30.0" prefWidth="75.0" text="0.0 kw/hr" textAlignment="CENTER">
+                        <Label fx:id="hvacstatusLabel" layoutX="27.0" layoutY="119.0" prefHeight="30.0" prefWidth="75.0" text="DEFAULT" textAlignment="CENTER">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Separator layoutX="112.0" layoutY="50.0" orientation="VERTICAL" prefHeight="62.0" prefWidth="6.0" />
+                        <Label layoutX="112.0" layoutY="14.0" prefHeight="26.0" prefWidth="114.0" text="Water Heater">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Label>
+                        <ImageView fx:id="waterheaterIcon" fitHeight="62.0" fitWidth="64.0" layoutX="137.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../hotwaterheater.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="waterheaterstatusLabel" layoutX="132.0" layoutY="119.0" prefHeight="30.0" prefWidth="75.0" text="DEFAULT" textAlignment="CENTER">
                            <font>
                               <Font size="17.0" />
                            </font>
