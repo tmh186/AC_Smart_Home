@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import connections.Bill;
 import connections.Database;
 import connections.Device;
+import connections.EventTacking;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,6 +31,9 @@ public class Main extends Application {
 	
 	public static Connection mainConnection;
 	public static ArrayList<Device> allDevices;
+	public static ArrayList<Bill> billarchive;
+	public static Bill curBill;
+	public static EventTacking eventTrack;
 	
 	@Override
 	public void start(Stage stage) {
@@ -52,6 +57,9 @@ public class Main extends Application {
 		mainConnection = Database.initConnect();
 		try {
 			allDevices = Database.getAllDevices(mainConnection);
+			billarchive = Database.getAllBills(mainConnection);
+			curBill = Bill.getCurrentBill(billarchive);
+			eventTrack = new EventTacking(allDevices);
 		} catch (ClassNotFoundException| SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
