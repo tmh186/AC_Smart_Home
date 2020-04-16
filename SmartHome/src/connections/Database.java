@@ -42,6 +42,16 @@ public class Database {
 		return c;
 	}
 	
+	static ArrayList<String> getAllRooms(Connection c) throws SQLException {
+		ArrayList<String> rooms = new ArrayList<String>();
+		Statement stmt = c.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT name FROM rooms;");
+		while (rs.next()) {
+			rooms.add(rs.getString("name"));
+		}
+		return rooms;
+	}
+	
 	static String getRoom(Connection c,int num) throws SQLException {
 		Statement stmt = c.createStatement();
 		String name = "";
@@ -51,9 +61,43 @@ public class Database {
 		}
 		return name;
 	}
-
+	
+	static void updateBillArchive(Connection c, Bill b) throws SQLException {
+		Statement stmt = c.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT bill_archive_date FROM bill_archive"
+				+ " WHERE bill_archive_date='"+ b.getDate()+"';");
+		if(rs.next()) {
+			stmt.executeUpdate("UPDATE bill_archive SET water_usage = "+b.getTotalWater()+ 
+					", electricity_usage="+ b.getTotalElec()+
+					"  WHERE bill_archive_date='"+b.getDate()+"';");
+		}
+		else {
+			stmt.executeUpdate("INSERT INTO bill_archive (bill_archive_date,water_usage,electricity_usage)"
+					+ "VALUES ('" +b.getDate()+"',"+b.getTotalWater()+","+b.getTotalElec() +");");
+		}
+		c.commit();
+		stmt.close();
+	}
+	
+	public static ArrayList<Bill> getAllBills(Connection c) throws SQLException{
+		ArrayList<Bill> bills = new ArrayList<Bill>();
+		Statement stmt = c.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM bill_archive;");
+		while (rs.next()) {
+			Date date = rs.getDate("bill_archive_date");
+			double water = rs.getDouble("water_usage");
+			double elec = rs.getDouble("electricity_usage");
+			bills.add(new Bill(date,water,elec));
+		}
+		rs.close();
+		stmt.close();
+		return bills;
+	}
+	
 	public static ArrayList<Device> getAllDevices(Connection c) throws SQLException, ClassNotFoundException {
-		// return all devices in the database
+		// return all devices in the database in a list
+		//this will run at launch to get all device states
+		//this will also be used to get all the connected devices
 		ArrayList<Device> deviceList = new ArrayList<Device>();
 		Statement stmt = c.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM device;");

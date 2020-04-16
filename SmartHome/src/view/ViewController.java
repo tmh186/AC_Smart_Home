@@ -1,6 +1,7 @@
 package view;
 
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import com.sun.media.jfxmedia.events.NewFrameEvent;
 
 import application.Date;
 import application.Main;
-
+import connections.Database;
 import connections.Weather;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -91,10 +92,94 @@ public class ViewController extends Main {
 	public AnchorPane LeftPartition;
 	@FXML
 	public ImageView FloorPlanImageView;
+	/*
+	 * Doors
+	 * door open: set imageurl = ..\opendoor.png
+	 * door closed: set imagelocation = ..\closeddoor.png
+	 */
 	@FXML
-	public ImageView GarageDoorAopen;
+	public ImageView garage1door;
 	@FXML
-	public ImageView GarageDoorAclosed;
+	public ImageView garage2door;
+	@FXML
+	public ImageView garage3door;
+	@FXML
+	public ImageView frontdoor;
+	@FXML
+	public ImageView masterbedroomdoor;
+	@FXML
+	public ImageView halfbathdoor;
+	@FXML
+	public ImageView br1door;
+	@FXML
+	public ImageView br2door;
+	@FXML
+	public ImageView laundrydoor;
+	@FXML
+	public ImageView backdoor;
+	/*
+	 * Lights
+	 * on: setVisibility(true)
+	 * off: setVisibility(false)
+	 */
+	@FXML
+	public ImageView br1lampA;
+	@FXML
+	public ImageView br1lampB;
+	@FXML
+	public ImageView br1overheadlamp;
+	@FXML
+	public ImageView br2lampA;
+	@FXML
+	public ImageView br2lampB;
+	@FXML
+	public ImageView br2overheadlamp;
+	@FXML
+	public ImageView kitchenoverheadlamp;
+	@FXML
+	public ImageView livingroomlampA;
+	@FXML
+	public ImageView livingroomoverheadlamp;
+	@FXML
+	public ImageView livingroomlampB;
+	@FXML
+	public ImageView masterbedroomlampA;
+	@FXML
+	public ImageView masterbedroomlampB;
+	@FXML
+	public ImageView masterbedroomoverheadlamp;
+	@FXML
+	public ImageView masterbathoverheadlamp;
+	@FXML
+	public ImageView halfbathoverheadlamp;
+	/*
+	 * Appliances
+	 * on: set imageurl = ..\running.png
+	 * off: set imageurl = ..\stopped.png
+	 */
+	@FXML
+	public ImageView dishwasher;
+	@FXML
+	public ImageView microwave;
+	@FXML
+	public ImageView stove;
+	@FXML
+	public ImageView fridge;
+	@FXML
+	public ImageView livingroomtv;
+	@FXML
+	public ImageView masterbrtv;
+	@FXML
+	public ImageView halfbathfan;
+	@FXML
+	public ImageView washer;
+	@FXML
+	public ImageView dryer;
+	@FXML
+	public ImageView masterbathfan;
+/*
+ * End of floorplan
+ */
 	@FXML
 	public Pane tempPane;
 	@FXML
@@ -362,7 +447,7 @@ public class ViewController extends Main {
 	 * Put things here you'd like to happen before UI is shown to user
 	 */
     @FXML
-    public void initialize() {
+    public void initialize(){
     	//Left partition is default screen, move split pane out of way
     	BaseSplitPane.setDividerPosition(0, 1.0); //0, 1.0
     	
@@ -371,10 +456,21 @@ public class ViewController extends Main {
     	OutdoorTempLabel.setText(outdoortemp + "°F");
     	
     	//Update indoor temp label
-    	IndoorTempLabel.setText("00.00" + "°F");
+    	try {
+			IndoorTempLabel.setText(Database.getInternalTemp(mainConnection) + "°F");
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     	
     	//Thermostat and indoor temp are initially the same?
     	//thermostatTemp = getIndoorTemp
+    	try {
+			thermostatSlider.setValue(Database.getSetTemp(mainConnection));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
     	//Graph
     	xAxis.setLabel("Date");
