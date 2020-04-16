@@ -14,4 +14,9 @@ public class Event {
 		this.status = s;
 		
 	}
+	//Added to help see the SimulationTest results
+	public String toString(){
+		return device.toString() + "->" + hour+ "h->" + status;
+		
+	}
 }
