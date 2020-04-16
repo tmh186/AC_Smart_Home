@@ -1,6 +1,11 @@
 package connections;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Bill {
 
@@ -13,6 +18,24 @@ public class Bill {
 		this.date = date;
 		this.totalElec = water;
 		this.totalWater = elec;
+	}
+	
+	/**
+	 * This will return the bill that is already in the database for this day 
+	 * or it will return a new bill for this current date
+	 * @param bills , list of all current bills in the database
+	 * @return the appropriate bill for the day
+	 * @throws SQLException
+	 */
+	public Bill getCurrentBill(ArrayList<Bill> bills) throws SQLException {
+		String cDate = Database.getCurrentDate();
+		for (int i = 0; i < bills.size(); i++) {
+			if (bills.get(i).getDate().equals(Date.valueOf(cDate))) {
+				return bills.get(i);
+			}
+		}
+		return new Bill(Date.valueOf(cDate), 0.00, 0.00);
+		
 	}
 	
 	public void addWater(double value) {
