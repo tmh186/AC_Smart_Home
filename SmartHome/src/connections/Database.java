@@ -53,7 +53,9 @@ public class Database {
 	}
 
 	public static ArrayList<Device> getAllDevices(Connection c) throws SQLException, ClassNotFoundException {
-		// return all devices in the database
+		// return all devices in the database in a list
+		//this will run at launch to get all device states
+		//this will also be used to get all the connected devices
 		ArrayList<Device> deviceList = new ArrayList<Device>();
 		Statement stmt = c.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM device;");
