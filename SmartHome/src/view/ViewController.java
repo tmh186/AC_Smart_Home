@@ -1,6 +1,7 @@
 package view;
 
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import com.sun.media.jfxmedia.events.NewFrameEvent;
 
 import application.Date;
 import application.Main;
-
+import connections.Database;
 import connections.Weather;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -375,6 +376,12 @@ public class ViewController extends Main {
     	
     	//Thermostat and indoor temp are initially the same?
     	//thermostatTemp = getIndoorTemp
+    	try {
+			thermostatSlider.setValue(Database.getSetTemp(mainConnection));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
     	//Graph
     	xAxis.setLabel("Date");
