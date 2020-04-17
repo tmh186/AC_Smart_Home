@@ -9,8 +9,6 @@ public class Event {
 
 	private Timestamp tp;
 	private Device device;
-	double h;
-	boolean b;
 
 	public Event(Device a, Timestamp tp) {
 		// TODO Auto-generated constructor stub
@@ -18,13 +16,6 @@ public class Event {
 		this.tp = tp;
 	}
 	
-	public Event(Device device2, double hour, boolean b) {
-		// TODO Auto-generated constructor stub
-		this.device=device2;
-		this.h = hour;
-		this.b = b;
-	}
-
 	/**
 	 * updates the day_events table with all of the events that took place and update those that exist
 	 * @param stmt, linked to the connection to the database
@@ -62,11 +53,6 @@ public class Event {
 	@Override
 	public String toString() {
 		return "Event [tp=" + tp + ", device=" + device + "]";
-	}
-
-	public double getHour() {
-		// TODO Auto-generated method stub
-		return this.h;
 	}
 
 }

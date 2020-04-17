@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import connections.Device;
-import connections.Event;
 
 public class Simulations {
 		
@@ -40,14 +39,6 @@ public class Simulations {
 		// Everyone up and moving -- Weekends 7:00am to 11:00pm
 		// Morning everyone showers, brushes teeth, eats breakfast (cold) 
 	
-		
-	/*
-	 * Method to turn all devices off. We will use this at times where everyone leaves or 
-	 * goes to bed 
-	 * 
-	 * params: hour -- the hour of the day
-	 * returns: Array of events corresponding to turning everything currently on off
-	 */
 	public ArrayList<Event> everythingOff(double hour){
 		ArrayList<Event> e = new ArrayList<Event>();
 		
@@ -63,17 +54,7 @@ public class Simulations {
 		
 		return e;
 	}
-	
-	
-	/*
-	 * Method to generate random power events into an array
-	 * These events include lights and fans
-	 * Multiplier 1-4 determines how many people are home
-	 * more people = more chance of an event 
-	 * 
-	 * params: days -- weekend or weekday
-	 */
-	public ArrayList<Event> randomPowerEvents(String days) {
+	public ArrayList<Event> randomPowerCosts(String days) {
 		
 		// Basic idea here:
 		// Create device for all random variable things
@@ -122,13 +103,17 @@ public class Simulations {
 					if (num < (15*multiplier)) { //15/100 times the number of people in the house determine the event
 						index = rand.nextInt(17);
 						this.devices.get(index).changeState();
-						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).isState()));			
+						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).isState()));
+						
 					}
 					else {
 						continue;
 					}
+					
 				}
 			}
+			
+			
 			if (days.contentEquals("weekday")) {
 				if (hour < 5.00 || hour > 22.50) {
 					continue;
@@ -152,7 +137,8 @@ public class Simulations {
 						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).isState()));
 					}
 				}else {continue;}
-				
+			
+					
 				if (hour == 7.50) {
 					e.addAll(everythingOff(hour));
 				}
@@ -187,72 +173,26 @@ public class Simulations {
 						e.add(new Event(this.devices.get(index), hour, this.devices.get(index).isState()));
 					}else {continue;}
 				}
+				
 				if (hour == 22.50) {
 					e.addAll(everythingOff(hour));
-					}		
+					}
+					
 				else {
 					continue;
 				}
 			}
 		}
+		
 		return e;
+
 	}
 	
-	/*
-	 * Used alongside randomPowerEvents() to calculate the cost of the 
-	 * parameterized random event array 
-	 */
-	public double calculateRandomPowerCost(ArrayList<Event> e) {
-		double cost = 0;
-		double lighthrs;
-		double fanhrs;
-		double watts =0;
-		int onLight = 0;
-		int offLight = 0;
-		int onFan = 0;
-		int offFan = 0;
-		
-		for (Event i : e) {
-			if (i.getDevice().getName().substring(0,1).contentEquals("l")) {
-				if (i.getDevice().isState() == true) {
-					onLight += i.getHour();
-					continue;
-				}
-				else {
-					offLight += i.getHour();
-					continue;
-				}
-			}
-			
-			else {
-				if (i.getDevice().isState() == true) {
-					onFan += i.getHour();
-					continue;
-				}
-				else {
-					offFan += i.getHour();
-					continue;
-				}
-			}
-			
-		}
-		
-		
-		watts += (Math.abs(offLight - onLight) * 60);
-//		System.out.println(watts);
-		watts += (Math.abs(offFan - onFan) * 30);
-//		System.out.println(watts);
-		
-		cost = (watts/10000) * 0.12;
-		
-		return cost;
-		
-	}
 	
-	/*
-	 * Determine how many watts are taken in water heating on a given day
-	 * params: days - weekend or weekday
-	 */
+	
+		
+	
+	
 	public int waterWatts(String days) {
 		// hot water heater takes 4500w/hr
 		// 4 mins per 1 gal water 
@@ -286,16 +226,13 @@ public class Simulations {
 			
 			return watts;
 		}
-
+		
 		return 0;
+		
+		
+		
 	}
 	
-	
-	/*
-	 * Calculate non randomized power cost based on the usage and day of the weeks
-	 * 
-	 * params: days -- weekend or weekday
-	 */
 	public double powerCostFixed(String days) {
 		//Some assumptions
 		//Fridge is always on - dishes and laundry are done on weekends for simplicity (2 per day) 
@@ -339,10 +276,8 @@ public class Simulations {
 		return 0;
 	}
 	
-	/*
-	 * Cost of just water for a given day. 
-	 * params: days -- weekend or weekday
-	 */
+	
+		
 	public double waterCost(String days) { // this is JUST for water costs and power related to water items will
 		//be calculated in another function
 		double cost;
@@ -374,4 +309,8 @@ public class Simulations {
 		}
 	}
 		
+		
+	
+
+
 }
