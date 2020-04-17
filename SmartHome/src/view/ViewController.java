@@ -365,6 +365,7 @@ public class ViewController extends Main {
 	 */
 	@FXML
 	public void handleExit(ActionEvent e) throws InterruptedException {
+		Main.havcOp.interrupt();
 		System.exit(0);
 	}
 	
@@ -403,10 +404,15 @@ public class ViewController extends Main {
 	@FXML
 	public void handleThermostatChange(MouseEvent e) throws InterruptedException {
 		Double thermostatTemp = thermostatSlider.getValue();
-		
+		try {
+			Database.updateSetTemp(mainConnection, thermostatTemp.intValue());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		//Updating the indoor temp label for testing purposes
-		String thermostatTempUI = String.valueOf(thermostatTemp);
-		IndoorTempLabel.setText(thermostatTempUI + "°F");
+//		String thermostatTempUI = String.valueOf(thermostatTemp);
+//		IndoorTempLabel.setText(thermostatTempUI + "°F");
 	}
 	
 	/*
@@ -450,6 +456,7 @@ public class ViewController extends Main {
 	/*
 	 * Put things here you'd like to happen before UI is shown to user
 	 */
+	
     @FXML
     public void initialize(){
     	//Left partition is default screen, move split pane out of way
