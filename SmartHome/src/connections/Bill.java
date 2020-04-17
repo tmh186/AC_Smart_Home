@@ -41,7 +41,7 @@ public class Bill {
 	public void addElec(double value) {
 		this.totalElec += value;
 	}
-	
+
 	public double getTotal() {
 		return totalElec + totalWater;
 	}

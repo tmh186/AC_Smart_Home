@@ -11,9 +11,13 @@ public class Date {
 	public Double total;
 	
 	public Double temp;
+	//bill time frame (used if adding multiple date data to graph)
+	public String timeframeString;
 	
 	public Date() {
-		
+		setWater(0.0);
+		setElectricity(0.0);
+		setTotal(0.0);
 	}
 	
 	public Date(int day, int month, int year) {
@@ -25,7 +29,7 @@ public class Date {
 	public Date(Double water, Double electricity) {
 		setWater(water);
 		setElectricity(electricity);
-		setTotal(calcTotal(getElectricity(), getWater()));
+		setTotal(calcTotal());
 	}
 	
 	public Date(int day, int month, int year, Double water, Double electricity) {
@@ -34,7 +38,7 @@ public class Date {
 		setYear(year);
 		setWater(water);
 		setElectricity(electricity);
-		setTotal(calcTotal(getElectricity(), getWater()));
+		setTotal(calcTotal());
 	}
 	
 	public void setDay(int d) {
@@ -85,7 +89,7 @@ public class Date {
 		return total;
 	}
 	
-	public Double calcTotal(Double electricity, Double water) {
+	public Double calcTotal() {
 		return electricity+water;
 	}
 	
@@ -99,6 +103,14 @@ public class Date {
 	
 	public String dateToString() {
 		return month+"/"+day;
+	}
+	
+	public void setTimeFrameString(String s) {
+		timeframeString=s;
+	}
+	
+	public String getTimeFrameString() {
+		return timeframeString;
 	}
 
 }

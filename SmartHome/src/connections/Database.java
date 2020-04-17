@@ -100,6 +100,7 @@ public class Database {
 	 * @param b, current Bill information to update to in database
 	 * @throws SQLException
 	 */
+
 	public static void updateBillArchive(Connection c, Bill b) throws SQLException {
 		Statement stmt = c.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT bill_archive_date FROM bill_archive"
