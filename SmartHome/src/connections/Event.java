@@ -21,6 +21,12 @@ public class Event {
 	 * @param stmt, linked to the connection to the database
 	 * @throws SQLException
 	 */
+	public Event(Device a, double h, boolean status) {
+		this.device = a;
+		this.hour = h;
+		this.status = status;
+	}
+	
 	public void updateDB(Statement stmt) throws SQLException {
 		ResultSet rs = stmt.executeQuery("SELECT * FROM day_events WHERE device_id="+ this.getDevice().getNum());
 		if (rs.next()) {
@@ -48,6 +54,10 @@ public class Event {
 
 	public void setDevice(Device device) {
 		this.device = device;
+	}
+	
+	public double getHour() {
+		return this.hour;
 	}
 
 	@Override
