@@ -35,6 +35,7 @@ public class HvacNormal extends Thread {
 					running = true;
 					Database.updateInternalTemp(mainC, (int) internalTemp - 1);
 					Thread.sleep(60000);
+					Database.addtoBillRecord(mainC, Date.valueOf(Database.getCurrentDate()), hvac.getWaterCost(), hvac.getElecCost());
 				}
 				else {
 					running = false;
