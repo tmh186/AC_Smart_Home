@@ -467,9 +467,9 @@ public class ViewController extends Main {
 		Double total=0.0;
 				
 		for (Date date : tempArray) {
-			totalWater=totalWater + date.getWater();
-			totalElectricity=totalElectricity + date.getElectricity();
-			total=total + date.getTotal();
+			totalWater=totalWater + date.getBill().getTotalWater();
+			totalElectricity=totalElectricity + date.getBill().getTotalElec();
+			total=total + date.getBill().getTotal();
 		}
 				
 		ElectricDialog.setContentText("$" + d.format(totalElectricity));
