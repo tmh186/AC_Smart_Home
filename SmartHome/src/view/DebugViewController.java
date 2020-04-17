@@ -267,210 +267,210 @@ public class DebugViewController {
 	public void bedroom1overheadLightButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(1);
+		buttonActions(0);
 	}
 
 	@FXML
 	public void bedroom1LampAButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(2);
+		buttonActions(1);
 	}
 
 	@FXML
 	public void bedroom1LampBButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(3);
+		buttonActions(2);
 	}
 
 	@FXML
 	public void bedroom2overheadLightButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(4);
+		buttonActions(3);
 	}
 
 	@FXML
 	public void bedroom2LampAButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(5);
+		buttonActions(4);
 	}
 
 	@FXML
 	public void bedroom2LamBButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(6);
+		buttonActions(5);
 	}
 
 	@FXML
 	public void masterbedroomTVButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(7);
+		buttonActions(6);
 	}
 
 	@FXML
 	public void masterbedroomOverheadLightButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(8);
+		buttonActions(7);
 	}
 
 	@FXML
 	public void masterbedroomLampAButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(9);
+		buttonActions(8);
 	}
 
 	@FXML
 	public void masterbedroomLampBButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(10);
+		buttonActions(9);
 	}
 
 	@FXML
 	public void masterBathOverheadLightButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(11);
+		buttonActions(10);
 	}
 
 	@FXML
 	public void masterBathFanButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(12);
+		buttonActions(11);
 	}
 
 	@FXML
 	public void masterBathShowerButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(13);
+		buttonActions(12);
 	}
 
 	@FXML
 	public void halfBathOverheadLightButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(14);
+		buttonActions(13);
 	}
 
 	@FXML
 	public void halfBathFanButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(15);
+		buttonActions(14);
 	}
 
 	@FXML
 	public void halfBathShower(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(16);
+		buttonActions(15);
 	}
 
 	@FXML
 	public void washerButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(17);
+		buttonActions(16);
 	}
 
 	@FXML
 	public void dryerButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(18);
+		buttonActions(17);
 	}
 
 	@FXML
 	public void livingRoomTVButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(19);
+		buttonActions(18);
 	}
 
 	@FXML
 	public void livingRoomOverheadLightButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(20);
+		buttonActions(19);
 	}
 
 	@FXML
 	public void livingroomLampAButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(21);
+		buttonActions(20);
 	}
 
 	@FXML
 	public void livingroomLampBButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(22);
+		buttonActions(21);
 	}
 
 	@FXML
 	public void kitchenoverheadlightButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(23);
+		buttonActions(22);
 	}
 
 	@FXML
 	public void stoveButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(24);
+		buttonActions(23);
 	}
 
 	@FXML
 	public void ovenButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(25);
+		buttonActions(24);
 	}
 
 	@FXML
 	public void microwaveButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(26);
+		buttonActions(25);
 	}
 
 	@FXML
 	public void refrigeratorButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(27);
+		buttonActions(26);
 	}
 
 	@FXML
 	public void dishwasherButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(28);
+		buttonActions(27);
 	}
 
 	@FXML
 	public void hvacButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(29);
+		buttonActions(28);
 	}
 
 	@FXML
 	public void hotWaterHeaterButton(ActionEvent ex) throws InterruptedException, SQLException {
 		// get status, update ui and status in db
 		// choose device, isState (true/false)
-		buttonActions(30);
+		buttonActions(29);
 	}
 
 	public void buttonActions(int i) throws SQLException {
@@ -483,9 +483,9 @@ public class DebugViewController {
 			System.out.println("User turned device on");
 			// update floorplan
 		} else if (a.get(i).isState() == true) { // turn device which is on, off
-			curr.turnDeviceOff(a.get(i), currBill);
+			curr.turnDeviceOff(c,a.get(i), currBill);
 			System.out.println("User turned device off");
-			//Database.updateBillArchive(c,currBill);
+			System.out.println(currBill);
 		} else {
 			System.out.println("an issue");
 		}
@@ -501,20 +501,18 @@ public class DebugViewController {
 	Connection c = null;
 
 	@FXML
-	public void initialize() throws SQLException {
+	public void initialize() {
 		// connect to db and get devices
-		c = Database.initConnect();
 		try {
+			c = Database.initConnect();
 			a = Database.getAllDevices(c);
 			Collections.sort(a);
-			System.out.println(a);
 			currBill = Bill.getCurrentBill(Database.getAllBills(c));
 			curr = new EventTacking(a);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		c.close();
 		if (a == null) {
 			System.out.println("null device list");
 			System.exit(0);
