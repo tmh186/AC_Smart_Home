@@ -432,7 +432,6 @@ public class ViewController extends Main {
 	@FXML
 	public void handleGenerateButton(ActionEvent e) throws InterruptedException {
 		ArrayList<Date> tempArray = new ArrayList<>(); //to store bill totals for time frame
-		
 		//DayStorage only holds 6 months (180 days of data). Pops excess after limit.
 		if (checkDayStorage()==true) {
 			for(int i=0;i<180;i++) {
@@ -490,7 +489,7 @@ public class ViewController extends Main {
 	 */
 	@FXML
 	public void handleDayButton(ActionEvent e) throws InterruptedException {
-		
+		ArrayList<Date> tempArray = new ArrayList<>(); //to store bill totals for time frame
 		//DayStorage only holds 6 months (180 days of data). Pops excess after limit.
 		if (checkDayStorage()==true) {
 			DayStorage.poll();
