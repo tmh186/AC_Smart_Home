@@ -290,15 +290,15 @@
             </AnchorPane>
           <AnchorPane fx:id="RightPartition" minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="116.0" style="-fx-background-color: rgb(249, 249, 249);">
                <children>
-                  <LineChart fx:id="DashboardChart" layoutX="124.0" layoutY="54.0" prefHeight="441.0" prefWidth="551.0" title="Utility Bill Totals">
+                  <LineChart fx:id="DashboardChart" layoutY="34.0" prefHeight="441.0" prefWidth="793.0" title="Utility Bill Totals">
                     <xAxis>
-                      <CategoryAxis label="Bill Date" side="BOTTOM" />
+                      <CategoryAxis label="Bill Date" side="BOTTOM" fx:id="xAxis" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis label="Cost($)" side="LEFT" />
+                      <NumberAxis fx:id="yAxis" label="Cost($)" side="LEFT" />
                     </yAxis>
                   </LineChart>
-                  <ButtonBar fx:id="GraphSettingsButtons" layoutX="110.0" layoutY="492.0" prefHeight="40.0" prefWidth="635.0">
+                  <ButtonBar fx:id="GraphSettingsButtons" layoutX="110.0" layoutY="471.0" prefHeight="40.0" prefWidth="635.0">
                     <buttons>
                       <Button fx:id="DayButton" mnemonicParsing="false" onAction="#handleDayButton" text="1 Day" />
                         <Button fx:id="WeekButton" layoutX="135.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleWeekButton" text="1 Week" />
@@ -307,12 +307,16 @@
                         <Button fx:id="ClearButton" layoutX="40.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleClearButton" text="Clear" />
                     </buttons>
                   </ButtonBar>
-                  <Button fx:id="BackButton" layoutX="534.0" layoutY="555.0" mnemonicParsing="false" onAction="#handleGoBackButton" prefHeight="25.0" prefWidth="211.0" text="Back" />
-                  <Label fx:id="generateDataLabel" layoutX="45.0" layoutY="503.0" text="Generate Data:" />
-                  <DialogPane fx:id="ElectricDialog" contentText="" headerText="Total Electric Bill:" layoutX="321.0" layoutY="534.0" prefHeight="70.0" prefWidth="92.0" />
-                  <DialogPane fx:id="TotalDialog" contentText="" headerText="Total Bill:" layoutX="421.0" layoutY="534.0" prefHeight="70.0" prefWidth="92.0" />
-                  <DialogPane fx:id="WaterDialog" contentText="" headerText="Total Water Bill:" layoutX="221.0" layoutY="534.0" prefHeight="70.0" prefWidth="92.0" />
-                  <Label fx:id="TimeFrameLable" layoutX="14.0" layoutY="540.0" prefHeight="59.0" prefWidth="186.0" text="Last polled time frame's bill totals:" />
+                  <Button fx:id="BackButton" layoutX="642.0" layoutY="544.0" mnemonicParsing="false" onAction="#handleGoBackButton" prefHeight="46.0" prefWidth="138.0" text="Back" />
+                  <Label fx:id="generateDataLabel" layoutX="45.0" layoutY="483.0" text="Generate Data:" />
+                  <DialogPane fx:id="ElectricDialog" contentText="" headerText="Total Electric Bill:" layoutX="105.0" layoutY="545.0" prefHeight="70.0" prefWidth="92.0" />
+                  <DialogPane fx:id="TotalDialog" contentText="" headerText="Total Bill:" layoutX="199.0" layoutY="545.0" prefHeight="70.0" prefWidth="92.0" />
+                  <DialogPane fx:id="WaterDialog" contentText="" headerText="Total Water Bill:" layoutX="13.0" layoutY="545.0" prefHeight="59.0" prefWidth="92.0" />
+                  <Label fx:id="TimeFrameLable" layoutX="13.0" layoutY="511.0" prefHeight="25.0" prefWidth="186.0" text="Last polled time frame's bill totals:" />
+                  <Label fx:id="PredictionLable" layoutX="291.0" layoutY="511.0" prefHeight="25.0" prefWidth="186.0" text="Predicted bills for next time frame:" />
+                  <DialogPane fx:id="PredictedWater" contentText="" headerText="Predicted Water Bill:" layoutX="291.0" layoutY="545.0" prefHeight="70.0" prefWidth="107.0" />
+                  <DialogPane fx:id="PredictedElectric" contentText="" headerText="Predicted Electric Bill:" layoutX="405.0" layoutY="545.0" prefHeight="70.0" prefWidth="114.0" />
+                  <DialogPane fx:id="PredictedTotal" contentText="" headerText="Predicted Total Bill:" layoutX="524.0" layoutY="545.0" prefHeight="70.0" prefWidth="107.0" />
                </children></AnchorPane>
         </items>
       </SplitPane>
