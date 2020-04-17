@@ -11,11 +11,6 @@ public class Weather {
 	private static String APIURL = "https://api.openweathermap.org/data/2.5/weather?q=birmingham,alabama&appid=899a60d6f5915d3b1e249b880a77b649&units=imperial";
 	private static String tempPattern = "temp\":(\\d+.\\d+)";
 	
-	/**
-	 * Uses a regex to find the temperaturn in the api call
-	 * @param data, api call response
-	 * @return current temperature
-	 */
 	static double tempreturn(String data) {
 		Pattern r = Pattern.compile(tempPattern);
 	    // Now create matcher object.
@@ -26,11 +21,7 @@ public class Weather {
 		return 0;
 		
 	}
-	
-	/**
-	 * Retreieves the weather data from api call
-	 * @return weather data
-	 */
+
 	public static double getCurrentWeather() {
 		String inline = "";
 		try {
