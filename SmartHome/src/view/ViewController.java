@@ -650,7 +650,7 @@ public class ViewController extends Main {
 				
 		ElectricDialog.setContentText("$" + d.format(totalElectricity));
 		WaterDialog.setContentText("$" + d.format(totalWater));
-		TotalDialog.setContentText("$" + total);
+		TotalDialog.setContentText("$" + d.format(total));
 		
 		//Calculate and display new predicted bill costs for the next month (30 days)
     	PredictedWater.setContentText("$" + d.format(getAvgWater()*30));

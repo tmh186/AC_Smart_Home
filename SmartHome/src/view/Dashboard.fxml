@@ -22,7 +22,7 @@
 
 <AnchorPane fx:id="BaseAnchorPane" minHeight="625.0" minWidth="800.0" style="-fx-background-color: rgb(249, 249, 249);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ViewController">
    <children>
-      <SplitPane fx:id="BaseSplitPane" dividerPositions="0.0" prefHeight="600.0" prefWidth="800.0" stylesheets="@../application/application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane fx:id="BaseSplitPane" dividerPositions="1.0" prefHeight="600.0" prefWidth="800.0" stylesheets="@../application/application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane fx:id="LeftPartition" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: rgb(249, 249, 249);">
                <children>
