@@ -1,10 +1,7 @@
 package connections;
 
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Bill {
@@ -16,8 +13,8 @@ public class Bill {
 	public Bill(Date date, double water, double elec) {
 		// TODO Auto-generated constructor stub
 		this.date = date;
-		this.totalElec = water;
-		this.totalWater = elec;
+		this.totalElec = elec;
+		this.totalWater = water;
 	}
 	
 	/**
@@ -27,15 +24,14 @@ public class Bill {
 	 * @return the appropriate bill for the day
 	 * @throws SQLException
 	 */
-	public Bill getCurrentBill(ArrayList<Bill> bills) throws SQLException {
+	public static Bill getCurrentBill(ArrayList<Bill> bills) throws SQLException {
 		String cDate = Database.getCurrentDate();
-		for (int i = 0; i < bills.size(); i++) {
-			if (bills.get(i).getDate().equals(Date.valueOf(cDate))) {
-				return bills.get(i);
+		for (Bill curr : bills) {
+			if (curr.getDate().equals(Date.valueOf(cDate))) {
+				return curr;
 			}
 		}
 		return new Bill(Date.valueOf(cDate), 0.00, 0.00);
-		
 	}
 	
 	public void addWater(double value) {
@@ -45,7 +41,7 @@ public class Bill {
 	public void addElec(double value) {
 		this.totalElec += value;
 	}
-	
+
 	public double getTotal() {
 		return totalElec + totalWater;
 	}
