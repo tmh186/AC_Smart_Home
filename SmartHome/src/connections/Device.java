@@ -26,7 +26,11 @@ public class Device implements Comparable< Device >{
 		this.name = string2;
 		this.state = b;
 	}
-
+	
+	/**
+	 * Determines if a device is turned off
+	 * @return whether or not a device is turned off
+	 */
 	public boolean isOff() {
 		if (this.state == false) {
 			return true;
@@ -36,6 +40,9 @@ public class Device implements Comparable< Device >{
 		}
 	}
 	
+	/**
+	 * changes a device state from on to off and vice versa
+	 */
 	public void changeState() {
 		if (this.isOff()) {
 			this.state = true;
@@ -49,10 +56,6 @@ public class Device implements Comparable< Device >{
 	//basic get and set methods as well as the toString methods
 	public boolean isState() {
 		return state;
-	}
-	@Override
-	public String toString() {
-		return room + " "+ name;
 	}
 
 	public void setState(boolean state) {
@@ -107,6 +110,15 @@ public class Device implements Comparable< Device >{
 	public void setWaterCost(float waterCost) {
 		this.waterCost = waterCost;
 	}
+	
+	@Override
+	public String toString() {
+		if (this.room.equals("") ) {
+			return this.name;
+		}
+		return this.room + " " + this.name;
+	}
+	
 	@Override
 	public int compareTo(Device o) {
 		// TODO Auto-generated method stub
