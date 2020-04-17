@@ -1,5 +1,7 @@
 package application;
 
+import connections.Bill;
+
 public class Date {
 	//date info
 	public int day;
@@ -13,6 +15,7 @@ public class Date {
 	public Double temp;
 	//bill time frame (used if adding multiple date data to graph)
 	public String timeframeString;
+	public Bill bill;
 	
 	public Date() {
 		setWater(0.0);
@@ -39,6 +42,12 @@ public class Date {
 		setWater(water);
 		setElectricity(electricity);
 		setTotal(calcTotal());
+	}
+	
+	public Date(Bill b, Double water, Double electricity) {
+		setWater(water);
+		setElectricity(electricity);
+		setTotal(bill.getTotal());
 	}
 	
 	public void setDay(int d) {
@@ -91,6 +100,14 @@ public class Date {
 	
 	public Double calcTotal() {
 		return electricity+water;
+	}
+	
+	public void setBill(Bill b) {
+		bill = b;
+	}
+	
+	public Bill getBill() {
+		return bill;
 	}
 	
 	public void setTemp(Double t) {

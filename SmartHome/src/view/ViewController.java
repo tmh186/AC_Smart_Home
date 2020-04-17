@@ -1,18 +1,11 @@
 package view;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Scanner;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-
-import javax.swing.text.DateFormatter;
-
-import com.sun.media.jfxmedia.events.NewFrameEvent;
 import application.Date;
 import application.Main;
 import connections.Database;
@@ -299,16 +292,11 @@ public class ViewController extends Main {
 		RightPartitionButton.setText(getWord("RightPartitionButton"));
 		BackButton.setText(getWord("BackButton"));
 		ThermoSliderLabel.setText(getWord("ThermoSliderLabel"));
-		DayButton.setText(getWord("DayButton"));
-		WeekButton.setText(getWord("WeekButton"));
-		MonthButton.setText(getWord("MonthButton"));
-		LifetimeButton.setText(getWord("LifetimeButton"));
+		//DayButton.setText(getWord("DayButton"));
+		//WeekButton.setText(getWord("WeekButton"));
+		//MonthButton.setText(getWord("MonthButton"));
+		//LifetimeButton.setText(getWord("LifetimeButton"));
 		ClearButton.setText(getWord("ClearButton"));
-		generateDataLabel.setText(getWord("generateDataLabel"));
-		//TotalLabel.setText(getWord("TotalLabel"));
-		//ElectricityLabel.setText(getWord("ElectricityLabel"));
-		//WaterLabel.setText(getWord("WaterLabel"));
-		//LegendLabel.setText(getWord("LegendLabel"));
 		DashboardChart.setTitle(getWord("GraphTitle"));
 		xAxis.setLabel(getWord("xAxisLabel"));
     	yAxis.setLabel(getWord("yAxisLabel"));
@@ -351,15 +339,6 @@ public class ViewController extends Main {
 		BackButton.setText(getWord("BackButton"));
 		ThermoSliderLabel.setText(getWord("ThermoSliderLabel"));
 		ClearButton.setText(getWord("ClearButton"));
-		DayButton.setText(getWord("DayButton"));
-		WeekButton.setText(getWord("WeekButton"));
-		MonthButton.setText(getWord("MonthButton"));
-		LifetimeButton.setText(getWord("LifetimeButton"));
-		generateDataLabel.setText(getWord("generateDataLabel"));
-		//TotalLabel.setText(getWord("TotalLabel"));
-		//ElectricityLabel.setText(getWord("ElectricityLabel"));
-		//WaterLabel.setText(getWord("WaterLabel"));
-		//LegendLabel.setText(getWord("LegendLabel"));
 		DashboardChart.setTitle(getWord("GraphTitle"));
 		xAxis.setLabel(getWord("xAxisLabel"));
     	yAxis.setLabel(getWord("yAxisLabel"));
@@ -446,6 +425,66 @@ public class ViewController extends Main {
 //		IndoorTempLabel.setText(thermostatTempUI + "°F");
 	}
 	
+	
+	/*
+	 * Generate 6 months worth of data for the graph
+	 */
+	@FXML
+	public void handleGenerateButton(ActionEvent e) throws InterruptedException {
+		ArrayList<Date> tempArray = new ArrayList<>(); //to store bill totals for time frame
+		
+		//DayStorage only holds 6 months (180 days of data). Pops excess after limit.
+		if (checkDayStorage()==true) {
+			for(int i=0;i<180;i++) {
+				DayStorage.poll();
+			}
+		}
+		
+		//add dates to Day storage
+		for(int i=0;i<billarchive.size();i++) {
+			DayStorage.add(new Date(billarchive.get(i),billarchive.get(i).getTotalWater(),billarchive.get(i).getTotalElec()));
+		}
+		
+		//add each day's worth of data for each bill series to the graph
+		for (Date date : DayStorage) {
+			Water.getData().add(new XYChart.Data(date.getBill().getDate(),date.getBill().getTotalWater()));
+			Electricity.getData().add(new XYChart.Data(date.getBill().getDate(),date.getBill().getTotalElec()));
+			Total.getData().add(new XYChart.Data(date.getBill().getDate(),date.getBill().getTotal()));
+			
+			if (Water.getData().size()>MaxGraphSize) {
+			    Water.getData().remove(0);
+			}
+			if (Electricity.getData().size()>MaxGraphSize) {
+			    Electricity.getData().remove(0);
+			}
+			if (Total.getData().size()>MaxGraphSize) {
+				Total.getData().remove(0);
+			}
+		}
+		
+		//Calculate and display total bills for the last 6 months
+		Double totalWater=0.0;
+		Double totalElectricity=0.0;
+		Double total=0.0;
+				
+		for (Date date : tempArray) {
+			totalWater=totalWater + date.getWater();
+			totalElectricity=totalElectricity + date.getElectricity();
+			total=total + date.getTotal();
+		}
+				
+		ElectricDialog.setContentText("$" + d.format(totalElectricity));
+		WaterDialog.setContentText("$" + d.format(totalWater));
+		TotalDialog.setContentText("$" + d.format(total));
+		
+		//Calculate and display new predicted bill costs for the next month (30 days)
+    	PredictedWater.setContentText("$" + d.format(getAvgWater()*30));
+    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity()*30));
+    	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*30));
+	}
+	
+	
+	//////////////////////////////////////////TESTING/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/*
 	 * Generate 1 day's worth of data for the graph as 1 data point
 	 */
@@ -665,6 +704,8 @@ public class ViewController extends Main {
     	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*180));
 	}
 	
+//////////////////////////////////////////TESTING/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	/*
 	 * Clear graph
 	 */
@@ -736,23 +777,6 @@ public class ViewController extends Main {
 		tempYear = workingDate.get(0);
 		return dateString;
 	}
-    
-    public Date generateDay(int day, int month, int year) {
-    	//called by handleDayButton to add 1 day's worth of info to graph
-    	Date dayDate = new Date(day, month, year);
-    	//iterate day to avoid data conflict
-    	iterateDay();
-    	//to do:  Put daily bill data here:
-    	
-    	/*
-    	dayDate.setWater();
-    	dayDate.setElectricity();
-    	//total already calculated, but here's the setter:
-    	dayDate.setTotal();
-    	*/
-    	
-		return dayDate;
-    }
     
     //TESTING FUNCTION FOR GRAPH
     public Date generateDayTEST(int day, int month, int year) {
