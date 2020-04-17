@@ -1,10 +1,18 @@
 package view;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Scanner;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
+import javax.swing.text.DateFormatter;
+
+import com.sun.media.jfxmedia.events.NewFrameEvent;
 import application.Date;
 import application.Main;
 import connections.Database;
@@ -233,6 +241,7 @@ public class ViewController extends Main {
 	public Button ClearButton;
 	@FXML
 	public Button BackButton;
+<<<<<<< HEAD
 	@FXML
 	public Label TimeFrameLable;
 	@FXML
@@ -242,6 +251,9 @@ public class ViewController extends Main {
 	@FXML
 	public DialogPane TotalDialog;
 	
+=======
+
+>>>>>>> branch 'master' of https://gitlab.cs.uab.edu/CS499S2020/Team4/SmartHome-project.git
 	//Data Variables
 	public Queue<Date> DayStorage = new LinkedList<>(); //what will show up on the graph
 	public boolean DayStorageFull = false;
