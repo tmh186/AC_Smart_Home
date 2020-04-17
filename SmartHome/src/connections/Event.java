@@ -9,11 +9,19 @@ public class Event {
 
 	private Timestamp tp;
 	private Device device;
+	private double hour;
+	private boolean status;
 
 	public Event(Device a, Timestamp tp) {
 		// TODO Auto-generated constructor stub
 		this.device = a;
 		this.tp = tp;
+	}
+	
+	public Event(Device a, double h, boolean status) {
+		this.device = a;
+		this.hour = h;
+		this.status = status;
 	}
 	
 	public void updateDB(Statement stmt) throws SQLException {
@@ -29,6 +37,9 @@ public class Event {
 		rs.close();
 	}
 
+	public double getHour() {
+		return this.hour;
+	}
 	public Timestamp getTp() {
 		return tp;
 	}

@@ -26,6 +26,7 @@ public class Device implements Comparable< Device >{
 		this.name = string2;
 		this.state = b;
 	}
+	
 
 	public boolean isOff() {
 		if (this.state == false) {
