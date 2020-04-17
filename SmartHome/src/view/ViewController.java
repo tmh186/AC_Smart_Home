@@ -279,8 +279,7 @@ public class ViewController extends Main {
 	public void handleJapaneseOptionClick(ActionEvent e) throws InterruptedException {
 		//changes all writen text on UI to Japanese
 		setLocale(getLoc_JP());
-		//setStageTitle(getWord("Title")); //null pointer
-		
+		//Main.stage.setTitle(getWord("Title"));
 		FileMenuOption.setText(getWord("FileMenuOption"));
 		ExitOption.setText(getWord("ExitOption"));
 		EditMenuOption.setText(getWord("EditMenuOption"));
@@ -322,7 +321,6 @@ public class ViewController extends Main {
     	ElectricDialog.setHeaderText(getWord("ElectricDialog"));
     	WaterDialog.setHeaderText(getWord("WaterDialog"));
     	TotalDialog.setHeaderText(getWord("TotalDialog"));
-    	
     	PredictionLable.setText(getWord("PredictionLable"));
     	PredictedElectric.setHeaderText(getWord("PredictedElectric"));
     	PredictedWater.setHeaderText(getWord("PredictedWater"));
@@ -332,8 +330,7 @@ public class ViewController extends Main {
 	public void handleEnglishOptionClick(ActionEvent e) throws InterruptedException {
 		//changes all written text on UI to English 
 		setLocale(getLoc_EN());
-		//setStageTitle(getWord("Title")); //null pointer
-		
+		//Main.stage.setTitle(getWord("Title"));
 		FileMenuOption.setText(getWord("FileMenuOption"));
 		ExitOption.setText(getWord("ExitOption"));
 		EditMenuOption.setText(getWord("EditMenuOption"));
@@ -375,7 +372,6 @@ public class ViewController extends Main {
     	ElectricDialog.setHeaderText(getWord("ElectricDialog"));
     	WaterDialog.setHeaderText(getWord("WaterDialog"));
     	TotalDialog.setHeaderText(getWord("TotalDialog"));
-    	
     	PredictionLable.setText(getWord("PredictionLable"));
     	PredictedElectric.setHeaderText(getWord("PredictedElectric"));
     	PredictedWater.setHeaderText(getWord("PredictedWater"));
