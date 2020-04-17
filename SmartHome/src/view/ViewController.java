@@ -811,11 +811,14 @@ public class ViewController extends Main {
     public void resetDayStorage() {
     	//Empties dayStorage and resets the graph
     	DayStorage.clear();
-    	DayStorageFull= false;
+    	DayStorageFull=false;
+    	Water.getData().clear();
+    	Electricity.getData().clear();
+    	Total.getData().clear();
     	ElectricDialog.setContentText("");
     	WaterDialog.setContentText("");
     	TotalDialog.setContentText("");
-    	DashboardChart.getData().clear();;
+    	//DashboardChart.getData().clear();
     }
     
     public void iterateDay() {
