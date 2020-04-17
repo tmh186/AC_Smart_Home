@@ -7,16 +7,13 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import connections.Bill;
 import connections.Database;
 import connections.Device;
-import connections.EventTacking;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import threads.HvacNormal;
 
 public class Main extends Application {
 	
@@ -32,10 +29,6 @@ public class Main extends Application {
 	
 	public static Connection mainConnection;
 	public static ArrayList<Device> allDevices;
-	public static ArrayList<Bill> billarchive;
-	public static Bill curBill;
-	public static EventTacking eventTrack;
-	public static Thread havcOp;
 	
 	@Override
 	public void start(Stage stage) {
@@ -56,15 +49,9 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		//remove all through launch to remove database component
+		mainConnection = Database.initConnect();
 		try {
-			//initializing all the components of the application needed
-			mainConnection = Database.initConnect();
 			allDevices = Database.getAllDevices(mainConnection);
-			billarchive = Database.getAllBills(mainConnection);
-			curBill = Bill.getCurrentBill(billarchive);
-			eventTrack = new EventTacking(allDevices);
-			havcOp = new HvacNormal(mainConnection, allDevices.get(28));
-			havcOp.start();
 		} catch (ClassNotFoundException| SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
