@@ -62,7 +62,7 @@ public class Database {
 		return name;
 	}
 	
-	public static void updateBillArchive(Connection c, Bill b) throws SQLException {
+	static void updateBillArchive(Connection c, Bill b) throws SQLException {
 		Statement stmt = c.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT bill_archive_date FROM bill_archive"
 				+ " WHERE bill_archive_date='"+ b.getDate()+"';");

@@ -492,7 +492,7 @@ public class DebugViewController {
 		buttonActions(30);
 	}
 
-	public void buttonActions(int i) throws SQLException {
+	public void buttonActions(int i) {
 		System.out.println(a.get(i));
 
 		if (a.get(i).isState() == false) // turn device which is off, on
@@ -504,7 +504,6 @@ public class DebugViewController {
 		} else if (a.get(i).isState() == true) { // turn device which is on, off
 			curr.turnDeviceOff(a.get(i), currBill);
 			System.out.println("User turned device off");
-			//Database.updateBillArchive(c,currBill);
 		} else {
 			System.out.println("an issue");
 		}
@@ -522,12 +521,11 @@ public class DebugViewController {
 	ArrayList<Device> a = null;
 	EventTacking curr = null;
 	Bill currBill = null;
-	Connection c = null;
 
 	@FXML
 	public void initialize() throws SQLException {
 		// connect to db and get devices
-		c = Database.initConnect();
+		Connection c = Database.initConnect();
 		try {
 			a = Database.getAllDevices(c);
 			Collections.sort(a);
