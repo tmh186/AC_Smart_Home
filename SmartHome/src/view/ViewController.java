@@ -491,57 +491,6 @@ public class ViewController extends Main {
 	}
 	
 	/*
-	 * Generate the total costs of 7 day's worth of data for the graph as 1 data point. TEST FOR FUNCTIONAL STORAGE. DO NOT USE.
-	 */
-	@FXML
-	public void handleWeekButtonTEST(ActionEvent e) throws InterruptedException {
-		ArrayList<Date> tempArray = new ArrayList<>();
-		Date paymentDate = new Date();
-		//DayStorage only holds 6 months (180 days of data). Pops excess after limit.
-		if (checkDayStorage()==true) {
-			for(int i=0;i<7;i++) {
-				DayStorage.poll();
-			}
-		}
-		
-		//add 1 week of data temp storage
-		for(int i=0;i<7;i++) {
-			//CURRENTLY USING TEST FUNCTION TO GENERATE DATE DATA!!!
-			Date testDate = generateDayTEST(tempDay, tempMonth, tempYear);
-			tempArray.add(testDate);
-			}
-		
-		//get bill totals for all the dates and add it to 1 point
-		for (Date date : tempArray) {
-			paymentDate.setWater(paymentDate.getWater() + date.getWater());
-			paymentDate.setElectricity(paymentDate.getElectricity() + date.getElectricity());
-			paymentDate.setTotal(paymentDate.getTotal() + date.getTotal());
-		}
-		
-		//set bill time frame
-		paymentDate.setTimeFrameString(tempArray.get(0).dateToString() + "-" + tempArray.get(tempArray.size()).dateToString());
-		
-		//add point to graph
-		//FunctionalStorage.add(paymentDate);
-		//add 1 day's worth of data for each bill series
-		Water.getData().add(new XYChart.Data(paymentDate.dateToString(),paymentDate.getWater()));
-		Electricity.getData().add(new XYChart.Data(paymentDate.dateToString(),paymentDate.getElectricity()));
-		Total.getData().add(new XYChart.Data(paymentDate.dateToString(),paymentDate.getTotal()));
-		
-		if (Water.getData().size()>MaxGraphSize) {
-		    Water.getData().remove(0);
-		}
-		if (Electricity.getData().size()>MaxGraphSize) {
-		    Electricity.getData().remove(0);
-		}
-		if (Total.getData().size()>MaxGraphSize) {
-			Total.getData().remove(0);
-		}
-		
-		
-	}
-	
-	/*
 	 * Generate the total costs of 7 day's worth of data.
 	 */
 	@FXML
