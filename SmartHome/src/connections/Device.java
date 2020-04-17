@@ -27,14 +27,10 @@ public class Device implements Comparable< Device >{
 		this.state = b;
 	}
 	
-<<<<<<< HEAD
-
-=======
 	/**
 	 * Determines if a device is turned off
 	 * @return whether or not a device is turned off
 	 */
->>>>>>> 5c9d915f7e156f1a1e0177b82c1c94a0551e1329
 	public boolean isOff() {
 		if (this.state == false) {
 			return true;
