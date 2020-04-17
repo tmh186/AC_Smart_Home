@@ -16,7 +16,11 @@ public class EventTacking {
 		DeviceList = devices;
 		EventTracking = new ArrayList<Event>();
 	}
-	
+	/**
+	 * Export all logged events to the database defined by Event.updateDB
+	 * @param c, Connection to be used
+	 * @throws SQLException
+	 */
 	public void exportToDatabase(Connection c) throws SQLException {
 		Statement stmt = c.createStatement();
 		for (Event e : EventTracking) {
@@ -26,6 +30,11 @@ public class EventTacking {
 		stmt.close();
 	}
 	
+	/**
+	 * retrieve the event record of the device provided
+	 * @param curDevice, device provided
+	 * @return  event record
+	 */
 	public Event getEvent(Device curDevice) {
 		for(int i = 0; i < EventTracking.size(); i++) {
 			if (EventTracking.get(i).getDevice().getName().equals(curDevice.getName())) {
@@ -35,10 +44,19 @@ public class EventTacking {
 		return null;
 	}
 	
+	/**
+	 * retrieve event record at the i position
+	 * @param i, position of record
+	 * @return event record
+	 */
 	public Event getEvent(int i) {
 		return EventTracking.get(i);
 	}
 	
+	/**
+	 * Turns a device on and then creates a timestamp for the action and updates it
+	 * @param curDevice , device provided
+	 */
 	public void turnDeviceOn(Device curDevice) {
 		if (curDevice.isState()) {
 			return;
@@ -48,7 +66,13 @@ public class EventTacking {
 		EventTracking.add(new Event(curDevice, timestamp));
 	}
 	
-	public void turnDeviceOff(Device curDevice, Bill currentBill) {
+	/**
+	 * Turns device off and then updates the currentBill to reflect the resources used
+	 * after calculating the time used
+	 * @param curDevice, Device to be turned off
+	 * @param currentBill, Currentbill record inside the application
+	 */
+	public void turnDeviceOff(Connection c, Device curDevice, Bill currentBill) {
 		if (curDevice.isOff()) {
 			return;
 		}
@@ -56,10 +80,14 @@ public class EventTacking {
 		curDevice.changeState();
 		Event a = getEvent(curDevice);
 		double time = (timestamp.getTime() - a.getTp().getTime()) /60000;
-		currentBill.addElec(time * curDevice.getElecCost());
-		//Debug statement
-		//System.out.println(a.getDevice().getName() + "Minutes: "+time + "TotalElec "+time * curDevice.getElecCost());
-		currentBill.addWater(time * curDevice.getWaterCost());
+		double elec = time * curDevice.getElecCost();
+		double water = time * curDevice.getWaterCost();
+		try {
+			Database.addtoBillRecord(c, currentBill.getDate(), water, elec);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		EventTracking.remove(a);
 	}
 

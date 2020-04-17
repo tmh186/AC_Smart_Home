@@ -3,7 +3,6 @@ package connections;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class EventTrackingTest {
@@ -29,12 +28,12 @@ public class EventTrackingTest {
 		current.turnDeviceOn(a.get(1));
 		System.out.println(current.getEvent(0).getTp().toString());
 		current.turnDeviceOn(a.get(24));
-		current.exportToDatabase(c);
+		//current.exportToDatabase(c);
+		Thread.sleep(60000); //wait one minute
+		current.turnDeviceOff(c,a.get(1), curBill);
+		current.turnDeviceOff(c,a.get(24), curBill);
+		System.out.println(curBill);
+		System.out.println(current);//Should be empty by the end
 		c.close();
-//		Thread.sleep(60000); //wait one minute
-//		current.turnDeviceOff(a.get(1), curBill);
-//		current.turnDeviceOff(a.get(24), curBill);
-//		System.out.println(curBill);
-//		System.out.println(current);//Should be empty by the end
 	}
 }

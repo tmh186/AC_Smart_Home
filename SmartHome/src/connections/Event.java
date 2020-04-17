@@ -9,8 +9,6 @@ public class Event {
 
 	private Timestamp tp;
 	private Device device;
-	private double hour;
-	private boolean status;
 
 	public Event(Device a, Timestamp tp) {
 		// TODO Auto-generated constructor stub
