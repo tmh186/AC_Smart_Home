@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class Database {
 
@@ -13,11 +15,7 @@ public class Database {
 	private static String user = "team4";
 	private static String pass = "4team4";
 	private static String db = "jdbc:postgresql://" + DBURL + ":" + DBPORT + "/" + user;
-	
-	/**
-	 * This was used for testing purposes to confirm a connection to the database
-	 * @throws SQLException
-	 */
+
 	static void testConnection() throws SQLException {
 		// taken from https://www.tutorialspoint.com/postgresql/postgresql_java.htm
 		Connection c = null;
@@ -33,10 +31,7 @@ public class Database {
 		c.close();
 	}
 	
-	/**
-	 * Gets the current date as a string usable by the database
-	 * @return current date as a string
-	 */
+	
 	public static String getCurrentDate() {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
 		LocalDateTime now = LocalDateTime.now();  
@@ -59,12 +54,6 @@ public class Database {
 		return c;
 	}
 	
-	/**
-	 * Retrieves a ArrayList of all the rooms in the house
-	 * @param c, connection to the database that is used
-	 * @return Arraylist of all rooms in the house
-	 * @throws SQLException
-	 */
 	static ArrayList<String> getAllRooms(Connection c) throws SQLException {
 		ArrayList<String> rooms = new ArrayList<String>();
 		Statement stmt = c.createStatement();
@@ -75,13 +64,6 @@ public class Database {
 		return rooms;
 	}
 	
-	/**
-	 * Returns a room name string from the database based on the given number
-	 * @param c, Connection to the database used
-	 * @param num, desired room number to get
-	 * @return desired room name
-	 * @throws SQLException
-	 */
 	static String getRoom(Connection c,int num) throws SQLException {
 		Statement stmt = c.createStatement();
 		String name = "";
@@ -92,25 +74,16 @@ public class Database {
 		return name;
 	}
 	
-	/**
-	 * This function will either update the Bill record in the database to match the 
-	 * local Bill file or it will update the record in the database for that day
-	 * that is already existing
-	 * @param c, Connection to database used
-	 * @param b, current Bill information to update to in database
-	 * @throws SQLException
-	 */
-
-	public static void updateBillArchive(Connection c, Bill b) throws SQLException {
+	static void updateBillArchive(Connection c, Bill b) throws SQLException {
 		Statement stmt = c.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT bill_archive_date FROM bill_archive"
 				+ " WHERE bill_archive_date='"+ b.getDate()+"';");
-		if(rs.next()) { //if there is a record already, update it
+		if(rs.next()) {
 			stmt.executeUpdate("UPDATE bill_archive SET water_usage = "+b.getTotalWater()+ 
 					", electricity_usage="+ b.getTotalElec()+
 					"  WHERE bill_archive_date='"+b.getDate()+"';");
 		}
-		else {//if there is no record then create one with these values
+		else {
 			stmt.executeUpdate("INSERT INTO bill_archive (bill_archive_date,water_usage,electricity_usage)"
 					+ "VALUES ('" +b.getDate()+"',"+b.getTotalWater()+","+b.getTotalElec() +");");
 		}
@@ -118,28 +91,6 @@ public class Database {
 		stmt.close();
 	}
 	
-	/**
-	 * Add the water and elec values to the appropriate record for the date provided
-	 * @param c, Connection to database used
-	 * @param d, Date of record
-	 * @param water, value to add to the water_usage column
-	 * @param elec, value to add to the electricity_usage column
-	 * @throws SQLException
-	 */
-	public static void addtoBillRecord(Connection c, Date d, double water, double elec) throws SQLException {
-		Statement stmt = c.createStatement();
-		stmt.executeUpdate("UPDATE bill_archive SET water_usage=water_usage+"+water
-				+" ,electricity_usage=electricity_usage+"+elec
-				+"WHERE bill_archive_date='"+d.toString()+"';");
-		c.commit();
-	}
-	
-	/**
-	 * Retrieve a ArrayList of all Bills currently in the database from bill_archive table
-	 * @param c, Connection to the database used
-	 * @return ArrayList of all Bills
-	 * @throws SQLException
-	 */
 	public static ArrayList<Bill> getAllBills(Connection c) throws SQLException{
 		ArrayList<Bill> bills = new ArrayList<Bill>();
 		Statement stmt = c.createStatement();
@@ -155,14 +106,6 @@ public class Database {
 		return bills;
 	}
 	
-	/**
-	 * Retrieves all Devices in the device table in the database with all the information for each
-	 * sorted at the end to ensure that the devices are in the same persistent order
-	 * @param c, connection to the database to be used
-	 * @return ArrayList of Device objects
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
-	 */
 	public static ArrayList<Device> getAllDevices(Connection c) throws SQLException, ClassNotFoundException {
 		// return all devices in the database in a list
 		//this will run at launch to get all device states
@@ -184,14 +127,7 @@ public class Database {
 		stmt.close();
 		return deviceList;
 	}
-	
-	/**
-	 * This will update a device status in the database
-	 * @param c, Connection to database used
-	 * @param id, id of the device to be updated in device table
-	 * @param newStatus, the status to apply on the device in the table
-	 * @throws SQLException
-	 */
+
 	public void updateDeviceStatus(Connection c, int id, boolean newStatus) throws SQLException {
 		//update a device status
 		Statement stmt = c.createStatement();
@@ -199,42 +135,19 @@ public class Database {
 		c.commit();
 		stmt.close();
 	}
-	/**
-	 * Get the set thermostat temperature
-	 * @param c, Connection to the database to be used
-	 * @return the thermostat temperature
-	 * @throws SQLException
-	 */
+	
 	public static int getSetTemp(Connection c) throws SQLException {
 		return getTemp(c, "set_temp");
 	}
-	/**
-	 * Get the internal temperature saved to the database
-	 * @param c, Connection to be used
-	 * @return current internal temperature
-	 * @throws SQLException
-	 */
+	
 	public static int getInternalTemp(Connection c) throws SQLException {
 		return getTemp(c, "internal_temp");
 	}
 	
-	/**
-	 * Get the external temperature from the database
-	 * @param c, Connection to be used
-	 * @return external temperature
-	 * @throws SQLException
-	 */
 	public static int getExternalTemp(Connection c) throws SQLException {
 		return getTemp(c, "external_temp");
 	}
 	
-	/**
-	 * Return the desired temperature based on the name provided
-	 * @param c, Connection to be used
-	 * @param name, to get the appropriate temperature value
-	 * @return the temperature value
-	 * @throws SQLException
-	 */
 	public static int getTemp(Connection c, String name) throws SQLException {
 		Statement stmt = c.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT value FROM temp WHERE name='"+name+"';");
@@ -257,13 +170,6 @@ public class Database {
 		updateTemp(c, Temp, "internal_temp");
 	}
 	
-	/**
-	 * set the appropriate temperature to the given value
-	 * @param c, Connection to be used
-	 * @param Temp, the value for the tempertaure to be updated to
-	 * @param name, the temp record to be updated
-	 * @throws SQLException
-	 */
 	public static void updateTemp(Connection c, int Temp, String name) throws SQLException {
 		Statement stmt = c.createStatement();
 		stmt.executeUpdate("UPDATE temp SET value = "+Temp+ "WHERE name='"+name+"';");
