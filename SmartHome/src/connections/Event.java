@@ -16,6 +16,11 @@ public class Event {
 		this.tp = tp;
 	}
 	
+	/**
+	 * updates the day_events table with all of the events that took place and update those that exist
+	 * @param stmt, linked to the connection to the database
+	 * @throws SQLException
+	 */
 	public void updateDB(Statement stmt) throws SQLException {
 		ResultSet rs = stmt.executeQuery("SELECT * FROM day_events WHERE device_id="+ this.getDevice().getNum());
 		if (rs.next()) {
