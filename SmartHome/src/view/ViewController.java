@@ -241,7 +241,6 @@ public class ViewController extends Main {
 	public Button ClearButton;
 	@FXML
 	public Button BackButton;
-<<<<<<< HEAD
 	@FXML
 	public Label TimeFrameLable;
 	@FXML
@@ -251,9 +250,6 @@ public class ViewController extends Main {
 	@FXML
 	public DialogPane TotalDialog;
 	
-=======
-
->>>>>>> branch 'master' of https://gitlab.cs.uab.edu/CS499S2020/Team4/SmartHome-project.git
 	//Data Variables
 	public Queue<Date> DayStorage = new LinkedList<>(); //what will show up on the graph
 	public boolean DayStorageFull = false;
