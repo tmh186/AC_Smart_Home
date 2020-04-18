@@ -460,6 +460,7 @@ public class ViewController extends Main {
 			if (Total.getData().size()>MaxGraphSize) {
 				Total.getData().remove(0);
 			}
+			tempArray.add(date);
 		}
 		
 		//Calculate and display total bills for the last 6 months
