@@ -506,7 +506,6 @@ public class DebugViewController {
 		try {
 			c = Database.initConnect();
 			a = Database.getAllDevices(c);
-			Collections.sort(a);
 			currBill = Bill.getCurrentBill(Database.getAllBills(c));
 			curr = new EventTacking(a);
 		} catch (ClassNotFoundException | SQLException e) {
