@@ -19,6 +19,10 @@ import application.Main;
 import connections.Database;
 import connections.Device;
 import connections.Weather;
+import connections.*;
+import application.*;
+import simulation.*;
+import threads.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,6 +52,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ViewController extends Main {
+		//format decimals to money format
+		DecimalFormat d = new DecimalFormat("#,###,##0.00");
 	
 	@FXML
 	public AnchorPane BaseAnchorPane;
@@ -79,7 +85,6 @@ public class ViewController extends Main {
 	public AnchorPane LeftPartition;
 	@FXML
 	public Button refreshView;
-	
 	@FXML
 	public ImageView FloorPlanImageView;
 	/*
@@ -250,6 +255,15 @@ public class ViewController extends Main {
 	public DialogPane WaterDialog;
 	@FXML
 	public DialogPane TotalDialog;
+	@FXML
+	public Label PredictionLable;
+	@FXML
+	public DialogPane PredictedElectric;
+	@FXML
+	public DialogPane PredictedWater;
+	@FXML
+	public DialogPane PredictedTotal;
+
 	
 	//Data Variables
 	public Queue<Date> DayStorage = new LinkedList<>(); //what will show up on the graph
@@ -293,11 +307,12 @@ public class ViewController extends Main {
 		BackButton.setText(getWord("BackButton"));
 		ThermoSliderLabel.setText(getWord("ThermoSliderLabel"));
 		
-		DayButton.setText(getWord("DayButton"));
-		WeekButton.setText(getWord("WeekButton"));
-		MonthButton.setText(getWord("MonthButton"));
-		LifetimeButton.setText(getWord("LifetimeButton"));
+		//DayButton.setText(getWord("DayButton"));
+		//WeekButton.setText(getWord("WeekButton"));
+		//MonthButton.setText(getWord("MonthButton"));
+		//LifetimeButton.setText(getWord("LifetimeButton"));
 		ClearButton.setText(getWord("ClearButton"));
+		DashboardChart.setTitle(getWord("GraphTitle"));
 		
 		generateDataLabel.setText(getWord("generateDataLabel"));
 		TotalLabel.setText(getWord("TotalLabel"));
@@ -317,6 +332,11 @@ public class ViewController extends Main {
     	ElectricDialog.setHeaderText(getWord("ElectricDialog"));
     	WaterDialog.setHeaderText(getWord("WaterDialog"));
     	TotalDialog.setHeaderText(getWord("TotalDialog"));
+    	PredictionLable.setText(getWord("PredictionLable"));
+    	PredictedElectric.setHeaderText(getWord("PredictedElectric"));
+    	PredictedWater.setHeaderText(getWord("PredictedWater"));
+    	PredictedTotal.setHeaderText(getWord("PredictedTotal"));
+
 	}
 	
 	public void handleEnglishOptionClick(ActionEvent e) throws InterruptedException {
@@ -370,6 +390,11 @@ public class ViewController extends Main {
     	ElectricDialog.setHeaderText(getWord("ElectricDialog"));
     	WaterDialog.setHeaderText(getWord("WaterDialog"));
     	TotalDialog.setHeaderText(getWord("TotalDialog"));
+    	PredictionLable.setText(getWord("PredictionLable"));
+    	PredictedElectric.setHeaderText(getWord("PredictedElectric"));
+    	PredictedWater.setHeaderText(getWord("PredictedWater"));
+    	PredictedTotal.setHeaderText(getWord("PredictedTotal"));
+
 	}
 	
 	/*
@@ -441,6 +466,65 @@ public class ViewController extends Main {
 	}
 	
 	/*
+	 * Generate 6 months worth of data for the graph
+	 */
+	@FXML
+	public void handleGenerateButton(ActionEvent e) throws InterruptedException {
+		ArrayList<Date> tempArray = new ArrayList<>(); //to store bill totals for time frame
+		
+		//DayStorage only holds 6 months (180 days of data). Pops excess after limit.
+		if (checkDayStorage()==true) {
+			for(int i=0;i<180;i++) {
+				DayStorage.poll();
+			}
+		}
+		
+		//add dates to Day storage
+		for(int i=0;i<billarchive.size();i++) {
+			DayStorage.add(new Date(billarchive.get(i),billarchive.get(i).getTotalWater(),billarchive.get(i).getTotalElec()));
+		}
+		
+		//add each day's worth of data for each bill series to the graph
+		for (Date date : DayStorage) {
+			Water.getData().add(new XYChart.Data(date.getBill().getDate(),date.getBill().getTotalWater()));
+			Electricity.getData().add(new XYChart.Data(date.getBill().getDate(),date.getBill().getTotalElec()));
+			Total.getData().add(new XYChart.Data(date.getBill().getDate(),date.getBill().getTotal()));
+			
+			if (Water.getData().size()>MaxGraphSize) {
+			    Water.getData().remove(0);
+			}
+			if (Electricity.getData().size()>MaxGraphSize) {
+			    Electricity.getData().remove(0);
+			}
+			if (Total.getData().size()>MaxGraphSize) {
+				Total.getData().remove(0);
+			}
+		}
+		
+		//Calculate and display total bills for the last 6 months
+		Double totalWater=0.0;
+		Double totalElectricity=0.0;
+		Double total=0.0;
+				
+		for (Date date : tempArray) {
+			totalWater=totalWater + date.getWater();
+			totalElectricity=totalElectricity + date.getElectricity();
+			total=total + date.getTotal();
+		}
+				
+		ElectricDialog.setContentText("$" + d.format(totalElectricity));
+		WaterDialog.setContentText("$" + d.format(totalWater));
+		TotalDialog.setContentText("$" + d.format(total));
+		
+		//Calculate and display new predicted bill costs for the next month (30 days)
+    	PredictedWater.setContentText("$" + d.format(getAvgWater()*30));
+    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity()*30));
+    	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*30));
+	}
+
+
+	
+	/*
 	 * Generate 1 day's worth of data for the graph as 1 data point
 	 */
 	@FXML
@@ -477,56 +561,11 @@ public class ViewController extends Main {
 		if (Total.getData().size()>MaxGraphSize) {
 			Total.getData().remove(0);
 		}
-	}
-	
-	/*
-	 * Generate the total costs of 7 day's worth of data for the graph as 1 data point. TEST FOR FUNCTIONAL STORAGE. DO NOT USE.
-	 */
-	@FXML
-	public void handleWeekButtonTEST(ActionEvent e) throws InterruptedException {
-		ArrayList<Date> tempArray = new ArrayList<>();
-		Date paymentDate = new Date();
-		//DayStorage only holds 6 months (180 days of data). Pops excess after limit.
-		if (checkDayStorage()==true) {
-			for(int i=0;i<7;i++) {
-				DayStorage.poll();
-			}
+		//Calculate and display new predicted bill costs for the next day
+				PredictedWater.setContentText("$" + d.format(getAvgWater()));
+				PredictedElectric.setContentText("$" + d.format(getAvgElectricity()));
+				PredictedTotal.setContentText("$" + d.format(getAvgTotal()));
 		}
-		
-		//add 1 week of data temp storage
-		for(int i=0;i<7;i++) {
-			//CURRENTLY USING TEST FUNCTION TO GENERATE DATE DATA!!!
-			Date testDate = generateDayTEST(tempDay, tempMonth, tempYear);
-			tempArray.add(testDate);
-			}
-		
-		//get bill totals for all the dates and add it to 1 point
-		for (Date date : tempArray) {
-			paymentDate.setWater(paymentDate.getWater() + date.getWater());
-			paymentDate.setElectricity(paymentDate.getElectricity() + date.getElectricity());
-			paymentDate.setTotal(paymentDate.getTotal() + date.getTotal());
-		}
-		
-		//set bill time frame
-		paymentDate.setTimeFrameString(tempArray.get(0).dateToString() + "-" + tempArray.get(tempArray.size()).dateToString());
-		
-		//add point to graph
-		//FunctionalStorage.add(paymentDate);
-		//add 1 day's worth of data for each bill series
-		Water.getData().add(new XYChart.Data(paymentDate.dateToString(),paymentDate.getWater()));
-		Electricity.getData().add(new XYChart.Data(paymentDate.dateToString(),paymentDate.getElectricity()));
-		Total.getData().add(new XYChart.Data(paymentDate.dateToString(),paymentDate.getTotal()));
-		
-		if (Water.getData().size()>MaxGraphSize) {
-		    Water.getData().remove(0);
-		}
-		if (Electricity.getData().size()>MaxGraphSize) {
-		    Electricity.getData().remove(0);
-		}
-		if (Total.getData().size()>MaxGraphSize) {
-			Total.getData().remove(0);
-		}
-	}
 	
 	/*
 	 * Generate the total costs of 7 day's worth of data.
@@ -563,7 +602,7 @@ public class ViewController extends Main {
 			if (Total.getData().size()>MaxGraphSize) {
 				Total.getData().remove(0);
 			}
-			}
+		}
 		
 		//Calculate and display total bills for the last 7 days
 		Double totalWater=0.0;
@@ -576,10 +615,16 @@ public class ViewController extends Main {
 			total=total + date.getTotal();
 		}
 		
-		ElectricDialog.setContentText("$" + totalElectricity);
-    	WaterDialog.setContentText("$" + totalWater);
-    	TotalDialog.setContentText("$" + total);
+		ElectricDialog.setContentText("$" + d.format(totalElectricity));
+    	WaterDialog.setContentText("$" + d.format(totalWater));
+    	TotalDialog.setContentText("$" + d.format(total));
+    	
+    	//Calculate and display new predicted bill costs for the next week
+    	PredictedWater.setContentText("$" + d.format(getAvgWater()*7));
+    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity()*7));
+    	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*7));
 	}
+
 	
 	/*
 	 * Generate 1 month's (30 days) worth of data for the graph
@@ -617,7 +662,7 @@ public class ViewController extends Main {
 			if (Total.getData().size()>MaxGraphSize) {
 				Total.getData().remove(0);
 			}
-			}
+		}
 		
 		//Calculate and display total bills for the last 30 days
 		Double totalWater=0.0;
@@ -630,10 +675,16 @@ public class ViewController extends Main {
 			total=total + date.getTotal();
 		}
 				
-		ElectricDialog.setContentText("$" + totalElectricity);
-		WaterDialog.setContentText("$" + totalWater);
-		TotalDialog.setContentText("$" + total);
+		ElectricDialog.setContentText("$" + d.format(totalElectricity));
+		WaterDialog.setContentText("$" + d.format(totalWater));
+		TotalDialog.setContentText("$" + d.format(total));
+		
+		//Calculate and display new predicted bill costs for the next month (30 days)
+    	PredictedWater.setContentText("$" + d.format(getAvgWater()*30));
+    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity()*30));
+    	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*30));
 	}
+
 	
 	/*
 	 * Generate 6 months (180 days) worth of data for the graph
@@ -670,7 +721,7 @@ public class ViewController extends Main {
 			if (Total.getData().size()>MaxGraphSize) {
 				Total.getData().remove(0);
 			}
-			}
+		}
 		
 		//Calculate and display total bills for the last 7 days
 		Double totalWater=0.0;
@@ -683,10 +734,16 @@ public class ViewController extends Main {
 			total=total + date.getTotal();
 		}
 				
-		ElectricDialog.setContentText("$" + totalElectricity);
-		WaterDialog.setContentText("$" + totalWater);
-		TotalDialog.setContentText("$" + total);
+		ElectricDialog.setContentText("$" + d.format(totalElectricity));
+		WaterDialog.setContentText("$" + d.format(totalWater));
+		TotalDialog.setContentText("$" + d.format(total));
+		
+		//Calculate and display new predicted bill costs for the next 6 months (180 days
+    	PredictedWater.setContentText("$" + d.format(getAvgWater()*180));
+    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity()*180));
+    	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*180));
 	}
+
 	
 	/*
 	 * Clear graph
@@ -1030,7 +1087,7 @@ public class ViewController extends Main {
     	DashboardChart.getData().addAll(Total, Water, Electricity);
     }
     
-    //Back-End Data Manipulation
+  //Back-End Data Manipulation
     public String retrieveCurrentDate() {
 		//retrieves current local date for graph
 		String dateString = java.time.LocalDate.now().toString();
@@ -1049,33 +1106,14 @@ public class ViewController extends Main {
 		return dateString;
 	}
     
-    public Date generateDay(int day, int month, int year) {
-    	//called by handleDayButton to add 1 day's worth of info to graph
-    	Date dayDate = new Date(day, month, year);
-    	//iterate day to avoid data conflict
-    	iterateDay();
-    	//to do:  Put daily bill data here:
-    	
-    	/*
-    	dayDate.setWater();
-    	dayDate.setElectricity();
-    	//total already calculated, but here's the setter:
-    	dayDate.setTotal();
-    	*/
-    	
-		return dayDate;
-    }
-    
     //TESTING FUNCTION FOR GRAPH
     public Date generateDayTEST(int day, int month, int year) {
     	//called by handleDayButton to add 1 day's worth of info to graph
     	Date dayDate = new Date(day, month, year);
-    	
-    	//to do:  Put daily bill data here:
-    	
     	Random r = new Random();
     	Integer temp = r.nextInt(500);
     	Integer temp2 = r.nextInt(500);
+    	//input day's bill data into date
     	dayDate.setWater(Double.valueOf(temp));
     	dayDate.setElectricity(Double.valueOf(temp2));
     	dayDate.setTotal(dayDate.calcTotal());
@@ -1084,6 +1122,43 @@ public class ViewController extends Main {
 		return dayDate;
     }
     
+    /*
+	 * Calculate average water bill cost for one day using all previous dates' bills
+	 */
+	public Double getAvgWater() {
+		Double avg = 0.0;
+		for (Date date : DayStorage) {
+			avg=avg+date.getWater();
+		}
+		avg=avg/DayStorage.size();
+		return avg;
+	}
+	
+	/*
+	 * Calculate average electricity bill cost for one day using all previous dates' bills
+	 */
+	public Double getAvgElectricity() {
+		Double avg = 0.0;
+		for (Date date : DayStorage) {
+			avg=avg+date.getElectricity();
+		}
+		avg=avg/DayStorage.size();
+		return avg;
+	}
+    
+	/*
+	 * Calculate average total bill cost for one day using all previous dates' bills
+	 */
+	public Double getAvgTotal() {
+		Double avg = 0.0;
+		for (Date date : DayStorage) {
+			avg=avg+date.getTotal();
+		}
+		avg=avg/DayStorage.size();
+		return avg;
+	}
+	
+    //Check to make sure graph only contains 180 points
     public boolean checkDayStorage() {
     	//DayStorage only holds 6 months (180 days of data). Pops excess after limit.
     	if(DayStorage.size()==180) {
@@ -1092,16 +1167,24 @@ public class ViewController extends Main {
     	return DayStorageFull;
     }
     
+    //Empties the graph points, and resets any calculations
     public void resetDayStorage() {
     	//Empties dayStorage and resets the graph
     	DayStorage.clear();
-    	DayStorageFull= false;
+    	DayStorageFull=false;
+    	Water.getData().clear();
+    	Electricity.getData().clear();
+    	Total.getData().clear();
     	ElectricDialog.setContentText("");
     	WaterDialog.setContentText("");
     	TotalDialog.setContentText("");
-    	DashboardChart.getData().clear();;
+    	PredictedWater.setContentText("");
+    	PredictedElectric.setContentText("");
+    	PredictedTotal.setContentText("");
+    	retrieveCurrentDate();
     }
     
+    //used to iterate the date from the current date (real time)
     public void iterateDay() {
     	//iterates date variables for Graph
         switch(tempMonth) {
@@ -1111,6 +1194,7 @@ public class ViewController extends Main {
         		   tempMonth++;
         	   }
         	   tempDay++;
+        	   break;
            case 2:
         	   //no leap years
         	   if(tempDay==28) { 
@@ -1118,60 +1202,70 @@ public class ViewController extends Main {
         		   tempMonth++;
         	   }
         	   tempDay++;
+        	   break;
            case 3:
         	   if(tempDay==31) {
         		   tempDay=0;
         		   tempMonth++;
         	   }
         	   tempDay++;
+        	   break;
            case 4:
         	   if(tempDay==30) {
         		   tempDay=0;
         		   tempMonth++;
         	   }
         	   tempDay++;
+        	   break;
            case 5:
         	   if(tempDay==31) {
         		   tempDay=0;
         		   tempMonth++;
         	   }
         	   tempDay++;
+        	   break;
            case 6:
         	   if(tempDay==30) {
         		   tempDay=0;
         		   tempMonth++;
         	   }
         	   tempDay++;
+        	   break;
            case 7:
         	   if(tempDay==31) {
         		   tempDay=0;
         		   tempMonth++;
         	   }
         	   tempDay++;
+        	   break;
            case 8:
         	   if(tempDay==31) {
         		   tempDay=0;
         		   tempMonth++;
         	   }
         	   tempDay++;
+        	   break;
            case 9:
         	   if(tempDay==30) {
         		   tempDay=0;
         		   tempMonth++;
         	   }
         	   tempDay++;
+        	   break;
            case 10:
         	   if(tempDay==31) {
         		   tempDay=0;
         		   tempMonth++;
         	   }
         	   tempDay++;
+        	   break;
            case 11:
         	   if(tempDay==30) {
         		   tempDay=0;
         		   tempMonth++;
         	   }
         	   tempDay++;
+        	   break;
            case 12:
         	   if(tempDay==31) {
         		   tempDay=0;
@@ -1180,6 +1274,7 @@ public class ViewController extends Main {
         	   }
         	   tempDay++;
         	   tempMonth++;
+        	   break;
          }
       }
     }
