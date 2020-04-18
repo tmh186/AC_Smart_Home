@@ -20,6 +20,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
@@ -123,9 +124,20 @@ public class DebugViewController {
 	@FXML
 	private Button dryerButton = new Button();
 	@FXML
-	private Button garagedoorAButton = new Button();
+	private Button garageDoor = new Button();
 	@FXML
-	private Button garagedoorBButton = new Button();
+	private Button backDoor = new Button();
+	@FXML
+	private Button frontDoor = new Button();
+
+
+	@FXML
+	private Button hvacButton;
+	@FXML
+	private Button waterHeaterButton;
+	
+	@FXML
+	private Label consoleLabel;
 
 	/*
 	 * Events for menu item selection
@@ -256,7 +268,7 @@ public class DebugViewController {
 	@FXML
 	public void handleUserSelectedDate(ActionEvent ex) throws InterruptedException {
 		System.out.println("User has selected to edit new day:" + datePicker.getValue());
-
+		consoleLabel.setText("SmartHome Console: You are now editing " + datePicker.getValue());
 		myDateValue = Date.valueOf(datePicker.getValue());
 	}
 
@@ -472,21 +484,43 @@ public class DebugViewController {
 		// choose device, isState (true/false)
 		buttonActions(29);
 	}
+	
+	@FXML
+	public void frontDoorButton(ActionEvent ex) throws InterruptedException, SQLException {
+		// get status, update ui and status in db
+		// choose device, isState (true/false)
+		buttonActions(30);
+	}
 
+	@FXML
+	public void backdoorButton(ActionEvent ex) throws InterruptedException, SQLException {
+		// get status, update ui and status in db
+		// choose device, isState (true/false)
+		buttonActions(31);
+	}
+	
+	@FXML
+	public void garageDoorButton(ActionEvent ex) throws InterruptedException, SQLException {
+		// get status, update ui and status in db
+		// choose device, isState (true/false)
+		buttonActions(32);
+	}
+	
 	public void buttonActions(int i) throws SQLException {
 		System.out.println(a.get(i));
 
 		if (a.get(i).isState() == false) // turn device which is off, on
 		{
-			// update db
 			curr.turnDeviceOn(a.get(i));
+			consoleLabel.setText("SmartHome Console: Device successfully turned on!");
 			System.out.println("User turned device on");
-			// update floorplan
 		} else if (a.get(i).isState() == true) { // turn device which is on, off
 			curr.turnDeviceOff(c,a.get(i), currBill);
+			consoleLabel.setText("SmartHome Console: Device successfully turned off!");
 			System.out.println("User turned device off");
 			System.out.println(currBill);
 		} else {
+			consoleLabel.setText("SmartHome Console: ERROR");
 			System.out.println("an issue");
 		}
 	}
@@ -506,6 +540,7 @@ public class DebugViewController {
 		try {
 			c = Database.initConnect();
 			a = Database.getAllDevices(c);
+			//Collections.sort(a);
 			currBill = Bill.getCurrentBill(Database.getAllBills(c));
 			curr = new EventTacking(a);
 		} catch (ClassNotFoundException | SQLException e) {
