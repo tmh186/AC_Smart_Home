@@ -18,6 +18,7 @@ import java.util.Locale;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuButton;
@@ -126,6 +127,11 @@ public class DebugViewController {
 	private Button garagedoorAButton = new Button();
 	@FXML
 	private Button garagedoorBButton = new Button();
+	
+
+	
+	
+	
 
 	/*
 	 * Events for menu item selection

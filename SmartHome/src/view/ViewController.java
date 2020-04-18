@@ -1,13 +1,19 @@
 package view;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Scanner;
+
 import application.Date;
 import application.Main;
+import connections.Bill;
 import connections.Database;
 import connections.Weather;
 import javafx.event.ActionEvent;
@@ -36,6 +42,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import simulation.sixMonthSimulation;
 
 public class ViewController extends Main {
 	
@@ -269,6 +276,10 @@ public class ViewController extends Main {
 	 * Language
 	 */
 	
+	public ViewController() {
+		System.out.println("Testing controller .....");
+	}
+	
 	public void handleJapaneseOptionClick(ActionEvent e) throws InterruptedException {
 		//changes all writen text on UI to Japanese
 		setLocale(getLoc_JP());
@@ -385,7 +396,54 @@ public class ViewController extends Main {
 	@FXML
 	public void handleGoToGraphButton(ActionEvent e) throws InterruptedException {
 			BaseSplitPane.setDividerPosition(0, 0.0);
+			
+			fetchDatAndPlotGraph();
 	}
+	
+	
+	/**
+	 *  Connect and pull bills to plot graph
+	 */
+	private void fetchDatAndPlotGraph() {
+		try {
+			//sixMonthSimulation.main(null);
+			List<Bill> bills = Database.getAllBills(mainConnection);
+//			System.out.println();
+//			System.out.println(bills);
+//			//Water.getData()
+			//for (Bill bill : bills) {
+			// 30 x 6 = 180 
+			bills.sort(new Comparator<Bill>() {
+				public int compare(Bill o1, Bill o2) {
+					long d = o1.getDate().getTime() - o2.getDate().getTime();
+					if(d>0)
+						return 1;
+					else if (d<0) 
+						return -1; 
+					return 0;	
+				};
+			});
+			
+		
+		
+			for(int i=0; i<bills.size(); i++) {
+				//if(i%10==0) {
+					Bill bill = bills.get(i);
+					String date = bill.getDate().toString(); // bill.getDate().getDay()+"/"+(bill.getDate().getMonth()+1);
+					System.out.println(date);
+					Water.getData().add(new XYChart.Data(date, bill.getTotalWater()));
+					Electricity.getData().add(new XYChart.Data(date, bill.getTotalElec()));
+					Total.getData().add(new XYChart.Data(date, bill.getTotal()));
+				//}
+				
+			}
+		}  
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@FXML
 	public void handleGoBackButton(ActionEvent e) throws InterruptedException {
 			BaseSplitPane.setDividerPosition(0, 1.0);

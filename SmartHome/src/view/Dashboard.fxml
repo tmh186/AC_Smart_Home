@@ -10,6 +10,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
@@ -289,14 +290,18 @@
             </AnchorPane>
           <AnchorPane fx:id="RightPartition" minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="116.0" style="-fx-background-color: rgb(249, 249, 249);">
                <children>
-                  <LineChart fx:id="DashboardChart" layoutY="34.0" prefHeight="441.0" prefWidth="793.0" title="Utility Bill Totals">
-                    <xAxis>
-                      <CategoryAxis label="Bill Date" side="BOTTOM" fx:id="xAxis" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis fx:id="yAxis" label="Cost($)" side="LEFT" />
-                    </yAxis>
-                  </LineChart>
+                  <ScrollPane layoutY="34.0">
+                     <content>
+                        <LineChart fx:id="DashboardChart" prefHeight="441.0" prefWidth="793.0" title="Utility Bill Totals">
+                          <xAxis>
+                            <CategoryAxis animated="false" label="Bill Date" side="BOTTOM" visible="false" fx:id="xAxis" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis fx:id="yAxis" animated="false" label="Cost($)" side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                     </content>
+                  </ScrollPane>
                   <Button fx:id="BackButton" layoutX="410.0" layoutY="563.0" mnemonicParsing="false" onAction="#handleGoBackButton" prefHeight="46.0" prefWidth="369.0" text="Back" />
                   <DialogPane fx:id="ElectricDialog" contentText="" headerText="Total Electric Bill:" layoutX="152.0" layoutY="488.0" prefHeight="70.0" prefWidth="92.0" />
                   <DialogPane fx:id="TotalDialog" contentText="" headerText="Total Bill:" layoutX="273.0" layoutY="488.0" prefHeight="70.0" prefWidth="92.0" />
