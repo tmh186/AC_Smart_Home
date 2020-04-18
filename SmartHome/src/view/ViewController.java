@@ -262,7 +262,8 @@ public class ViewController extends Main {
 	public int tempYear;
 	@FXML
 	public Stage ControllerStage;
-	
+	public boolean HVACON;
+	public boolean HeaterON;
 	/* Event handling */
 		
 	/*
@@ -324,10 +325,16 @@ public class ViewController extends Main {
     	PredictedElectric.setHeaderText(getWord("PredictedElectric"));
     	PredictedWater.setHeaderText(getWord("PredictedWater"));
     	PredictedTotal.setHeaderText(getWord("PredictedTotal"));
-    	hvacStatusLabel.setText(getWord("Stopped"));
-		waterHeaterStatusLabel.setText(getWord("Stopped"));
-		hvacStatusLabel.setText(getWord("Running"));
-		waterHeaterStatusLabel.setText(getWord("Running"));
+    	if(HVACON==true) {
+    		hvacStatusLabel.setText(getWord("Running"));
+    	} else {
+    		hvacStatusLabel.setText(getWord("Stopped"));
+    	}
+    	if(HeaterON==true) {
+    		waterHeaterStatusLabel.setText(getWord("Running"));
+    	} else {
+    		waterHeaterStatusLabel.setText(getWord("Stopped"));
+    	}
 		refreshView.setText(getWord("RefreshView"));
 		hvacTitle.setText(getWord("HVAC"));
 		waterHeaterTitle.setText(getWord("Water"));
@@ -388,10 +395,16 @@ public class ViewController extends Main {
     	PredictedElectric.setHeaderText(getWord("PredictedElectric"));
     	PredictedWater.setHeaderText(getWord("PredictedWater"));
     	PredictedTotal.setHeaderText(getWord("PredictedTotal"));
-    	hvacStatusLabel.setText(getWord("Stopped"));
-		waterHeaterStatusLabel.setText(getWord("Stopped"));
-		hvacStatusLabel.setText(getWord("Running"));
-		waterHeaterStatusLabel.setText(getWord("Running"));
+    	if(HVACON==true) {
+    		hvacStatusLabel.setText(getWord("Running"));
+    	} else {
+    		hvacStatusLabel.setText(getWord("Stopped"));
+    	}
+    	if(HeaterON==true) {
+    		waterHeaterStatusLabel.setText(getWord("Running"));
+    	} else {
+    		waterHeaterStatusLabel.setText(getWord("Stopped"));
+    	}
 		refreshView.setText(getWord("RefreshView"));
 		hvacTitle.setText(getWord("HVAC"));
 		waterHeaterTitle.setText(getWord("Water"));
@@ -853,9 +866,11 @@ public class ViewController extends Main {
 				break;
 		case 29: i = 28;
 				hvacStatusLabel.setText(getWord("Stopped"));
+				HVACON=false;
 				break;
 		case 30: i = 29;
 				waterHeaterStatusLabel.setText(getWord("Stopped"));
+				HeaterON=false;
 				break;
 		case 31: i = 30;
 				frontdoor.setImage(CLOSEDOOR_IMAGE);
@@ -960,9 +975,11 @@ public class ViewController extends Main {
 				break;
 		case 29: i = 28;
 				hvacStatusLabel.setText(getWord("Running"));
+				HVACON=true;
 				break;
 		case 30: i = 29;
 				waterHeaterStatusLabel.setText(getWord("Running"));
+				HeaterON=true;
 				break;
 		case 31: i = 30;
 				frontdoor.setImage(OPENDOOR_IMAGE);
