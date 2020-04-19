@@ -58,12 +58,18 @@ public class EventTacking {
 	 * Turns a device on and then creates a timestamp for the action and updates it
 	 * @param curDevice , device provided
 	 */
-	public void turnDeviceOn(Device curDevice) {
+	public void turnDeviceOn(Connection c, Device curDevice) {
 		if (curDevice.isState()) {
 			return;
 		}
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		curDevice.changeState();
+		try {
+			Database.updateDeviceStatus(c, curDevice.getNum(), true);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		EventTracking.add(new Event(curDevice, timestamp));
 	}
 	
@@ -86,6 +92,7 @@ public class EventTacking {
 		System.out.println("Elec: "+ elec + " Water: "+water);
 		try {
 			Database.addtoBillRecord(c, d, water, elec);
+			Database.updateDeviceStatus(c, curDevice.getNum(), false);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
