@@ -1,6 +1,7 @@
 package connections;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -72,18 +73,19 @@ public class EventTacking {
 	 * @param curDevice, Device to be turned off
 	 * @param currentBill, Currentbill record inside the application
 	 */
-	public void turnDeviceOff(Connection c, Device curDevice, Bill currentBill) {
+	public void turnDeviceOff(Connection c, Device curDevice, Date d) {
 		if (curDevice.isOff()) {
 			return;
 		}
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		curDevice.changeState();
 		Event a = getEvent(curDevice);
-		double time = (timestamp.getTime() - a.getTp().getTime()) /60000;
+		double time = (double)(timestamp.getTime() - a.getTp().getTime()) /60000;
 		double elec = time * curDevice.getElecCost();
 		double water = time * curDevice.getWaterCost();
+		System.out.println("Elec: "+ elec + " Water: "+water);
 		try {
-			Database.addtoBillRecord(c, currentBill.getDate(), water, elec);
+			Database.addtoBillRecord(c, d, water, elec);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
