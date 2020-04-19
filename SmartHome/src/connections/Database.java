@@ -316,10 +316,10 @@ public class Database {
 	 * @param newStatus, the status to apply on the device in the table
 	 * @throws SQLException
 	 */
-	public void updateDeviceStatus(Connection c, int id, boolean newStatus) throws SQLException {
+	public static void updateDeviceStatus(Connection c, int id, boolean newStatus) throws SQLException {
 		// update a device status
 		Statement stmt = c.createStatement();
-		stmt.executeUpdate("UPDATE devices SET state = " + newStatus + " WHERE devices_id=" + id + ";");
+		stmt.executeUpdate("UPDATE device SET state = " + newStatus + " WHERE devices_id=" + id + ";");
 		c.commit();
 		stmt.close();
 	}
