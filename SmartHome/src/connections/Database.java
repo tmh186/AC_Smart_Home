@@ -307,6 +307,17 @@ public class Database {
 		c.commit();
 		stmt.close();
 	}
+	
+	public static EventTacking getEventTracking(Connection c, ArrayList<Device> a) throws SQLException {
+		EventTacking curr = new EventTacking(a);
+		Statement stmt = c.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM day_events;");
+		while (rs.next()) { // if there is a record already, update it
+			int id = rs.getInt("device_id");
+			curr.EventTracking.add(new Event(a.get(id+1),rs.getTimestamp("event_time")));
+		}
+		return curr;
+	}
 
 	/**
 	 * This will update a device status in the database
