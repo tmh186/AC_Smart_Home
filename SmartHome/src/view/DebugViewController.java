@@ -504,7 +504,7 @@ public class DebugViewController {
 
 		if (a.get(i).isState() == false) // turn device which is off, on
 		{
-			curr.turnDeviceOn(a.get(i));
+			curr.turnDeviceOn(c, a.get(i));
 			consoleLabel.setText("SmartHome Console: Device successfully turned on!");
 			System.out.println("User turned device on");
 		} else if (a.get(i).isState() == true) { // turn device which is on, off
