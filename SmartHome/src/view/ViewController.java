@@ -262,7 +262,8 @@ public class ViewController extends Main {
 	public int tempYear;
 	@FXML
 	public Stage ControllerStage;
-	
+	public boolean HVACON;
+	public boolean HeaterON;
 	/* Event handling */
 		
 	/*
@@ -302,12 +303,12 @@ public class ViewController extends Main {
 		ClearButton.setText(getWord("ClearButton"));
 		DashboardChart.setTitle(getWord("GraphTitle"));
 		
-		generateDataLabel.setText(getWord("generateDataLabel"));
-		TotalLabel.setText(getWord("TotalLabel"));
-		ElectricityLabel.setText(getWord("ElectricityLabel"));
-		WaterLabel.setText(getWord("WaterLabel"));
-		LegendLabel.setText(getWord("LegendLabel"));
-		DashboardChart.setTitle("GraphTitle");
+		//generateDataLabel.setText(getWord("generateDataLabel"));
+		//TotalLabel.setText(getWord("TotalLabel"));
+		//ElectricityLabel.setText(getWord("ElectricityLabel"));
+		//WaterLabel.setText(getWord("WaterLabel"));
+		//LegendLabel.setText(getWord("LegendLabel"));
+		DashboardChart.setTitle(getWord("GraphTitle"));
 		xAxis.setLabel(getWord("xAxisLabel"));
     	yAxis.setLabel(getWord("yAxisLabel"));
     	Water.setName(getWord("Water"));
@@ -324,7 +325,19 @@ public class ViewController extends Main {
     	PredictedElectric.setHeaderText(getWord("PredictedElectric"));
     	PredictedWater.setHeaderText(getWord("PredictedWater"));
     	PredictedTotal.setHeaderText(getWord("PredictedTotal"));
-
+    	if(HVACON==true) {
+    		hvacStatusLabel.setText(getWord("Running"));
+    	} else {
+    		hvacStatusLabel.setText(getWord("Stopped"));
+    	}
+    	if(HeaterON==true) {
+    		waterHeaterStatusLabel.setText(getWord("Running"));
+    	} else {
+    		waterHeaterStatusLabel.setText(getWord("Stopped"));
+    	}
+		refreshView.setText(getWord("RefreshView"));
+		hvacTitle.setText(getWord("HVAC"));
+		waterHeaterTitle.setText(getWord("Water"));
 	}
 	
 	public void handleEnglishOptionClick(ActionEvent e) throws InterruptedException {
@@ -354,17 +367,17 @@ public class ViewController extends Main {
 		ThermoSliderLabel.setText(getWord("ThermoSliderLabel"));
 		ClearButton.setText(getWord("ClearButton"));
 		
-		DayButton.setText(getWord("DayButton"));
-		WeekButton.setText(getWord("WeekButton"));
-		MonthButton.setText(getWord("MonthButton"));
-		LifetimeButton.setText(getWord("LifetimeButton"));
+		//DayButton.setText(getWord("DayButton"));
+		//WeekButton.setText(getWord("WeekButton"));
+		//MonthButton.setText(getWord("MonthButton"));
+		//LifetimeButton.setText(getWord("LifetimeButton"));
 		
-		generateDataLabel.setText(getWord("generateDataLabel"));
-		TotalLabel.setText(getWord("TotalLabel"));
-		ElectricityLabel.setText(getWord("ElectricityLabel"));
-		WaterLabel.setText(getWord("WaterLabel"));
-		LegendLabel.setText(getWord("LegendLabel"));
-		DashboardChart.setTitle("GraphTitle");
+		//generateDataLabel.setText(getWord("generateDataLabel"));
+		//TotalLabel.setText(getWord("TotalLabel"));
+		//ElectricityLabel.setText(getWord("ElectricityLabel"));
+		//WaterLabel.setText(getWord("WaterLabel"));
+		//LegendLabel.setText(getWord("LegendLabel"));
+		DashboardChart.setTitle(getWord("GraphTitle"));
 		xAxis.setLabel(getWord("xAxisLabel"));
     	yAxis.setLabel(getWord("yAxisLabel"));
     	Water.setName(getWord("Water"));
@@ -382,7 +395,19 @@ public class ViewController extends Main {
     	PredictedElectric.setHeaderText(getWord("PredictedElectric"));
     	PredictedWater.setHeaderText(getWord("PredictedWater"));
     	PredictedTotal.setHeaderText(getWord("PredictedTotal"));
-
+    	if(HVACON==true) {
+    		hvacStatusLabel.setText(getWord("Running"));
+    	} else {
+    		hvacStatusLabel.setText(getWord("Stopped"));
+    	}
+    	if(HeaterON==true) {
+    		waterHeaterStatusLabel.setText(getWord("Running"));
+    	} else {
+    		waterHeaterStatusLabel.setText(getWord("Stopped"));
+    	}
+		refreshView.setText(getWord("RefreshView"));
+		hvacTitle.setText(getWord("HVAC"));
+		waterHeaterTitle.setText(getWord("Water"));
 	}
 	
 	/*
@@ -487,6 +512,7 @@ public class ViewController extends Main {
 			if (Total.getData().size()>MaxGraphSize) {
 				Total.getData().remove(0);
 			}
+			tempArray.add(date);
 		}
 		
 		//Calculate and display total bills for the last 6 months
@@ -839,10 +865,12 @@ public class ViewController extends Main {
 				dishwasher.setImage(STOPPED_IMAGE);
 				break;
 		case 29: i = 28;
-				hvacStatusLabel.setText("Stopped");
+				hvacStatusLabel.setText(getWord("Stopped"));
+				HVACON=false;
 				break;
 		case 30: i = 29;
-				waterHeaterStatusLabel.setText("Stopped");
+				waterHeaterStatusLabel.setText(getWord("Stopped"));
+				HeaterON=false;
 				break;
 		case 31: i = 30;
 				frontdoor.setImage(CLOSEDOOR_IMAGE);
@@ -946,10 +974,12 @@ public class ViewController extends Main {
 				dishwasher.setImage(RUNNING_IMAGE);
 				break;
 		case 29: i = 28;
-				hvacStatusLabel.setText("Running");
+				hvacStatusLabel.setText(getWord("Running"));
+				HVACON=true;
 				break;
 		case 30: i = 29;
-				waterHeaterStatusLabel.setText("Running");
+				waterHeaterStatusLabel.setText(getWord("Running"));
+				HeaterON=true;
 				break;
 		case 31: i = 30;
 				frontdoor.setImage(OPENDOOR_IMAGE);
