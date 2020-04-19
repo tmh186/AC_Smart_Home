@@ -531,9 +531,9 @@ public class DebugViewController {
 		try {
 			c = Database.initConnect();
 			a = Database.getAllDevices(c);
-			//Collections.sort(a);
 			Database.createCurrentBillEntry(c);
 			curr = Database.getEventTracking(c, a);
+			System.out.println(curr);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
