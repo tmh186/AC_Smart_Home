@@ -1,7 +1,5 @@
 package view;
 
-import view.ViewController;
-import connections.Bill;
 import connections.Database;
 import connections.Device;
 import connections.EventTacking;
@@ -10,13 +8,8 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Locale;
-
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -515,10 +508,9 @@ public class DebugViewController {
 			consoleLabel.setText("SmartHome Console: Device successfully turned on!");
 			System.out.println("User turned device on");
 		} else if (a.get(i).isState() == true) { // turn device which is on, off
-			curr.turnDeviceOff(c,a.get(i), currBill);
+			curr.turnDeviceOff(c,a.get(i), Date.valueOf(Database.getCurrentDate()));
 			consoleLabel.setText("SmartHome Console: Device successfully turned off!");
 			System.out.println("User turned device off");
-			System.out.println(currBill);
 		} else {
 			consoleLabel.setText("SmartHome Console: ERROR");
 			System.out.println("an issue");
@@ -531,7 +523,6 @@ public class DebugViewController {
 
 	ArrayList<Device> a = null;
 	EventTacking curr = null;
-	Bill currBill = null;
 	Connection c = null;
 
 	@FXML
@@ -541,7 +532,7 @@ public class DebugViewController {
 			c = Database.initConnect();
 			a = Database.getAllDevices(c);
 			//Collections.sort(a);
-			currBill = Bill.getCurrentBill(Database.getAllBills(c));
+			Database.createCurrentBillEntry(c);
 			curr = new EventTacking(a);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
