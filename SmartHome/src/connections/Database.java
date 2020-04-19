@@ -318,6 +318,13 @@ public class Database {
 		}
 		return curr;
 	}
+	
+	public static void removeEventDB(Connection c, int deviceid) throws SQLException {
+		Statement stmt = c.createStatement();
+		stmt.executeUpdate("DELETE FROM day_events WHERE device_id="+deviceid+";");
+		c.commit();
+		stmt.close();
+	}
 
 	/**
 	 * This will update a device status in the database
