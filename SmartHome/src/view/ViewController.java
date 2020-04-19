@@ -1,9 +1,7 @@
 package view;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,7 +42,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import simulation.sixMonthSimulation;
 
 public class ViewController extends Main {
 		//format decimals to money format
@@ -483,13 +480,33 @@ public class ViewController extends Main {
 				//if(i%10==0) {
 					Bill bill = bills.get(i);
 					String date = bill.getDate().toString(); // bill.getDate().getDay()+"/"+(bill.getDate().getMonth()+1);
-					System.out.println(date);
+					//System.out.println(date);
 					Water.getData().add(new XYChart.Data(date, bill.getTotalWater()));
 					Electricity.getData().add(new XYChart.Data(date, bill.getTotalElec()));
 					Total.getData().add(new XYChart.Data(date, bill.getTotal()));
 				//}
 				
 			}
+			
+			//Calculate and display total bills for the last 6 months
+			Double totalWater=0.0;
+			Double totalElectricity=0.0;
+			Double total=0.0;
+					
+			for (Bill date : bills) {
+				totalWater=totalWater + date.getTotalWater();
+				totalElectricity=totalElectricity + date.getTotalElec();
+				total=total + date.getTotal();
+			}
+					
+			ElectricDialog.setContentText("$" + d.format(totalElectricity));
+			WaterDialog.setContentText("$" + d.format(totalWater));
+			TotalDialog.setContentText("$" + d.format(total));
+			
+			//Calculate and display new predicted bill costs for the next month (30 days)
+	    	PredictedWater.setContentText("$" + d.format(getAvgWater(billarchive)*30));
+	    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity(billarchive)*30));
+	    	PredictedTotal.setContentText("$" + d.format(getAvgTotal(billarchive)*30));
 		}  
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -589,9 +606,9 @@ public class ViewController extends Main {
 		TotalDialog.setContentText("$" + d.format(total));
 		
 		//Calculate and display new predicted bill costs for the next month (30 days)
-    	PredictedWater.setContentText("$" + d.format(getAvgWater()*30));
-    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity()*30));
-    	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*30));
+    	PredictedWater.setContentText("$" + d.format(getAvgWater(billarchive)*30));
+    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity(billarchive)*30));
+    	PredictedTotal.setContentText("$" + d.format(getAvgTotal(billarchive)*30));
 	}
 
 
@@ -634,9 +651,9 @@ public class ViewController extends Main {
 			Total.getData().remove(0);
 		}
 		//Calculate and display new predicted bill costs for the next day
-				PredictedWater.setContentText("$" + d.format(getAvgWater()));
-				PredictedElectric.setContentText("$" + d.format(getAvgElectricity()));
-				PredictedTotal.setContentText("$" + d.format(getAvgTotal()));
+				PredictedWater.setContentText("$" + d.format(getAvgWater(billarchive)));
+				PredictedElectric.setContentText("$" + d.format(getAvgElectricity(billarchive)));
+				PredictedTotal.setContentText("$" + d.format(getAvgTotal(billarchive)));
 		}
 	
 	/*
@@ -692,9 +709,9 @@ public class ViewController extends Main {
     	TotalDialog.setContentText("$" + d.format(total));
     	
     	//Calculate and display new predicted bill costs for the next week
-    	PredictedWater.setContentText("$" + d.format(getAvgWater()*7));
-    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity()*7));
-    	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*7));
+    	PredictedWater.setContentText("$" + d.format(getAvgWater(billarchive)*7));
+    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity(billarchive)*7));
+    	PredictedTotal.setContentText("$" + d.format(getAvgTotal(billarchive)*7));
 	}
 
 	
@@ -752,9 +769,9 @@ public class ViewController extends Main {
 		TotalDialog.setContentText("$" + d.format(total));
 		
 		//Calculate and display new predicted bill costs for the next month (30 days)
-    	PredictedWater.setContentText("$" + d.format(getAvgWater()*30));
-    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity()*30));
-    	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*30));
+    	PredictedWater.setContentText("$" + d.format(getAvgWater(billarchive)*30));
+    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity(billarchive)*30));
+    	PredictedTotal.setContentText("$" + d.format(getAvgTotal(billarchive)*30));
 	}
 
 	
@@ -811,9 +828,9 @@ public class ViewController extends Main {
 		TotalDialog.setContentText("$" + d.format(total));
 		
 		//Calculate and display new predicted bill costs for the next 6 months (180 days
-    	PredictedWater.setContentText("$" + d.format(getAvgWater()*180));
-    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity()*180));
-    	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*180));
+    	PredictedWater.setContentText("$" + d.format(getAvgWater(billarchive)*180));
+    	PredictedElectric.setContentText("$" + d.format(getAvgElectricity(billarchive)*180));
+    	PredictedTotal.setContentText("$" + d.format(getAvgTotal(billarchive)*180));
 	}
 
 	
@@ -1201,36 +1218,36 @@ public class ViewController extends Main {
     /*
 	 * Calculate average water bill cost for one day using all previous dates' bills
 	 */
-	public Double getAvgWater() {
+	public Double getAvgWater(ArrayList<Bill> bills) {
 		Double avg = 0.0;
-		for (Date date : DayStorage) {
-			avg=avg+date.getWater();
+		for (Bill bill : bills) {
+			avg=avg+bill.getTotalWater();
 		}
-		avg=avg/DayStorage.size();
+		avg=avg/bills.size();
 		return avg;
 	}
 	
 	/*
 	 * Calculate average electricity bill cost for one day using all previous dates' bills
 	 */
-	public Double getAvgElectricity() {
+	public Double getAvgElectricity(ArrayList<Bill> bills) {
 		Double avg = 0.0;
-		for (Date date : DayStorage) {
-			avg=avg+date.getElectricity();
+		for (Bill bill : bills) {
+			avg=avg+bill.getTotalElec();
 		}
-		avg=avg/DayStorage.size();
+		avg=avg/bills.size();
 		return avg;
 	}
     
 	/*
 	 * Calculate average total bill cost for one day using all previous dates' bills
 	 */
-	public Double getAvgTotal() {
+	public Double getAvgTotal(ArrayList<Bill> bills) {
 		Double avg = 0.0;
-		for (Date date : DayStorage) {
-			avg=avg+date.getTotal();
+		for (Bill bill : bills) {
+			avg=avg+bill.getTotal();
 		}
-		avg=avg/DayStorage.size();
+		avg=avg/bills.size();
 		return avg;
 	}
 	
