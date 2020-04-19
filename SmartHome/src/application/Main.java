@@ -1,6 +1,5 @@
 package application;
 	
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.ResourceBundle;
 import connections.Bill;
 import connections.Database;
 import connections.Device;
-import connections.EventTacking;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -33,15 +31,15 @@ public class Main extends Application {
 	public static Connection mainConnection;
 	public static ArrayList<Device> allDevices;
 	public static ArrayList<Bill> billarchive;
-	public static Bill curBill;
-	public static EventTacking eventTrack;
+	//public static Bill curBill;
+	//public static EventTacking eventTrack;
 	public static Thread havcOp;
 	
 	@Override
 	public void start(Stage stage) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			URL loc = Main.class.getResource("../view/Dashboard.fxml");
+			//URL loc = Main.class.getResource("../view/Dashboard.fxml");
 			loader.setLocation(Main.class.getResource("../view/Dashboard.fxml"));
 			Parent root = loader.load();
 			Scene scene = new Scene(root);
@@ -61,8 +59,8 @@ public class Main extends Application {
 			mainConnection = Database.initConnect();
 			allDevices = Database.getAllDevices(mainConnection);
 			billarchive = Database.getAllBills(mainConnection);
-			curBill = Bill.getCurrentBill(billarchive);
-			eventTrack = new EventTacking(allDevices);
+			//curBill = Bill.getCurrentBill(billarchive);
+			//eventTrack = new EventTacking(allDevices);
 			havcOp = new HvacNormal(mainConnection, allDevices.get(28));
 			havcOp.start();
 		} catch (ClassNotFoundException| SQLException e) {
