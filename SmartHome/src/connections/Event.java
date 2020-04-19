@@ -1,5 +1,6 @@
 package connections;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,7 +30,8 @@ public class Event {
 	 * @param stmt, linked to the connection to the database
 	 * @throws SQLException
 	 */
-	public void updateDB(Statement stmt) throws SQLException {
+	public void updateDB(Connection c) throws SQLException {
+		Statement stmt = c.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM day_events WHERE device_id="+ this.getDevice().getNum());
 		if (rs.next()) {
 			stmt.executeUpdate("UPDATE day_events SET event_time="+ this.getTp().toString()
@@ -39,7 +41,9 @@ public class Event {
 			stmt.executeUpdate("INSERT INTO day_events (device_id, event_time, state_change) "
 					      + "VALUES("+this.getDevice().getNum()+", '"+this.getTp().toString()+"', true)");
 		}
+		c.commit();
 		rs.close();
+		stmt.close();
 	}
 
 	public Timestamp getTp() {
