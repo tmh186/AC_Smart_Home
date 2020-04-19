@@ -30,8 +30,8 @@ public class EventTrackingTest {
 		current.turnDeviceOn(a.get(24));
 		//current.exportToDatabase(c);
 		Thread.sleep(60000); //wait one minute
-		current.turnDeviceOff(c,a.get(1), curBill);
-		current.turnDeviceOff(c,a.get(24), curBill);
+		current.turnDeviceOff(c,a.get(1), curBill.getDate());
+		current.turnDeviceOff(c,a.get(24), curBill.getDate());
 		System.out.println(curBill);
 		System.out.println(current);//Should be empty by the end
 		c.close();
