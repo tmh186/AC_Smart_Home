@@ -23,12 +23,10 @@ public class EventTacking {
 	 * @throws SQLException
 	 */
 	public void exportToDatabase(Connection c) throws SQLException {
-		Statement stmt = c.createStatement();
 		for (Event e : EventTracking) {
-			e.updateDB(stmt);
+			e.updateDB(c);
 		}
 		c.commit();
-		stmt.close();
 	}
 	
 	/**
@@ -63,14 +61,16 @@ public class EventTacking {
 			return;
 		}
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		Event cur = new Event(curDevice, timestamp);
 		curDevice.changeState();
 		try {
 			Database.updateDeviceStatus(c, curDevice.getNum(), true);
+			cur.updateDB(c);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		EventTracking.add(new Event(curDevice, timestamp));
+		EventTracking.add(cur);
 	}
 	
 	/**
@@ -93,6 +93,7 @@ public class EventTacking {
 		try {
 			Database.addtoBillRecord(c, d, water, elec);
 			Database.updateDeviceStatus(c, curDevice.getNum(), false);
+			Database.removeEventDB(c, curDevice.getNum());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
