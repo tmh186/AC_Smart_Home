@@ -25,9 +25,9 @@ public class EventTrackingTest {
 		EventTacking current = new EventTacking(a);
 		System.out.println(a.get(1));
 		System.out.println(a.get(24));
-		current.turnDeviceOn(a.get(1));
+		current.turnDeviceOn(c, a.get(1));
 		System.out.println(current.getEvent(0).getTp().toString());
-		current.turnDeviceOn(a.get(24));
+		current.turnDeviceOn(c, a.get(24));
 		//current.exportToDatabase(c);
 		Thread.sleep(60000); //wait one minute
 		current.turnDeviceOff(c,a.get(1), curBill.getDate());
