@@ -540,9 +540,6 @@ public class ViewController extends Main {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		// Updating the indoor temp label for testing purposes
-//		String thermostatTempUI = String.valueOf(thermostatTemp);
-//		IndoorTempLabel.setText(thermostatTempUI + "°F");
 	}
 
 	/*
@@ -864,15 +861,18 @@ public class ViewController extends Main {
 		}
 
 		for (int i = 0; i < a.size(); i++) {
-			if (a.get(i).isState() == false) { // device is off
-				// update a(i)'s node on the floorplan
-				setDeviceUIOff(i);
+			if (a.get(i).isState() != allDevices.get(i).isState()) {
+				allDevices.get(i).changeState();
+				if (a.get(i).isState() == false) { // device is off
+					// update a(i)'s node on the floorplan
+					setDeviceUIOff(i + 1);
 
-			} else if (a.get(i).isState() == true) { // device is on
-				// update a(i)'s node on the floorplan
-				setDeviceUIOn(i);
-			} else {
-				System.out.println("an issue");
+				} else if (a.get(i).isState() == true) { // device is on
+					// update a(i)'s node on the floorplan
+					setDeviceUIOn(i + 1);
+				} else {
+					System.out.println("an issue");
+				}
 			}
 		}
 
@@ -930,11 +930,11 @@ public class ViewController extends Main {
 		for (int i = 0; i < a.size(); i++) {
 			if (a.get(i).isState() == false) { // device is off
 				// update a(i)'s node on the floorplan
-				setDeviceUIOff(i);
+				setDeviceUIOff(i + 1);
 
 			} else if (a.get(i).isState() == true) { // device is on
 				// update a(i)'s node on the floorplan
-				setDeviceUIOn(i);
+				setDeviceUIOn(i + 1);
 			} else {
 				System.out.println("an issue getting device state");
 			}
