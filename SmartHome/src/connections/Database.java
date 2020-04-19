@@ -314,7 +314,7 @@ public class Database {
 		ResultSet rs = stmt.executeQuery("SELECT * FROM day_events;");
 		while (rs.next()) { // if there is a record already, update it
 			int id = rs.getInt("device_id");
-			curr.EventTracking.add(new Event(a.get(id+1),rs.getTimestamp("event_time")));
+			curr.EventTracking.add(new Event(a.get(id-1),rs.getTimestamp("event_time")));
 		}
 		return curr;
 	}
