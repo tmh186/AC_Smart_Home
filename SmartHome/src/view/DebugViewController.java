@@ -533,7 +533,7 @@ public class DebugViewController {
 			a = Database.getAllDevices(c);
 			//Collections.sort(a);
 			Database.createCurrentBillEntry(c);
-			curr = new EventTacking(a);
+			curr = Database.getEventTracking(c, a);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -546,6 +546,6 @@ public class DebugViewController {
 		datePicker.setValue(LocalDate.now());
 
 		// for testing
-		System.out.println("Default date on initialize: " + datePicker.getValue());
+		//System.out.println("Default date on initialize: " + datePicker.getValue());
 	}
 }
