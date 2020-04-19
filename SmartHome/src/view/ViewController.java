@@ -15,6 +15,7 @@ import application.Date;
 import application.Main;
 import connections.Bill;
 import connections.Database;
+import connections.Device;
 import connections.Weather;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,6 +38,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -45,9 +47,9 @@ import javafx.stage.Stage;
 import simulation.sixMonthSimulation;
 
 public class ViewController extends Main {
+		//format decimals to money format
+		DecimalFormat d = new DecimalFormat("#,###,##0.00");
 	
-	//format decimals to money format
-	DecimalFormat d = new DecimalFormat("#,###,##0.00");
 	@FXML
 	public AnchorPane BaseAnchorPane;
 	@FXML
@@ -77,30 +79,19 @@ public class ViewController extends Main {
 	@FXML
 	public AnchorPane LeftPartition;
 	@FXML
+	public Button refreshView;
+	@FXML
 	public ImageView FloorPlanImageView;
 	/*
 	 * Doors
 	 * door open: set imageurl = ..\opendoor.png
 	 * door closed: set imagelocation = ..\closeddoor.png
 	 */
-	@FXML
-	public ImageView garage1door;
-	@FXML
-	public ImageView garage2door;
+
 	@FXML
 	public ImageView garage3door;
 	@FXML
 	public ImageView frontdoor;
-	@FXML
-	public ImageView masterbedroomdoor;
-	@FXML
-	public ImageView halfbathdoor;
-	@FXML
-	public ImageView br1door;
-	@FXML
-	public ImageView br2door;
-	@FXML
-	public ImageView laundrydoor;
 	@FXML
 	public ImageView backdoor;
 	/*
@@ -156,6 +147,8 @@ public class ViewController extends Main {
 	@FXML
 	public ImageView masterbrtv;
 	@FXML
+	public ImageView masterbathshower;
+	@FXML
 	public ImageView halfbathfan;
 	@FXML
 	public ImageView washer;
@@ -179,13 +172,19 @@ public class ViewController extends Main {
 	@FXML
 	public Label IndoorTempLabel; //Displays current indoor temp value
 	@FXML
-	public Pane energyPane;
+	public Pane hvacPane;
 	@FXML
-	public Label EnergyUsageTitle;
+	public ImageView hvacFanIcon;
 	@FXML
-	public ImageView energyicon;
+	public ImageView waterHeaterIcon;
 	@FXML
-	public Label EnergyLabel; //Displays current energy 
+	public Label hvacTitle;
+	@FXML
+	public Label waterHeaterTitle;
+	@FXML
+	public Label hvacStatusLabel; //Displays HVAC status
+	@FXML
+	public Label waterHeaterStatusLabel; //Displays water heater status
 	@FXML
 	public Pane theromstatPane;
 	@FXML
@@ -221,8 +220,8 @@ public class ViewController extends Main {
 	@FXML
 	public DatePicker DatePicker;
 	@FXML
-	public CategoryAxis xAxis;
-    public NumberAxis yAxis;
+	public CategoryAxis xAxis = new CategoryAxis();
+    public NumberAxis yAxis = new NumberAxis();
 	public LineChart<String,Number> DashboardChart;
 	final int MaxGraphSize = 180;
 	//Bills
@@ -259,6 +258,7 @@ public class ViewController extends Main {
 	public DialogPane PredictedWater;
 	@FXML
 	public DialogPane PredictedTotal;
+
 	
 	//Data Variables
 	public Queue<Date> DayStorage = new LinkedList<>(); //what will show up on the graph
@@ -269,7 +269,8 @@ public class ViewController extends Main {
 	public int tempYear;
 	@FXML
 	public Stage ControllerStage;
-	
+	public boolean HVACON;
+	public boolean HeaterON;
 	/* Event handling */
 		
 	/*
@@ -283,7 +284,8 @@ public class ViewController extends Main {
 	public void handleJapaneseOptionClick(ActionEvent e) throws InterruptedException {
 		//changes all writen text on UI to Japanese
 		setLocale(getLoc_JP());
-		//Main.stage.setTitle(getWord("Title"));
+		//setStageTitle(getWord("Title")); //null pointer
+		
 		FileMenuOption.setText(getWord("FileMenuOption"));
 		ExitOption.setText(getWord("ExitOption"));
 		EditMenuOption.setText(getWord("EditMenuOption"));
@@ -293,7 +295,8 @@ public class ViewController extends Main {
 		LanguageMenuOption.setText(getWord("LanguageMenuOption"));
 		EnglishOption.setText(getWord("EnglishOption"));
 		JapaneseOption.setText(getWord("JapaneseOption"));
-		EnergyUsageTitle.setText(getWord("EnergyUsageTitle"));
+
+		//EnergyUsageTitle.setText(getWord("EnergyUsageTitle"));
 		TempTitle.setText(getWord("TempTitle"));
 		IndoorTempTitle.setText(getWord("IndoorTempTitle"));
 		OutdoorTempTitle.setText(getWord("OutdoorTempTitle"));
@@ -303,12 +306,20 @@ public class ViewController extends Main {
 		RightPartitionButton.setText(getWord("RightPartitionButton"));
 		BackButton.setText(getWord("BackButton"));
 		ThermoSliderLabel.setText(getWord("ThermoSliderLabel"));
+		
 		//DayButton.setText(getWord("DayButton"));
 		//WeekButton.setText(getWord("WeekButton"));
 		//MonthButton.setText(getWord("MonthButton"));
 		//LifetimeButton.setText(getWord("LifetimeButton"));
 		ClearButton.setText(getWord("ClearButton"));
 		DashboardChart.setTitle(getWord("GraphTitle"));
+		
+		//generateDataLabel.setText(getWord("generateDataLabel"));
+		//TotalLabel.setText(getWord("TotalLabel"));
+		//ElectricityLabel.setText(getWord("ElectricityLabel"));
+		//WaterLabel.setText(getWord("WaterLabel"));
+		//LegendLabel.setText(getWord("LegendLabel"));
+		DashboardChart.setTitle(getWord("GraphTitle"));
 		xAxis.setLabel(getWord("xAxisLabel"));
     	yAxis.setLabel(getWord("yAxisLabel"));
     	Water.setName(getWord("Water"));
@@ -316,6 +327,7 @@ public class ViewController extends Main {
     	Total.setName(getWord("Total"));
     	DoorOpenLabel.setText(getWord("DoorOpenLabel"));
     	DoorClosedLabel.setText(getWord("DoorClosedLabel"));
+    	
     	TimeFrameLable.setText(getWord("TimeFrameLable"));
     	ElectricDialog.setHeaderText(getWord("ElectricDialog"));
     	WaterDialog.setHeaderText(getWord("WaterDialog"));
@@ -324,12 +336,26 @@ public class ViewController extends Main {
     	PredictedElectric.setHeaderText(getWord("PredictedElectric"));
     	PredictedWater.setHeaderText(getWord("PredictedWater"));
     	PredictedTotal.setHeaderText(getWord("PredictedTotal"));
+    	if(HVACON==true) {
+    		hvacStatusLabel.setText(getWord("Running"));
+    	} else {
+    		hvacStatusLabel.setText(getWord("Stopped"));
+    	}
+    	if(HeaterON==true) {
+    		waterHeaterStatusLabel.setText(getWord("Running"));
+    	} else {
+    		waterHeaterStatusLabel.setText(getWord("Stopped"));
+    	}
+		refreshView.setText(getWord("RefreshView"));
+		hvacTitle.setText(getWord("HVAC"));
+		waterHeaterTitle.setText(getWord("Water"));
 	}
 	
 	public void handleEnglishOptionClick(ActionEvent e) throws InterruptedException {
 		//changes all written text on UI to English 
 		setLocale(getLoc_EN());
-		//Main.stage.setTitle(getWord("Title"));
+		//setStageTitle(getWord("Title")); //null pointer
+		
 		FileMenuOption.setText(getWord("FileMenuOption"));
 		ExitOption.setText(getWord("ExitOption"));
 		EditMenuOption.setText(getWord("EditMenuOption"));
@@ -339,7 +365,8 @@ public class ViewController extends Main {
 		LanguageMenuOption.setText(getWord("LanguageMenuOption"));
 		EnglishOption.setText(getWord("EnglishOption"));
 		JapaneseOption.setText(getWord("JapaneseOption"));
-		EnergyUsageTitle.setText(getWord("EnergyUsageTitle"));
+		//TODO: energy usage title was removed, replaced with hvac and waterheater
+		//EnergyUsageTitle.setText(getWord("EnergyUsageTitle"));
 		TempTitle.setText(getWord("TempTitle"));
 		IndoorTempTitle.setText(getWord("IndoorTempTitle"));
 		OutdoorTempTitle.setText(getWord("OutdoorTempTitle"));
@@ -350,14 +377,27 @@ public class ViewController extends Main {
 		BackButton.setText(getWord("BackButton"));
 		ThermoSliderLabel.setText(getWord("ThermoSliderLabel"));
 		ClearButton.setText(getWord("ClearButton"));
+		
+		//DayButton.setText(getWord("DayButton"));
+		//WeekButton.setText(getWord("WeekButton"));
+		//MonthButton.setText(getWord("MonthButton"));
+		//LifetimeButton.setText(getWord("LifetimeButton"));
+		
+		//generateDataLabel.setText(getWord("generateDataLabel"));
+		//TotalLabel.setText(getWord("TotalLabel"));
+		//ElectricityLabel.setText(getWord("ElectricityLabel"));
+		//WaterLabel.setText(getWord("WaterLabel"));
+		//LegendLabel.setText(getWord("LegendLabel"));
 		DashboardChart.setTitle(getWord("GraphTitle"));
 		xAxis.setLabel(getWord("xAxisLabel"));
     	yAxis.setLabel(getWord("yAxisLabel"));
     	Water.setName(getWord("Water"));
     	Electricity.setName(getWord("Electricity"));
     	Total.setName(getWord("Total"));
+    	
     	DoorOpenLabel.setText(getWord("DoorOpenLabel"));
     	DoorClosedLabel.setText(getWord("DoorClosedLabel"));
+    	
     	TimeFrameLable.setText(getWord("TimeFrameLable"));
     	ElectricDialog.setHeaderText(getWord("ElectricDialog"));
     	WaterDialog.setHeaderText(getWord("WaterDialog"));
@@ -366,6 +406,19 @@ public class ViewController extends Main {
     	PredictedElectric.setHeaderText(getWord("PredictedElectric"));
     	PredictedWater.setHeaderText(getWord("PredictedWater"));
     	PredictedTotal.setHeaderText(getWord("PredictedTotal"));
+    	if(HVACON==true) {
+    		hvacStatusLabel.setText(getWord("Running"));
+    	} else {
+    		hvacStatusLabel.setText(getWord("Stopped"));
+    	}
+    	if(HeaterON==true) {
+    		waterHeaterStatusLabel.setText(getWord("Running"));
+    	} else {
+    		waterHeaterStatusLabel.setText(getWord("Stopped"));
+    	}
+		refreshView.setText(getWord("RefreshView"));
+		hvacTitle.setText(getWord("HVAC"));
+		waterHeaterTitle.setText(getWord("Water"));
 	}
 	
 	/*
@@ -483,7 +536,6 @@ public class ViewController extends Main {
 //		IndoorTempLabel.setText(thermostatTempUI + "°F");
 	}
 	
-	
 	/*
 	 * Generate 6 months worth of data for the graph
 	 */
@@ -518,6 +570,7 @@ public class ViewController extends Main {
 			if (Total.getData().size()>MaxGraphSize) {
 				Total.getData().remove(0);
 			}
+			tempArray.add(date);
 		}
 		
 		//Calculate and display total bills for the last 6 months
@@ -540,9 +593,9 @@ public class ViewController extends Main {
     	PredictedElectric.setContentText("$" + d.format(getAvgElectricity()*30));
     	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*30));
 	}
+
+
 	
-	
-	//////////////////////////////////////////TESTING/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/*
 	 * Generate 1 day's worth of data for the graph as 1 data point
 	 */
@@ -558,9 +611,9 @@ public class ViewController extends Main {
 		Date testDate = generateDayTEST(tempDay, tempMonth, tempYear);
 		
 		//Display the bill costs for the day in the "last polled"
-    	ElectricDialog.setContentText("$" + d.format(testDate.getElectricity()));
-    	WaterDialog.setContentText("$" + d.format(testDate.getWater()));
-    	TotalDialog.setContentText("$" + d.format(testDate.getTotal()));
+    	ElectricDialog.setContentText("$" + testDate.getElectricity());
+    	WaterDialog.setContentText("$" + testDate.getWater());
+    	TotalDialog.setContentText("$" + testDate.getTotal());
     	
 		DayStorage.add(testDate);
 		//DayStorage.add(generateDay(tempDay, tempMonth, tempYear));
@@ -580,12 +633,11 @@ public class ViewController extends Main {
 		if (Total.getData().size()>MaxGraphSize) {
 			Total.getData().remove(0);
 		}
-		
 		//Calculate and display new predicted bill costs for the next day
-		PredictedWater.setContentText("$" + d.format(getAvgWater()));
-		PredictedElectric.setContentText("$" + d.format(getAvgElectricity()));
-		PredictedTotal.setContentText("$" + d.format(getAvgTotal()));
-	}
+				PredictedWater.setContentText("$" + d.format(getAvgWater()));
+				PredictedElectric.setContentText("$" + d.format(getAvgElectricity()));
+				PredictedTotal.setContentText("$" + d.format(getAvgTotal()));
+		}
 	
 	/*
 	 * Generate the total costs of 7 day's worth of data.
@@ -644,6 +696,7 @@ public class ViewController extends Main {
     	PredictedElectric.setContentText("$" + d.format(getAvgElectricity()*7));
     	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*7));
 	}
+
 	
 	/*
 	 * Generate 1 month's (30 days) worth of data for the graph
@@ -703,6 +756,7 @@ public class ViewController extends Main {
     	PredictedElectric.setContentText("$" + d.format(getAvgElectricity()*30));
     	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*30));
 	}
+
 	
 	/*
 	 * Generate 6 months (180 days) worth of data for the graph
@@ -761,8 +815,7 @@ public class ViewController extends Main {
     	PredictedElectric.setContentText("$" + d.format(getAvgElectricity()*180));
     	PredictedTotal.setContentText("$" + d.format(getAvgTotal()*180));
 	}
-	
-//////////////////////////////////////////TESTING/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	
 	/*
 	 * Clear graph
@@ -772,10 +825,277 @@ public class ViewController extends Main {
 		resetDayStorage();
 	}
 	
+	Image STOPPED_IMAGE = new Image("stopped.png");
+	Image RUNNING_IMAGE = new Image("running.png");
+	Image OPENDOOR_IMAGE = new Image("opendoor.png");
+	Image CLOSEDOOR_IMAGE = new Image("closeddoor.png");
+	
+	/*
+	 * Update the imageview nodes of floorplan
+	 */
+	public void setDeviceUIOff(int i) {
+		switch(i) {
+		case 1: i = 0;
+				br1overheadlamp.setVisible(false);
+				System.out.println("br1ovrheadlamp was set invisible"); //for testing
+				break;
+		case 2: i = 1;
+				br1lampA.setVisible(false);
+				System.out.println("br1lampA was set invisble"); //for testing
+				break;
+		case 3: i = 2;
+				br1lampB.setVisible(false);
+				break;
+		case 4: i = 3;
+				br2overheadlamp.setVisible(false);
+				break;
+		case 5: i = 4;
+				br2lampA.setVisible(false);
+				break;
+		case 6: i = 5;
+				br2lampB.setVisible(false);
+				break;
+		case 7: i = 6;
+				masterbrtv.setImage(STOPPED_IMAGE);
+				break;
+		case 8: i = 7;
+				masterbedroomoverheadlamp.setVisible(false);
+				break;
+		case 9: i = 8;
+				masterbedroomlampA.setVisible(false);
+				break;
+		case 10: i = 9;
+				masterbedroomlampB.setVisible(false);
+				break;
+		case 11: i = 10;
+				masterbathoverheadlamp.setVisible(false);
+				break;
+		case 12: i = 11;
+				masterbathfan.setImage(STOPPED_IMAGE);
+				break;
+		case 13: i = 12;
+				masterbathshower.setImage(STOPPED_IMAGE);
+				break;
+		case 14: i = 13;
+				halfbathoverheadlamp.setVisible(false);
+				break;
+		case 15: i = 14;
+				halfbathfan.setImage(STOPPED_IMAGE);
+				break;
+		case 16: i = 15;
+				//TODO add something for half shower
+				System.out.println("nothing yet");
+				break;
+		case 17: i = 16;
+				washer.setImage(STOPPED_IMAGE);
+				break;
+		case 18: i = 17;
+				dryer.setImage(STOPPED_IMAGE);
+				break;
+		case 19: i = 18;
+				livingroomtv.setImage(STOPPED_IMAGE);
+				break;
+		case 20: i = 19;
+				livingroomoverheadlamp.setVisible(false);
+				break;
+		case 21: i = 20;
+				livingroomlampA.setVisible(false);
+				break;
+		case 22: i = 21;
+				livingroomlampB.setVisible(false);
+				break;
+		case 23: i = 22;
+				kitchenoverheadlamp.setVisible(false);
+				break;
+		case 24: i = 23;
+				stove.setImage(STOPPED_IMAGE);
+				break;
+		case 25: i = 24;
+				stove.setImage(STOPPED_IMAGE);
+				break;
+		case 26: i = 25;
+				microwave.setImage(STOPPED_IMAGE);
+				break;
+		case 27: i = 26;
+				fridge.setImage(STOPPED_IMAGE);
+				break;
+		case 28: i = 27;
+				dishwasher.setImage(STOPPED_IMAGE);
+				break;
+		case 29: i = 28;
+				hvacStatusLabel.setText(getWord("Stopped"));
+				HVACON=false;
+				break;
+		case 30: i = 29;
+				waterHeaterStatusLabel.setText(getWord("Stopped"));
+				HeaterON=false;
+				break;
+		case 31: i = 30;
+				frontdoor.setImage(CLOSEDOOR_IMAGE);
+				break;
+		case 32: i = 31;
+				backdoor.setImage(CLOSEDOOR_IMAGE);
+				break;
+		case 33: i = 32;
+				garage3door.setImage(CLOSEDOOR_IMAGE);
+				break;
+		default: System.out.println("Default i = " + i);
+		}
+	}
+	public void setDeviceUIOn(int i) {
+		switch(i) {
+		case 1: i = 0;
+				br1overheadlamp.setVisible(true);
+				System.out.println("br1ovrheadlamp was set visible"); //for testing
+				break;
+		case 2: i = 1;
+				br1lampA.setVisible(true);
+				System.out.println("br1lampA was set visible"); //for testing
+				break;
+		case 3: i = 2;
+				br1lampB.setVisible(true);
+				break;
+		case 4: i = 3;
+				br2overheadlamp.setVisible(true);
+				break;
+		case 5: i = 4;
+				br2lampA.setVisible(true);
+				break;
+		case 6: i = 5;
+				br2lampB.setVisible(true);
+				break;
+		case 7: i = 6;
+				masterbrtv.setImage(RUNNING_IMAGE);
+				break;
+		case 8: i = 7;
+				masterbedroomoverheadlamp.setVisible(true);
+				break;
+		case 9: i = 8;
+				masterbedroomlampA.setVisible(true);
+				break;
+		case 10: i = 9;
+				masterbedroomlampB.setVisible(true);
+				break;
+		case 11: i = 10;
+				masterbathoverheadlamp.setVisible(true);
+				break;
+		case 12: i = 11;
+				masterbathfan.setImage(RUNNING_IMAGE);
+				break;
+		case 13: i = 12;
+				masterbathshower.setImage(STOPPED_IMAGE);
+				break;
+		case 14: i = 13;
+				halfbathoverheadlamp.setVisible(true);
+				break;
+		case 15: i = 14;
+				halfbathfan.setImage(RUNNING_IMAGE);
+				break;
+		case 16: i = 15;
+				//TODO add something for half shower
+				System.out.println("nothing yet");
+				break;
+		case 17: i = 16;
+				washer.setImage(RUNNING_IMAGE);
+				break;
+		case 18: i = 17;
+				dryer.setImage(RUNNING_IMAGE);
+				break;
+		case 19: i = 18;
+				livingroomtv.setImage(RUNNING_IMAGE);
+				break;
+		case 20: i = 19;
+				livingroomoverheadlamp.setVisible(true);
+				break;
+		case 21: i = 20;
+				livingroomlampA.setVisible(true);
+				break;
+		case 22: i = 21;
+				livingroomlampB.setVisible(true);
+				break;
+		case 23: i = 22;
+				kitchenoverheadlamp.setVisible(true);
+				break;
+		case 24: i = 23;
+				stove.setImage(RUNNING_IMAGE);
+				break;
+		case 25: i = 24;
+				stove.setImage(RUNNING_IMAGE);
+				break;
+		case 26: i = 25;
+				microwave.setImage(RUNNING_IMAGE);
+				break;
+		case 27: i = 26;
+				fridge.setImage(RUNNING_IMAGE);
+				break;
+		case 28: i = 27;
+				dishwasher.setImage(RUNNING_IMAGE);
+				break;
+		case 29: i = 28;
+				hvacStatusLabel.setText(getWord("Running"));
+				HVACON=true;
+				break;
+		case 30: i = 29;
+				waterHeaterStatusLabel.setText(getWord("Running"));
+				HeaterON=true;
+				break;
+		case 31: i = 30;
+				frontdoor.setImage(OPENDOOR_IMAGE);
+				break;
+		case 32: i = 31;
+				backdoor.setImage(OPENDOOR_IMAGE);
+				break;
+		case 33: i = 32;
+				garage3door.setImage(OPENDOOR_IMAGE);
+				break;
+		default: System.out.println("default i = " + i);
+		}
+	}
+	
+	
+	/*
+	 * Refresh button for refreshing the view with up to date data
+	 */
+	@FXML
+	public void handleRefreshButton(ActionEvent e) throws InterruptedException, ClassNotFoundException, SQLException {
+		//update ImageViews on floorplan
+		ArrayList<Device> a = null;
+		try {
+			a = Database.getAllDevices(mainConnection);
+			//Collections.sort(a);
+		} catch (ClassNotFoundException | SQLException e2) {
+			e2.printStackTrace();
+		}
+		
+		for(int i = 0; i < a.size(); i++) {
+			if (a.get(i).isState() == false) { //device is off
+				//update a(i)'s node on the floorplan
+				setDeviceUIOff(i);
+				
+			} else if (a.get(i).isState() == true) { //device is on
+				//update a(i)'s node on the floorplan
+				setDeviceUIOn(i);
+			} else {
+				System.out.println("an issue");
+			}
+		}
+
+		//update outdoor temp:
+    	String outdoortemp = String.valueOf(Weather.getCurrentWeather());
+    	OutdoorTempLabel.setText(outdoortemp + "°F");
+    	
+		//update indoor temp:
+		try {
+			IndoorTempLabel.setText(Database.getInternalTemp(mainConnection) + "°F");
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	
 	/*
 	 * Put things here you'd like to happen before UI is shown to user
 	 */
-	
     @FXML
     public void initialize(){
     	//start off by getting the current date to store future data points
@@ -796,19 +1116,45 @@ public class ViewController extends Main {
 			e1.printStackTrace();
 		}
     	
-    	//Thermostat and indoor temp are initially the same?
-    	//thermostatTemp = getIndoorTemp
     	try {
 			thermostatSlider.setValue(Database.getSetTemp(mainConnection));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	
+    	//update all the Devices
+    			ArrayList<Device> a = null;
+    			try {
+    				a = Database.getAllDevices(mainConnection);
+    				//Collections.sort(a);
+    			} catch (ClassNotFoundException | SQLException e2) {
+    				e2.printStackTrace();
+    			}
+    			
+    			for(int i = 0; i < a.size(); i++) {
+    				if (a.get(i).isState() == false) { //device is off
+    					//update a(i)'s node on the floorplan
+    					setDeviceUIOff(i);
+    					
+    				} else if (a.get(i).isState() == true) { //device is on
+    					//update a(i)'s node on the floorplan
+    					setDeviceUIOn(i);
+    				} else {
+    					System.out.println("an issue getting device state");
+    				}
+    			}
+    	
     	//Graph
+    	xAxis.setLabel(getWord("xAxisLabel"));
     	xAxis.autosize();
+    	xAxis.setAnimated(false);
+    	yAxis.setLabel(getWord("yAxisLabel"));
     	yAxis.autosize();
+    	xAxis.setAnimated(false);
+    	DashboardChart.setTitle(getWord("GraphTitle"));
     	DashboardChart.setLegendVisible(true);
-    	//Set Graph Bill names
+    	//Bills
     	Water.setName(getWord("Water"));
     	Electricity.setName(getWord("Electricity"));
     	Total.setName(getWord("Total"));
@@ -817,7 +1163,7 @@ public class ViewController extends Main {
     	DashboardChart.getData().addAll(Total, Water, Electricity);
     }
     
-    //Back-End Data Manipulation
+  //Back-End Data Manipulation
     public String retrieveCurrentDate() {
 		//retrieves current local date for graph
 		String dateString = java.time.LocalDate.now().toString();

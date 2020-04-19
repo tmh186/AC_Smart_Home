@@ -22,7 +22,7 @@
 
 <AnchorPane fx:id="BaseAnchorPane" minHeight="625.0" minWidth="800.0" style="-fx-background-color: rgb(249, 249, 249);" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ViewController">
    <children>
-      <SplitPane fx:id="BaseSplitPane" dividerPositions="0.0" prefHeight="600.0" prefWidth="800.0" stylesheets="@../application/application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane fx:id="BaseSplitPane" dividerPositions="1.0" prefHeight="600.0" prefWidth="800.0" stylesheets="@../application/application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane fx:id="LeftPartition" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: rgb(249, 249, 249);">
                <children>
@@ -31,42 +31,7 @@
                         <Image url="@../Floorplan.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="garage1door" fitHeight="17.0" fitWidth="17.0" layoutX="488.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../opendoor.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="garage2door" fitHeight="17.0" fitWidth="17.0" layoutX="488.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../opendoor.png" />
-                     </image>
-                  </ImageView>
                   <ImageView fx:id="frontdoor" fitHeight="17.0" fitWidth="15.0" layoutX="389.0" layoutY="423.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../opendoor.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="masterbedroomdoor" fitHeight="17.0" fitWidth="15.0" layoutX="171.0" layoutY="386.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../opendoor.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="halfbathdoor" fitHeight="17.0" fitWidth="15.0" layoutX="142.0" layoutY="365.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../opendoor.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="br1door" fitHeight="17.0" fitWidth="15.0" layoutX="91.0" layoutY="273.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../opendoor.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="br2door" fitHeight="17.0" fitWidth="15.0" layoutX="197.0" layoutY="273.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../opendoor.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="laundrydoor" fitHeight="17.0" fitWidth="15.0" layoutX="290.0" layoutY="195.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../opendoor.png" />
                      </image>
@@ -81,23 +46,30 @@
                         <Image url="@../opendoor.png" />
                      </image>
                   </ImageView>
-                  <Pane fx:id="energyPane" layoutX="528.0" layoutY="299.0" prefHeight="163.0" prefWidth="229.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, grey, 9, 0, 0, 0);">
+                  <Pane fx:id="hvacPane" layoutX="528.0" layoutY="299.0" prefHeight="163.0" prefWidth="229.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, grey, 9, 0, 0, 0);">
                      <children>
-                        <Label fx:id="EnergyUsageTitle" layoutX="51.0" layoutY="14.0" text="Energy Usage">
+                        <Label fx:id="hvacTitle" layoutX="22.0" layoutY="14.0" text="HVAC">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
-                        <ImageView fx:id="energyicon" fitHeight="62.0" fitWidth="64.0" layoutX="19.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="hvacFanIcon" fitHeight="62.0" fitWidth="64.0" layoutX="19.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../hvac_fan.png" />
                            </image>
                         </ImageView>
-                        <Label fx:id="EnergyLabel" layoutX="76.0" layoutY="120.0" prefHeight="30.0" prefWidth="75.0" text="0.0 kw/hr" textAlignment="CENTER">
+                        <Label fx:id="hvacStatusLabel" layoutX="26.0" layoutY="119.0" prefHeight="30.0" prefWidth="80.0" text="Status" textAlignment="CENTER" />
+                        <ImageView fx:id="waterHeaterIcon" fitHeight="62.0" fitWidth="64.0" layoutX="140.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../hotwaterheater.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="waterHeaterTitle" layoutX="143.0" layoutY="14.0" text="Water">
                            <font>
-                              <Font size="17.0" />
+                              <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
+                        <Label fx:id="waterHeaterStatusLabel" layoutX="146.0" layoutY="119.0" prefHeight="30.0" prefWidth="62.0" text="Status" textAlignment="CENTER" />
                      </children>
                   </Pane>
                   <Pane fx:id="tempPane" layoutX="528.0" layoutY="72.0" prefHeight="118.0" prefWidth="229.0" style="-fx-background-color: white; -fx-effect: dropshadow(gaussian, grey, 9, 0, 0, 0);">
@@ -247,6 +219,11 @@
                         <Image url="@../running.png" />
                      </image>
                   </ImageView>
+                  <ImageView fx:id="masterbathshower" fitHeight="25.0" fitWidth="25.0" layoutX="52.0" layoutY="477.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../running.png" />
+                     </image>
+                  </ImageView>
                   <ImageView fx:id="halfbathfan" fitHeight="25.0" fitWidth="25.0" layoutX="110.0" layoutY="326.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../running.png" />
@@ -286,6 +263,7 @@
                         <Image url="@../closeddoor.png" />
                      </image>
                   </ImageView>
+                  <Button fx:id="refreshView" layoutX="311.0" layoutY="549.0" mnemonicParsing="false" onAction="#handleRefreshButton" text="Refresh View" />
                </children>
             </AnchorPane>
           <AnchorPane fx:id="RightPartition" minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="116.0" style="-fx-background-color: rgb(249, 249, 249);">
