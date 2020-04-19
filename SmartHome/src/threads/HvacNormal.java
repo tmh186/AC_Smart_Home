@@ -25,20 +25,28 @@ public class HvacNormal extends Thread {
 				double setTemp = Database.getSetTemp(mainC);
 				double internalTemp = Database.getInternalTemp(mainC);
 				if (setTemp - internalTemp > 2) {
-					running = true;
+					if (running == false) {
+						running = true;
+						Database.updateDeviceStatus(mainC, hvac.getNum(), true);
+					}
 					Database.updateInternalTemp(mainC, (int) internalTemp + 1);
-					//ViewController.IndoorTempLabel.setText((int) internalTemp + 1+"°F");
 					Thread.sleep(60000);
 					Database.addtoBillRecord(mainC, Date.valueOf(Database.getCurrentDate()), hvac.getWaterCost(), hvac.getElecCost());
 				}
 				else if (internalTemp - setTemp > 2) {
-					running = true;
+					if (running == false) {
+						running = true;
+						Database.updateDeviceStatus(mainC, hvac.getNum(), true);
+					}
 					Database.updateInternalTemp(mainC, (int) internalTemp - 1);
 					Thread.sleep(60000);
 					Database.addtoBillRecord(mainC, Date.valueOf(Database.getCurrentDate()), hvac.getWaterCost(), hvac.getElecCost());
 				}
 				else {
-					running = false;
+					if (running == true) {
+						running = false;
+						Database.updateDeviceStatus(mainC, hvac.getNum(), false);
+					}
 				}
 			}
 		} catch (Exception e) {
